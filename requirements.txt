@@ -1,1 +1,3 @@
 capymoa==0.7.0
+torch==2.2.2
+numpy==1.26.4
