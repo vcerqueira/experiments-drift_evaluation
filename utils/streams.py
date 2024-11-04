@@ -10,4 +10,3 @@ stream_sea2drift = DriftStream(
         SEA(function=1),
     ]
 )
-
