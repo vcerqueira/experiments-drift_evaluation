@@ -39,7 +39,7 @@ class EvaluateDetector:
             }
         )
 
-        self.metrics = []
+        self.result_by_drift = []
 
     def calc_performance(self, preds: ArrayLike, trues: ArrayLike) -> pd.Series:
         """
@@ -83,7 +83,7 @@ class EvaluateDetector:
             }
         )
 
-    def _get_drift_episodes(self, preds: ArrayLike, trues: ArrayLike) -> List[Dict]:
+    def _get_drift_episodes(self, preds: ArrayLike, trues: List) -> List[Dict]:
         if not isinstance(preds, np.ndarray):
             preds = np.asarray(preds)
 
@@ -93,16 +93,16 @@ class EvaluateDetector:
         last_cut = 0
         drift_episodes = []
         for true in trues:
-            episode_preds = preds[preds <= (true + self.max_delay)]
+            episode_preds = preds[preds <= (true[1] + self.max_delay)]
             episode_preds = episode_preds[episode_preds > last_cut]
             episode_preds -= last_cut
 
             drift_episodes.append(
                 {'preds': episode_preds,
-                 'true': true - last_cut}
+                 'true': true[1] - last_cut}
             )
 
-            last_cut = true + self.max_delay
+            last_cut = true[1] + self.max_delay
 
         return drift_episodes
 
