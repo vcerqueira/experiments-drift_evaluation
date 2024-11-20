@@ -1,112 +1,191 @@
 from typing import List, Union, Tuple, Dict
 
 import numpy as np
-import pandas as pd
 
-ArrayLike = Union[List[int], np.ndarray[int]]
+ArrayLike = Union[List[int], List[Tuple[int, int]], np.ndarray[int]]
 
 
 class EvaluateDetector:
-    """Evaluate Drift Detector
+    """A class to evaluate the performance of concept drift detectors.
 
-    Evaluate drift detection Methods based on known drift locations
+    This class provides functionality to assess drift detection algorithms by comparing
+    their predictions against ground truth drift points. Each drift point is represented
+    as a tuple (start_location, end_location) to handle both abrupt and gradual drifts.
 
-    References:
-    - Cerqueira, Vitor, Heitor Murilo Gomes, and Albert Bifet.
-    "Unsupervised concept drift detection using a student–teacher approach."
-    Discovery Science: 23rd International Conference, DS 2020, Thessaloniki, Greece, October 19–21, 2020
-    - Bifet, A.: Classifier concept drift detection and the illusion of progress.
-    In: International Conference on Artificial Intelligence and Soft Computing. pp. 715–725. Springer (2017)
+    Key Features:
+        - Handles both abrupt and gradual drifts:
+            * Abrupt drifts: start_location = end_location, e.g., (100, 100)
+            * Gradual drifts: start_location < end_location, e.g., (100, 150)
+        - Considers maximum acceptable detection delay
+        - Calculates comprehensive performance metrics (precision, recall, F1)
+        - Tracks false alarm rates and mean time to detection
 
-    Example usages:
+    Attributes:
+        max_delay (int): Maximum allowable delay for drift detection
+        metrics (dict): Dictionary storing the latest calculated performance metrics
+            - fp (int): False positive count
+            - tp (int): True positive count
+            - fn (int): False negative count
+            - precision (float): Precision score
+            - recall (float): Recall score
+            - f1 (float): F1 score
+            - mtd (float): Mean time to detect
+            - fa_1k (float): False alarms per 1000 instances
+            - n_episodes (int): Number of drift episodes
+            - n_alarms (int): Total number of alarms raised
+
+    Example:
+        >>> evaluator = EvaluateDetector(max_delay=50)
+        >>> metrics = evaluator.calc_performance(
+        ...     trues=[(100, 100),   # Abrupt drift at position 100
+        ...            (200, 250)],   # Gradual drift from position 200 to 250
+        ...     preds=[98, 205],      # Predicted drift points
+        ...     tot_n_instances=1000
+        ... )
+        >>> print(f"F1 Score: {metrics['f1']:.2f}")
     """
 
     def __init__(self, max_delay: int):
-        """
+        """Initialize the drift detector evaluator.
 
-        :param max_delay: Maximum number of instances to wait for a detection
-            [after which the drift becomes obvious and the detector is considered to have missed the change]
+        Args:
+            max_delay (int): Maximum number of instances to wait for a detection after a drift
+                occurs. For gradual drifts, this window starts from the drift end_location.
+                If a detector fails to signal within this window, it is considered to have
+                missed the drift (false negative).
+
+        Raises:
+            ValueError: If max_delay is not a positive integer.
+
+        Note:
+            - The max_delay parameter is crucial for evaluating both the accuracy and speed
+              of drift detection.
+            - For gradual drifts (where start_location != end_location), the detection
+              window extends from (start_location - max_delay) to (end_location + max_delay).
+            - For abrupt drifts (where start_location = end_location), the detection
+              window is (drift_point - max_delay) to (drift_point + max_delay).
         """
+        if not isinstance(max_delay, int) or max_delay <= 0:
+            raise ValueError('max_delay must be a positive integer')
 
         self.max_delay = max_delay
+        self.metrics = {}
 
-        self.results = pd.Series(
-            {
-                'mean_time_to_detect': -1,
-                'missed_detection_ratio': -1,
-                'mean_time_btw_false_alarms': -1,
-                'alarms_per_ep_mean': -1,
-            }
-        )
+    def calc_performance(self, trues: ArrayLike, preds: ArrayLike, tot_n_instances: int) -> Dict:
+        """Calculate performance metrics for drift detection.
 
-        self.result_by_drift = []
+        Evaluates drift detection performance by comparing predicted drift points against
+        true drift points, considering a maximum allowable delay. Calculates various metrics
+        including precision, recall, F1-score, mean time to detect (MTD), and false alarm rate.
 
-    def calc_performance(self, preds: ArrayLike, trues: ArrayLike) -> pd.Series:
-        """
+        todo check if trues is just an int (abrupt)
+        todo count consecutive false alarms?
 
-        :param preds: (array): detection location (index) values
-        :param trues: (array): actual location (index) of drift. For drifts based on an interval (e.g gradual drifts),
-            the current approach is to define it using the starting location and the max_delay parameter
-        :return: pd.Series with a performance summary
+        Args:
+            trues: Array-like of true drift points represented as (start, end) tuples
+                indicating drift intervals. For gradual drifts, the end point can be
+                different from the start point.
+            preds: Array-like of predicted drift points (indices) where the detector
+                signaled a drift.
+            tot_n_instances: Total number of instances in the data stream, used to
+                calculate false alarm rate.
+
+        Returns:
+            Dict containing the following metrics:
+                - fp (int): False positives (incorrect detections)
+                - tp (int): True positives (correct detections)
+                - fn (int): False negatives (missed drifts)
+                - precision (float): Precision score (tp / (tp + fp))
+                - recall (float): Recall score (tp / (tp + fn))
+                - f1 (float): F1 score (harmonic mean of precision and recall)
+                - mtd (float): Mean time to detect successful detections
+                - fa_1k (float): False alarms per 1000 instances
+                - n_episodes (int): Total number of drift episodes
+                - n_alarms (int): Total number of alarms raised
+
+        Raises:
+            ValueError: If arrays are not ordered or contain invalid values
+            AssertionError: If no drift points are provided
         """
 
         self._check_arrays(preds, trues)
+        if tot_n_instances <= 0:
+            raise ValueError('Total number of instances must be positive')
 
-        eps = self._get_drift_episodes(preds, trues)
+        fp, tp, fn = 0, 0, 0
+        detection_times: List[float] = []
+        n_episodes, n_alarms = 0, 0
 
-        for ep in eps:
-            mtfa, n_alarms = self.calc_false_alarms(**ep)
-            det_delay, detected_flag = self.calc_detection_delay(**ep)
+        drift_eps = self._get_drift_episodes(trues=trues, preds=preds)
 
-            self.metrics.append(
-                {
-                    'mtfa': mtfa,
-                    'n_alarms': n_alarms,
-                    'delay': det_delay,
-                    'detected': detected_flag,
-                }
-            )
+        for episode in drift_eps:
+            n_episodes += 1
+            drift_detected = False
+            episode_detection_time = np.nan
+            drift_start, drift_end = episode['true']
 
-        self.update_metrics()
+            for pred in episode['preds']:
+                n_alarms += 1
 
-        return self.results
+                if drift_start - self.max_delay <= pred <= drift_end + self.max_delay:
+                    if not drift_detected:  # only counting first detection
+                        drift_detected = True
+                        episode_detection_time = pred - drift_start
+                else:
+                    fp += 1
 
-    def update_metrics(self):
-        df = pd.DataFrame(self.metrics)
+            if drift_detected:
+                tp += 1
+                detection_times.append(episode_detection_time)
+            else:
+                fn += 1
 
-        self.results = pd.Series(
-            {
-                'mean_time_to_detect': df['delay'].mean(),
-                'missed_detection_ratio': 1 - df['detected'].mean(),
-                'mean_time_btw_false_alarms': df['mtfa'].mean(),
-                'no_alarms_per_episode': df['n_alarms'].mean(),
-            }
-        )
+        precision, recall, f1 = self._calc_classification_metrics(tp=tp, fp=fp, fn=fn)
+        false_alarm_rate = (fp / tot_n_instances) * 1000
+        mean_detection_time = np.nanmean(detection_times) if detection_times else np.nan
 
-    def _get_drift_episodes(self, preds: ArrayLike, trues: List) -> List[Dict]:
+        self.metrics = {
+            'fp': fp,
+            'tp': tp,
+            'fn': fn,
+            'precision': precision,
+            'recall': recall,
+            'f1': f1,
+            'mdt': mean_detection_time,
+            'fa_1k': false_alarm_rate,
+            'n_episodes': n_episodes,
+            'n_alarms': n_alarms,
+        }
+
+        return self.metrics
+
+    def _get_drift_episodes(self, trues: List, preds: ArrayLike) -> List[Dict]:
         if not isinstance(preds, np.ndarray):
             preds = np.asarray(preds)
 
         if not isinstance(trues, np.ndarray):
             trues = np.asarray(trues)
 
-        last_cut = 0
+        next_starting_point = 0
         drift_episodes = []
         for true in trues:
-            episode_preds = preds[preds <= (true[1] + self.max_delay)]
-            episode_preds = episode_preds[episode_preds > last_cut]
-            episode_preds -= last_cut
+            episode_preds = preds[preds > next_starting_point]
+            drift_start, drift_end = true
+            next_starting_point = drift_end + self.max_delay
+
+            episode_preds = episode_preds[episode_preds <= next_starting_point]
+            episode_preds -= next_starting_point
 
             drift_episodes.append(
                 {'preds': episode_preds,
-                 'true': true[1] - last_cut}
+                 'true': (drift_start - next_starting_point,
+                          drift_end - next_starting_point)}
             )
-
-            last_cut = true[1] + self.max_delay
 
         return drift_episodes
 
-    def _check_arrays(self, preds: ArrayLike, trues: ArrayLike):
+    @staticmethod
+    def _check_arrays(preds: ArrayLike, trues: ArrayLike):
         assert len(trues) > 0, 'No drift points given'
 
         if not isinstance(preds, np.ndarray):
@@ -126,53 +205,21 @@ class EvaluateDetector:
                 raise ValueError('Provide an ordered list of drift points')
 
     @staticmethod
-    def calc_false_alarms(preds: ArrayLike, true: int) -> Tuple[float, int]:
-        """
+    def _calc_classification_metrics(tp, fp, fn):
 
-        :param preds: detection points
-        :param true: actual drift point
-
-        :return: tuple, (float: mean time between false alarms, int: no. false alarms)
-        """
-
-        if not isinstance(preds, np.ndarray):
-            preds = np.asarray(preds)
-
-        alarms_before_drift = preds[preds < true]
-        n_alarms = len(alarms_before_drift)
-
-        if n_alarms == 1:
-            mean_time_btw_alarms = alarms_before_drift[0]
-        elif n_alarms == 0:
-            mean_time_btw_alarms = np.nan
+        if tp + fp == 0:
+            precision = 0
         else:
-            mean_time_btw_alarms = np.nanmean(np.diff(alarms_before_drift))
+            precision = tp / (tp + fp)
 
-        return mean_time_btw_alarms, n_alarms
-
-    @staticmethod
-    def calc_detection_delay(preds: ArrayLike, true: int) -> Tuple[int, int]:
-        """
-
-        :param preds: detection points
-        :param true: actual drift point
-
-        :return: detection delay (number of instances), and a flag for whether drift is detected
-
-        """
-
-        if not isinstance(preds, np.ndarray):
-            preds = np.asarray(preds)
-
-        preds_after_drift = preds[preds > true]
-
-        if len(preds_after_drift) > 0:
-            first_alarm = preds_after_drift[0]
-            delay_ = first_alarm - true
-            detected_drift = 1
+        if tp + fn == 0:
+            recall = 0
         else:
-            # no detection
-            delay_ = np.nan
-            detected_drift = 0
+            recall = tp / (tp + fn)
 
-        return delay_, detected_drift
+        if precision + recall == 0:
+            f1_score = 0
+        else:
+            f1_score = 2 * (precision * recall) / (precision + recall)
+
+        return precision, recall, f1_score

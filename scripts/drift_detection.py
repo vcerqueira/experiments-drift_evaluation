@@ -13,9 +13,6 @@ sch = stream_sea2drift.get_schema()
 evaluator = ClassificationEvaluator(schema=sch, window_size=1)
 learner = OnlineBagging(schema=sch, ensemble_size=10)
 
-stream_sea2drift.drifts[1].position
-stream_sea2drift.drifts[1].width
-
 drifts = stream_sea2drift.get_drifts()
 drifts = [(x.position, x.position + x.width) for x in drifts]
 
@@ -71,8 +68,8 @@ class StreamingWorkflow:
         self.drift_predictions = []
 
 
-# detector = ADWIN(delta=0.001)
-detector = PageHinkley()
+detector = ADWIN(delta=0.001)
+# detector = PageHinkley()
 
 wf = StreamingWorkflow(model=learner,
                        evaluator=evaluator,
@@ -82,25 +79,9 @@ wf.run_prequential(stream=stream_sea2drift, max_size=MAX_SIZE)
 wf.drift_predictions
 
 drift_eval = EvaluateDetector(max_delay=500)
-eps = drift_eval._get_drift_episodes(preds=wf.drift_predictions, trues=drifts)
 
-for ep in eps:
-    print(ep)
-    drift_detected = False
-    min_detection_time = float('inf')
+metrics = drift_eval.calc_performance(trues=drifts,
+                                      preds=wf.drift_predictions,
+                                      tot_n_instances=wf.instances_processed)
 
-    for pred in ep['preds']:
-        if ep['true'] - max_delay <= pred <= episode.true + self.max_delay:
-            drift_detected = True
-            detection_time = pred - episode.true
-            min_detection_time = min(min_detection_time, detection_time)
-        else:
-            fp += 1
-
-    if drift_detected:
-        tp += 1
-        detection_times.append(min_detection_time)
-    else:
-        fn += 1
-
-
+pprint(metrics)
