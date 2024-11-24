@@ -1,20 +1,4 @@
 from typing import Optional
-from pprint import pprint
-
-from utils.streams import stream_sea2drift
-from capymoa.drift.detectors import ADWIN, PageHinkley
-from capymoa.classifier import OnlineBagging
-from capymoa.evaluation.evaluation import ClassificationEvaluator
-from utils.evaluate import EvaluateDetector
-
-MAX_SIZE = 15000
-
-sch = stream_sea2drift.get_schema()
-evaluator = ClassificationEvaluator(schema=sch, window_size=1)
-learner = OnlineBagging(schema=sch, ensemble_size=10)
-
-drifts = stream_sea2drift.get_drifts()
-drifts = [(x.position, x.position + x.width) for x in drifts]
 
 
 class StreamingWorkflow:
@@ -66,22 +50,3 @@ class StreamingWorkflow:
     def _reset_params(self):
         self.instances_processed = 0
         self.drift_predictions = []
-
-
-detector = ADWIN(delta=0.001)
-# detector = PageHinkley()
-
-wf = StreamingWorkflow(model=learner,
-                       evaluator=evaluator,
-                       detector=detector)
-
-wf.run_prequential(stream=stream_sea2drift, max_size=MAX_SIZE)
-wf.drift_predictions
-
-drift_eval = EvaluateDetector(max_delay=500)
-
-metrics = drift_eval.calc_performance(trues=drifts,
-                                      preds=wf.drift_predictions,
-                                      tot_n_instances=wf.instances_processed)
-
-pprint(metrics)

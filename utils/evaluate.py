@@ -78,7 +78,6 @@ class EvaluateDetector:
         true drift points, considering a maximum allowable delay. Calculates various metrics
         including precision, recall, F1-score, mean time to detect (MTD), and false alarm rate.
 
-        todo check if trues is just an int (abrupt)
         todo count consecutive false alarms?
 
         Args:
@@ -108,7 +107,7 @@ class EvaluateDetector:
             AssertionError: If no drift points are provided
         """
 
-        self._check_arrays(preds, trues)
+        self._check_arrays(trues, preds)
         if tot_n_instances <= 0:
             raise ValueError('Total number of instances must be positive')
 
@@ -185,7 +184,7 @@ class EvaluateDetector:
         return drift_episodes
 
     @staticmethod
-    def _check_arrays(preds: ArrayLike, trues: ArrayLike):
+    def _check_arrays(trues: ArrayLike, preds: ArrayLike):
         assert len(trues) > 0, 'No drift points given'
 
         if not isinstance(preds, np.ndarray):
