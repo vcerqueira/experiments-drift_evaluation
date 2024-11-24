@@ -1,9 +1,9 @@
-from utils.streams import stream_sea2drift
+import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
+from utils.streams import stream_sea2drift
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
-
 from utils.config import MAX_STREAM_SIZE, CLASSIFIERS, DETECTORS
 
 CLF = 'OnlineBagging'
@@ -32,3 +32,9 @@ for detector_name, detector in DETECTORS.items():
                                           tot_n_instances=wf.instances_processed)
 
     detector_perf[detector_name] = metrics
+
+
+perf = pd.DataFrame(detector_perf).T
+
+pd.set_option('display.max_columns', None)
+
