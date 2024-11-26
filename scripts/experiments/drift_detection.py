@@ -1,19 +1,19 @@
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
-from utils.streams import stream_sea2drift
+from utils.streams import stream_sea_gradual as stream
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
 from utils.config import MAX_STREAM_SIZE, CLASSIFIERS, DETECTORS
 
-CLF = 'OnlineBagging'
+CLF = 'HoeffdingTree'
 MAX_DELAY = 500
 
-sch = stream_sea2drift.get_schema()
+sch = stream.get_schema()
 evaluator = ClassificationEvaluator(schema=sch, window_size=1)
 learner = CLASSIFIERS[CLF](schema=sch)
 
-drifts = stream_sea2drift.get_drifts()
+drifts = stream.get_drifts()
 drifts = [(x.position, x.position + x.width) for x in drifts]
 
 detector_perf = {}
@@ -23,7 +23,7 @@ for detector_name, detector in DETECTORS.items():
                            evaluator=evaluator,
                            detector=detector())
 
-    wf.run_prequential(stream=stream_sea2drift, max_size=MAX_STREAM_SIZE)
+    wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
 
     drift_eval = EvaluateDetector(max_delay=MAX_DELAY)
 
@@ -33,8 +33,9 @@ for detector_name, detector in DETECTORS.items():
 
     detector_perf[detector_name] = metrics
 
-
 perf = pd.DataFrame(detector_perf).T
 
 pd.set_option('display.max_columns', None)
 
+# fix something weird about the results
+perf

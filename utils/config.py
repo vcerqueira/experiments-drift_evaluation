@@ -1,6 +1,6 @@
 import capymoa.drift.detectors as detectors
 
-from capymoa.classifier import OnlineBagging
+from capymoa.classifier import OnlineBagging, HoeffdingTree
 
 DETECTORS = {
     'ADWIN': detectors.ADWIN,
@@ -18,6 +18,7 @@ DETECTORS = {
 
 CLASSIFIERS = {
     'OnlineBagging': OnlineBagging,
+    'HoeffdingTree': HoeffdingTree,
 }
 
-MAX_STREAM_SIZE = 15000
+MAX_STREAM_SIZE = 11000
