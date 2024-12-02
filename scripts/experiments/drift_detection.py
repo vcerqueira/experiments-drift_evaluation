@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
-from utils.streams import stream_sea_abrupt as stream
+from utils.streams import stream_sea_gradual as stream
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
 from utils.config import MAX_STREAM_SIZE, CLASSIFIERS, DETECTORS
@@ -24,7 +24,7 @@ for detector_name, detector in DETECTORS.items():
     wf = StreamingWorkflow(model=learner,
                            evaluator=evaluator,
                            detector=detector(),
-                           use_window_perf=False)
+                           use_window_perf=True)
 
     wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
 
