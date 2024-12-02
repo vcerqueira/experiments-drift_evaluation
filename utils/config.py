@@ -4,8 +4,8 @@ from capymoa.classifier import OnlineBagging, HoeffdingTree
 
 DETECTORS = {
     'ADWIN': detectors.ADWIN,
-    'CUSUM': detectors.CUSUM,
     'DDM': detectors.DDM,
+    'CUSUM': detectors.CUSUM,
     'EWMAChart': detectors.EWMAChart,
     'GeometricMovingAverage': detectors.GeometricMovingAverage,
     'HDDMAverage': detectors.HDDMAverage,

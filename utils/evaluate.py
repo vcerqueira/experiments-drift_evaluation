@@ -112,6 +112,7 @@ class EvaluateDetector:
             raise ValueError('Total number of instances must be positive')
 
         fp, tp, fn = 0, 0, 0
+        efp, etp, efn = 0, 0, 0
         detection_times: List[float] = []
         n_episodes, n_alarms = 0, 0
 
@@ -124,9 +125,11 @@ class EvaluateDetector:
             drift_start, drift_end = episode['true']
 
             for pred in episode['preds']:
+                # print(pred)
                 n_alarms += 1
 
                 if drift_start - self.max_delay <= pred <= drift_end + self.max_delay:
+                    tp += 1
                     if not drift_detected:  # only counting first detection
                         drift_detected = True
                         episode_detection_time = pred - drift_start
@@ -134,7 +137,7 @@ class EvaluateDetector:
                     fp += 1
 
             if drift_detected:
-                tp += 1
+                etp += 1
                 detection_times.append(episode_detection_time)
             else:
                 fn += 1
@@ -170,9 +173,8 @@ class EvaluateDetector:
         for true in trues:
             episode_preds = preds[preds > next_starting_point]
             drift_start, drift_end = true
-            next_starting_point = drift_end + self.max_delay
 
-            episode_preds = episode_preds[episode_preds <= next_starting_point]
+            episode_preds = episode_preds[episode_preds <= drift_end + self.max_delay]
             episode_preds -= next_starting_point
 
             drift_episodes.append(
@@ -180,6 +182,8 @@ class EvaluateDetector:
                  'true': (drift_start - next_starting_point,
                           drift_end - next_starting_point)}
             )
+
+            next_starting_point = drift_end + self.max_delay
 
         return drift_episodes
 

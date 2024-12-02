@@ -10,12 +10,14 @@ class StreamingWorkflow:
     METRIC = 'accuracy'
     MIN_TRAINING_SIZE = 1000
 
-    def __init__(self, model, evaluator, detector):
+    def __init__(self, model, evaluator, detector, use_window_perf: bool):
         self.model = model
         self.evaluator = evaluator
         self.detector = detector
         self.instances_processed = 0
         self.drift_predictions = []
+
+        self.use_window_perf = use_window_perf
 
     def run_prequential(self, stream, max_size: Optional[int] = None):
         self._reset_params()
@@ -28,9 +30,7 @@ class StreamingWorkflow:
             if self.instances_processed > self.MIN_TRAINING_SIZE:
                 prediction = self.model.predict(instance)
 
-                self.evaluator.update(instance.y_index, prediction)
-
-                score = self._get_latest_score()
+                score = self._get_latest_score(instance.y_index, prediction)
 
                 self._update_detector(score)
 
@@ -38,8 +38,13 @@ class StreamingWorkflow:
 
             self.instances_processed += 1
 
-    def _get_latest_score(self):
-        return self.evaluator.accuracy()
+    def _get_latest_score(self, true, pred):
+        if self.use_window_perf:
+            self.evaluator.update(true, pred)
+            return self.evaluator.accuracy()
+            # return self.evaluator.kappa()
+        else:
+            return int(true == pred)
 
     def _update_detector(self, score):
         self.detector.add_element(score)
