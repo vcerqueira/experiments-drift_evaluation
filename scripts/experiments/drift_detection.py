@@ -2,13 +2,19 @@ import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
-from utils.streams import stream_sea_abrupt as stream
+from utils.streams import create_custom_drift_stream
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
-from utils.config import MAX_STREAM_SIZE, CLASSIFIERS, DETECTORS
+from utils.config import CLASSIFIERS, DETECTORS
 
 CLF = 'OnlineBagging'
 MAX_DELAY = 500
+MAX_STREAM_SIZE = 117000
+USE_WINDOW = True
+
+stream = create_custom_drift_stream(n_drifts=50,
+                                    drift_every_n=2000,
+                                    drift_width=250)
 
 sch = stream.get_schema()
 evaluator = ClassificationEvaluator(schema=sch, window_size=1)
@@ -24,7 +30,7 @@ for detector_name, detector in DETECTORS.items():
     wf = StreamingWorkflow(model=learner,
                            evaluator=evaluator,
                            detector=detector(),
-                           use_window_perf=True)
+                           use_window_perf=USE_WINDOW)
 
     wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
 
@@ -41,4 +47,4 @@ perf = pd.DataFrame(detector_perf).T
 pd.set_option('display.max_columns', None)
 
 # fix something weird about the results
-perf
+perf.to_csv(f'assets/gradual,{CLF},window.csv')

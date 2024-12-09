@@ -20,5 +20,3 @@ CLASSIFIERS = {
     'OnlineBagging': OnlineBagging,
     'HoeffdingTree': HoeffdingTree,
 }
-
-MAX_STREAM_SIZE = 22000
