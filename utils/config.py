@@ -21,4 +21,4 @@ CLASSIFIERS = {
     'HoeffdingTree': HoeffdingTree,
 }
 
-MAX_STREAM_SIZE = 11000
+MAX_STREAM_SIZE = 22000

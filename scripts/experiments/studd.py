@@ -1,8 +1,14 @@
 from capymoa.classifier import OnlineBagging
 from capymoa.stream.generator import SEA
+from capymoa.stream import Stream
 from capymoa.stream.drift import AbruptDrift, GradualDrift, DriftStream
 from capymoa.base import MOAClassifier
 from typing_extensions import override
+
+from xgboost import XGBRFRegressor
+
+rf = XGBRFRegressor()
+rf.fit()
 
 from moa.classifiers.meta import AdaptiveRandomForest as _MOA_AdaptiveRandomForest
 from moa.classifiers.core.driftdetection import ChangeDetector

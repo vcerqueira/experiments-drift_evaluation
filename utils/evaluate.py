@@ -144,7 +144,9 @@ class EvaluateDetector:
 
         precision, recall, f1 = self._calc_classification_metrics(tp=tp, fp=fp, fn=fn)
         false_alarm_rate = (fp / tot_n_instances) * 1000
+        alarm_rate = (n_alarms / tot_n_instances) * 1000
         mean_detection_time = np.nanmean(detection_times) if detection_times else np.nan
+        ep_recall = etp / n_episodes
 
         self.metrics = {
             'fp': fp,
@@ -152,9 +154,11 @@ class EvaluateDetector:
             'fn': fn,
             'precision': precision,
             'recall': recall,
+            'ep_recall': ep_recall,
             'f1': f1,
             'mdt': mean_detection_time,
             'fa_1k': false_alarm_rate,
+            'alarms_per_1k': alarm_rate,
             'n_episodes': n_episodes,
             'n_alarms': n_alarms,
         }

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
-from utils.streams import stream_sea_gradual as stream
+from utils.streams import stream_sea_abrupt as stream
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
 from utils.config import MAX_STREAM_SIZE, CLASSIFIERS, DETECTORS
