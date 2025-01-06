@@ -7,9 +7,10 @@ from capymoa.classifier import (OnlineBagging,
 from utils.studd import STUDD
 
 DETECTORS = {
+    'ABCD': detectors.ABCD,
     'ADWIN': detectors.ADWIN,
-    'DDM': detectors.DDM,
     'CUSUM': detectors.CUSUM,
+    'DDM': detectors.DDM,
     'EWMAChart': detectors.EWMAChart,
     'GeometricMovingAverage': detectors.GeometricMovingAverage,
     'HDDMAverage': detectors.HDDMAverage,

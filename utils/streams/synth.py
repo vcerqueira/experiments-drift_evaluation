@@ -75,39 +75,3 @@ class CustomDriftStream:
         drift_stream = DriftStream(stream=stream_)
 
         return drift_stream
-
-
-def create_custom_drift_stream(n_drifts: int,
-                               drift_every_n: int = 2000,
-                               drift_width: int = 0):
-    np.random.seed(123)
-    func_l = [1, 2, 3, 4]
-
-    current_func = 1
-    drift_point = copy.deepcopy(drift_every_n)
-
-    stream_ = [SEA(function=current_func)]
-
-    if drift_width > 0:
-        stream_.append(GradualDrift(position=drift_point, width=drift_width))
-    else:
-        stream_.append(AbruptDrift(position=drift_point))
-
-    for i in range(1, n_drifts):
-        funcs_i = [j for j in func_l if j != current_func]
-
-        current_func = np.random.choice(funcs_i)
-        drift_point += drift_every_n + drift_width
-
-        stream_.append(SEA(function=current_func))
-
-        if drift_width > 0:
-            stream_.append(GradualDrift(position=drift_point, width=drift_width))
-        else:
-            stream_.append(AbruptDrift(position=drift_point))
-
-    stream_.append(SEA(function=current_func))
-
-    drift_stream = DriftStream(stream=stream_)
-
-    return drift_stream
