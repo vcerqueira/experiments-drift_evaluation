@@ -9,12 +9,12 @@ from utils.config import CLASSIFIERS, DETECTORS
 
 CLF = 'OnlineBagging'
 MAX_DELAY = 500
-MAX_STREAM_SIZE = 117000
+MAX_STREAM_SIZE = 100000 #117000
 USE_WINDOW = True
 
 stream = create_custom_drift_stream(n_drifts=50,
                                     drift_every_n=2000,
-                                    drift_width=250)
+                                    drift_width=0)
 
 sch = stream.get_schema()
 evaluator = ClassificationEvaluator(schema=sch, window_size=1)
@@ -42,9 +42,10 @@ for detector_name, detector in DETECTORS.items():
 
     detector_perf[detector_name] = metrics
 
+# calcular em janela
 perf = pd.DataFrame(detector_perf).T
 
 pd.set_option('display.max_columns', None)
 
 # fix something weird about the results
-perf.to_csv(f'assets/gradual,{CLF},window.csv')
+perf.to_csv(f'assets/abrupt,{CLF},window.csv')
