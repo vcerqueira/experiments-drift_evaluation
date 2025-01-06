@@ -32,7 +32,14 @@ class StreamingWorkflow:
 
                 score = self._get_latest_score(instance.y_index, prediction)
 
-                self._update_detector(score)
+                if self.detector.__str__() == 'STUDD':
+                    self.detector.add_element(instance.x, prediction)
+                else:
+                    self.detector.add_element(score)
+
+                if self.detector.detected_change():
+                    print(f'Change detected at index: {self.instances_processed}')
+                    self.drift_predictions.append(self.instances_processed)
 
             self.model.train(instance)
 
@@ -46,11 +53,6 @@ class StreamingWorkflow:
         else:
             return int(true == pred)
 
-    def _update_detector(self, score):
-        self.detector.add_element(score)
-        if self.detector.detected_change():
-            print(f'Change detected at index: {self.instances_processed}')
-            self.drift_predictions.append(self.instances_processed)
 
     def _reset_params(self):
         self.instances_processed = 0

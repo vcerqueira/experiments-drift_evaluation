@@ -2,21 +2,25 @@ import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
-from utils.streams import create_custom_drift_stream
+from utils.streams.synth import CustomDriftStream
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
 CLF = 'ARF'
 MAX_DELAY = 500
-MAX_STREAM_SIZE = 100000  # 117000
+MAX_STREAM_SIZE = 50_000  # 117000
 USE_WINDOW = False
 
-stream = create_custom_drift_stream(n_drifts=50,
-                                    drift_every_n=2000,
-                                    drift_width=0)
+stream_creator = CustomDriftStream(generator='Agrawal',
+                                   n_drifts=25,
+                                   drift_every_n=2000,
+                                   drift_width=0)
+
+stream = stream_creator.create_stream()
 
 sch = stream.get_schema()
+
 evaluator = ClassificationEvaluator(schema=sch, window_size=1)
 learner = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
 student = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
@@ -39,7 +43,7 @@ for detector_name, detector in DETECTORS.items():
 
     wf = StreamingWorkflow(model=learner,
                            evaluator=evaluator,
-                           detector=detector(),
+                           detector=detector_,
                            use_window_perf=USE_WINDOW)
 
     wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
