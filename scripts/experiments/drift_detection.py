@@ -5,12 +5,12 @@ from capymoa.evaluation.evaluation import ClassificationEvaluator
 from utils.streams import create_custom_drift_stream
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
-from utils.config import CLASSIFIERS, DETECTORS
+from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
-CLF = 'OnlineBagging'
+CLF = 'ARF'
 MAX_DELAY = 500
-MAX_STREAM_SIZE = 100000 #117000
-USE_WINDOW = True
+MAX_STREAM_SIZE = 100000  # 117000
+USE_WINDOW = False
 
 stream = create_custom_drift_stream(n_drifts=50,
                                     drift_every_n=2000,
@@ -18,7 +18,8 @@ stream = create_custom_drift_stream(n_drifts=50,
 
 sch = stream.get_schema()
 evaluator = ClassificationEvaluator(schema=sch, window_size=1)
-learner = CLASSIFIERS[CLF](schema=sch)
+learner = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
+student = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
 
 drifts = stream.get_drifts()
 drifts = [(x.position, x.position + x.width) for x in drifts]
@@ -27,6 +28,15 @@ detector_perf = {}
 for detector_name, detector in DETECTORS.items():
     print(f'Running detector: {detector_name}')
     np.random.seed(123)
+
+    if detector_name == 'STUDD':
+        detector_ = detector(student=student)
+    else:
+        detector_ = detector()
+
+    evaluator = ClassificationEvaluator(schema=sch, window_size=1)
+    learner = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
+
     wf = StreamingWorkflow(model=learner,
                            evaluator=evaluator,
                            detector=detector(),

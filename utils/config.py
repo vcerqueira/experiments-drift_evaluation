@@ -24,13 +24,13 @@ DETECTORS = {
 CLASSIFIERS = {
     'OnlineBagging': OnlineBagging,
     'HoeffdingTree': HoeffdingTree,
-    'AdaptiveRandomForestClassifier': AdaptiveRandomForestClassifier,
+    'ARF': AdaptiveRandomForestClassifier,
     'NaiveBayes': NaiveBayes,
 }
 
 CLASSIFIER_PARAMS = {
     'OnlineBagging': {'ensemble_size': 100},
     'HoeffdingTree': {},
-    'AdaptiveRandomForestClassifier': {'ensemble_size': 100, 'disable_drift_detection': True},
+    'ARF': {'ensemble_size': 100, 'disable_drift_detection': True},
     'NaiveBayes': {},
 }
