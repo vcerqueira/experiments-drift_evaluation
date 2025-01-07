@@ -3,7 +3,6 @@ from capymoa.base import MOAClassifier
 from capymoa.drift.detectors import ADWIN
 from capymoa.drift.base_detector import BaseDriftDetector, MOADriftDetector
 from capymoa.instance import LabeledInstance
-from capymoa.classifier import AdaptiveRandomForestClassifier as ARF
 
 
 class STUDD(BaseDriftDetector):
