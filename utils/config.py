@@ -32,6 +32,6 @@ CLASSIFIERS = {
 CLASSIFIER_PARAMS = {
     'OnlineBagging': {'ensemble_size': 25},
     'HoeffdingTree': {},
-    'ARF': {'ensemble_size': 10, 'disable_drift_detection': True},
+    'ARF': {'ensemble_size': 25, 'disable_drift_detection': True},
     'NaiveBayes': {},
 }

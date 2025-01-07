@@ -7,18 +7,23 @@ from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
-CLF = 'ARF'
+CLF = 'NaiveBayes'
+GENERATOR = 'Agrawal'
+USE_WINDOW = True
 MAX_DELAY = 500
-MAX_STREAM_SIZE = 50_000  # 117000
-USE_WINDOW = False
+N_DRIFTS = 50
+DRIFT_EVERY_N = 2000
+DRIFT_WIDTH = 0
+MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
+WINDOW_MODE = 'WINDOW' if USE_WINDOW else 'POINT'
+DRIFT_TYPE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
 
-stream_creator = CustomDriftStream(generator='Agrawal',
-                                   n_drifts=25,
-                                   drift_every_n=2000,
-                                   drift_width=0)
+stream_creator = CustomDriftStream(generator=GENERATOR,
+                                   n_drifts=N_DRIFTS,
+                                   drift_every_n=DRIFT_EVERY_N,
+                                   drift_width=DRIFT_WIDTH)
 
 stream = stream_creator.create_stream()
-
 sch = stream.get_schema()
 
 evaluator = ClassificationEvaluator(schema=sch, window_size=1)
@@ -56,10 +61,6 @@ for detector_name, detector in DETECTORS.items():
 
     detector_perf[detector_name] = metrics
 
-# calcular em janela
 perf = pd.DataFrame(detector_perf).T
 
-pd.set_option('display.max_columns', None)
-
-# fix something weird about the results
-perf.to_csv(f'assets/abrupt,{CLF},window.csv')
+perf.to_csv(f'assets/{GENERATOR},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')

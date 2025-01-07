@@ -23,8 +23,9 @@ class StreamingWorkflow:
         self._reset_params()
 
         while stream.has_more_instances():
-            if self.instances_processed > max_size:
-                break
+            if max_size is not None:
+                if self.instances_processed > max_size:
+                    break
 
             instance = stream.next_instance()
             if self.instances_processed > self.MIN_TRAINING_SIZE:

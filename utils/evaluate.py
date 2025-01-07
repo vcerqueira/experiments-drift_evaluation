@@ -165,6 +165,96 @@ class EvaluateDetector:
 
         return self.metrics
 
+    def calc_performance_from_eps(self, drift_eps: List, tot_n_instances: int) -> Dict:
+        """Calculate performance metrics for drift detection.
+
+        Evaluates drift detection performance by comparing predicted drift points against
+        true drift points, considering a maximum allowable delay. Calculates various metrics
+        including precision, recall, F1-score, mean time to detect (MTD), and false alarm rate.
+
+
+        Args:
+            trues: Array-like of true drift points represented as (start, end) tuples
+                indicating drift intervals. For gradual drifts, the end point can be
+                different from the start point.
+            preds: Array-like of predicted drift points (indices) where the detector
+                signaled a drift.
+            tot_n_instances: Total number of instances in the data stream, used to
+                calculate false alarm rate.
+
+        Returns:
+            Dict containing the following metrics:
+                - fp (int): False positives (incorrect detections)
+                - tp (int): True positives (correct detections)
+                - fn (int): False negatives (missed drifts)
+                - precision (float): Precision score (tp / (tp + fp))
+                - recall (float): Recall score (tp / (tp + fn))
+                - f1 (float): F1 score (harmonic mean of precision and recall)
+                - mtd (float): Mean time to detect successful detections
+                - fa_1k (float): False alarms per 1000 instances
+                - n_episodes (int): Total number of drift episodes
+                - n_alarms (int): Total number of alarms raised
+
+        Raises:
+            ValueError: If arrays are not ordered or contain invalid values
+            AssertionError: If no drift points are provided
+        """
+
+        if tot_n_instances <= 0:
+            raise ValueError('Total number of instances must be positive')
+
+        fp, tp, fn = 0, 0, 0
+        efp, etp, efn = 0, 0, 0
+        detection_times: List[float] = []
+        n_episodes, n_alarms = 0, 0
+
+        for episode in drift_eps:
+            n_episodes += 1
+            drift_detected = False
+            episode_detection_time = np.nan
+            drift_start, drift_end = episode['true']
+
+            for pred in episode['preds']:
+                # print(pred)
+                n_alarms += 1
+
+                if drift_start - self.max_delay <= pred <= drift_end + self.max_delay:
+                    tp += 1
+                    if not drift_detected:  # only counting first detection
+                        drift_detected = True
+                        episode_detection_time = pred - drift_start
+                else:
+                    fp += 1
+
+            if drift_detected:
+                etp += 1
+                detection_times.append(episode_detection_time)
+            else:
+                fn += 1
+
+        precision, recall, f1 = self._calc_classification_metrics(tp=tp, fp=fp, fn=fn)
+        false_alarm_rate = (fp / tot_n_instances) * 1000
+        alarm_rate = (n_alarms / tot_n_instances) * 1000
+        mean_detection_time = np.nanmean(detection_times) if detection_times else np.nan
+        ep_recall = etp / n_episodes
+
+        self.metrics = {
+            'fp': fp,
+            'tp': tp,
+            'fn': fn,
+            'precision': precision,
+            'recall': recall,
+            'ep_recall': ep_recall,
+            'f1': f1,
+            'mdt': mean_detection_time,
+            'fa_1k': false_alarm_rate,
+            'alarms_per_1k': alarm_rate,
+            'n_episodes': n_episodes,
+            'n_alarms': n_alarms,
+        }
+
+        return self.metrics
+
     def _get_drift_episodes(self, trues: List, preds: ArrayLike) -> List[Dict]:
         if not isinstance(preds, np.ndarray):
             preds = np.asarray(preds)
