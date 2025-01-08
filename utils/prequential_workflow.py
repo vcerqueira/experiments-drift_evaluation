@@ -1,5 +1,7 @@
 from typing import Optional
 
+from utils.streams.inject_drift import DriftSimulator
+
 
 class StreamingWorkflow:
     """
@@ -10,12 +12,18 @@ class StreamingWorkflow:
     METRIC = 'accuracy'
     MIN_TRAINING_SIZE = 1000
 
-    def __init__(self, model, evaluator, detector, use_window_perf: bool):
+    def __init__(self,
+                 model,
+                 evaluator,
+                 detector,
+                 use_window_perf: bool,
+                 drift_simulator: Optional[DriftSimulator] = None):
         self.model = model
         self.evaluator = evaluator
         self.detector = detector
         self.instances_processed = 0
         self.drift_predictions = []
+        self.drift_simulator = drift_simulator
 
         self.use_window_perf = use_window_perf
 
@@ -28,6 +36,21 @@ class StreamingWorkflow:
                     break
 
             instance = stream.next_instance()
+
+            if self.drift_simulator is not None:
+                if self.instances_processed >= self.drift_simulator.fitted['drift_onset']:
+                    # print('self.instances_processed')
+                    # print(self.instances_processed)
+                    # print(self.drift_simulator.fitted['drift_onset'])
+                    # print('instance.x')
+                    # print(instance.x)
+                    instance = self.drift_simulator.transform(instance)
+                    # print(instance.x)
+
+            if instance is None:
+                self.instances_processed += 1
+                continue
+
             if self.instances_processed > self.MIN_TRAINING_SIZE:
                 prediction = self.model.predict(instance)
 
@@ -42,7 +65,14 @@ class StreamingWorkflow:
                     print(f'Change detected at index: {self.instances_processed}')
                     self.drift_predictions.append(self.instances_processed)
 
-            self.model.train(instance)
+            # stop training after drift is injected
+            ## but how do i guarantee that detections are due to drift injection and not to lack of training??
+            ## does that make sense?
+            if self.drift_simulator is not None:
+                if self.instances_processed < self.drift_simulator.fitted['drift_onset']:
+                    self.model.train(instance)
+            else:
+                self.model.train(instance)
 
             self.instances_processed += 1
 
