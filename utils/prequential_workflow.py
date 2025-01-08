@@ -18,6 +18,7 @@ class StreamingWorkflow:
                  detector,
                  use_window_perf: bool,
                  drift_simulator: Optional[DriftSimulator] = None):
+
         self.model = model
         self.evaluator = evaluator
         self.detector = detector
@@ -39,13 +40,7 @@ class StreamingWorkflow:
 
             if self.drift_simulator is not None:
                 if self.instances_processed >= self.drift_simulator.fitted['drift_onset']:
-                    # print('self.instances_processed')
-                    # print(self.instances_processed)
-                    # print(self.drift_simulator.fitted['drift_onset'])
-                    # print('instance.x')
-                    # print(instance.x)
                     instance = self.drift_simulator.transform(instance)
-                    # print(instance.x)
 
             if instance is None:
                 self.instances_processed += 1
@@ -65,9 +60,6 @@ class StreamingWorkflow:
                     print(f'Change detected at index: {self.instances_processed}')
                     self.drift_predictions.append(self.instances_processed)
 
-            # stop training after drift is injected
-            ## but how do i guarantee that detections are due to drift injection and not to lack of training??
-            ## does that make sense?
             if self.drift_simulator is not None:
                 if self.instances_processed < self.drift_simulator.fitted['drift_onset']:
                     self.model.train(instance)
@@ -79,11 +71,11 @@ class StreamingWorkflow:
     def _get_latest_score(self, true, pred):
         if self.use_window_perf:
             self.evaluator.update(true, pred)
-            return self.evaluator.accuracy()
+            return self.evaluator.f1_score()
+            # return self.evaluator.accuracy()
             # return self.evaluator.kappa()
         else:
             return int(true == pred)
-
 
     def _reset_params(self):
         self.instances_processed = 0

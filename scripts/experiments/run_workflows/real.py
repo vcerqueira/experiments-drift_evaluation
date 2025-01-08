@@ -7,8 +7,8 @@ from utils.prequential_workflow import StreamingWorkflow
 from utils.streams.real import CAPYMOA_DATASETS
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
-CLF = 'ARF'
-DATASET = 'Fried'
+CLF = 'HoeffdingTree'
+DATASET = 'Electricity'
 USE_WINDOW = False
 MAX_DELAY_PERC = 0.1
 N_DRIFTS = 50
@@ -26,8 +26,8 @@ max_delay = int(n * MAX_DELAY_PERC)
 detector_perf = {}
 for detector_name, detector in DETECTORS.items():
     print(f'Running detector: {detector_name}')
-    if detector_name != 'STUDD':
-        continue
+    # if detector_name != 'STUDD':
+    #     continue
 
     drift_episodes = []
     for i in range(N_DRIFTS):
