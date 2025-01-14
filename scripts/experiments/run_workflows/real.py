@@ -7,9 +7,9 @@ from utils.prequential_workflow import StreamingWorkflow
 from utils.streams.real import CAPYMOA_DATASETS
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
-CLF = 'HoeffdingTree'
+CLF = 'ARF'
 DATASET = 'Electricity'
-USE_WINDOW = False
+USE_WINDOW = True
 MAX_DELAY_PERC = 0.1
 N_DRIFTS = 50
 DRIFT_ON_X = False
@@ -70,4 +70,4 @@ for detector_name, detector in DETECTORS.items():
     detector_perf[detector_name] = metrics
 
 perf = pd.DataFrame(detector_perf).T
-perf.to_csv(f'assets/{DATASET},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')
+perf.to_csv(f'assets/results/{DATASET},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')

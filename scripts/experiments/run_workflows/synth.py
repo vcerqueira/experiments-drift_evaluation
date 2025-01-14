@@ -7,9 +7,9 @@ from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
-CLF = 'NaiveBayes'
-GENERATOR = 'Agrawal'
-USE_WINDOW = True
+CLF = 'ARF'
+GENERATOR = 'STAGGER'
+USE_WINDOW = False
 MAX_DELAY = 500
 N_DRIFTS = 50
 DRIFT_EVERY_N = 2000
@@ -63,4 +63,4 @@ for detector_name, detector in DETECTORS.items():
 
 perf = pd.DataFrame(detector_perf).T
 
-perf.to_csv(f'assets/{GENERATOR},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')
+perf.to_csv(f'assets/results/{GENERATOR},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')
