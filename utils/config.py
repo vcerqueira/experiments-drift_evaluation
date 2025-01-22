@@ -7,19 +7,19 @@ from capymoa.classifier import (OnlineBagging,
 from utils.studd import STUDD
 
 DETECTORS = {
-    'ABCD': detectors.ABCD,
-    'ADWIN': detectors.ADWIN,
-    'CUSUM': detectors.CUSUM,
-    'DDM': detectors.DDM,
+    # 'ABCD': detectors.ABCD,
+    # 'ADWIN': detectors.ADWIN,
+    # 'CUSUM': detectors.CUSUM,
+    # 'DDM': detectors.DDM,
     'EWMAChart': detectors.EWMAChart,
     'GeometricMovingAverage': detectors.GeometricMovingAverage,
-    'HDDMAverage': detectors.HDDMAverage,
-    'HDDMWeighted': detectors.HDDMWeighted,
-    'PageHinkley': detectors.PageHinkley,
-    'RDDM': detectors.RDDM,
-    'SEED': detectors.SEED,
-    'STEPD': detectors.STEPD,
-    'STUDD': STUDD,
+    # 'HDDMAverage': detectors.HDDMAverage,
+    # 'HDDMWeighted': detectors.HDDMWeighted,
+    # 'PageHinkley': detectors.PageHinkley,
+    # 'RDDM': detectors.RDDM,
+    # 'SEED': detectors.SEED,
+    # 'STEPD': detectors.STEPD,
+    # 'STUDD': STUDD,
 }
 
 CLASSIFIERS = {
@@ -51,13 +51,13 @@ DETECTOR_PARAM_SPACE = {
     },
     'EWMAChart': {
         'min_n_instances': [30, 50, 100, 300],
-        'lambda_': [0.01, 0.001, 0.1, 0.2, 0.3],
+        'lambda_': [0.01, 0.001, 0.1, 0.2, 0.3, 0.9, 0.95],
     },
 
     'GeometricMovingAverage': {
         'min_n_instances': [30, 50, 100, 300],
-        'lambda_': [1, 2, 3, 5],
-        'alpha': [0.99, 0.995, 0.9]
+        'lambda_': [0.01, 0.1, 0.5, 1, 2, 3, 5],
+        'alpha': [0.99, 0.995, 0.9, 0.8, 0.7,0.5]
     },
 
     'HDDMAverage': {
