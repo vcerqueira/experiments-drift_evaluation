@@ -18,7 +18,7 @@ store results
 
 """
 
-CLF = 'NaiveBayes'
+# CLF = 'NaiveBayes'
 USE_WINDOW = False
 MAX_DELAY = 500
 N_DRIFTS = 50
@@ -39,55 +39,57 @@ for detector_name, detector in DETECTORS.items():
     for config_ in config_space:
         print(config_)
 
-        for generator in [*CustomDriftStream.GENERATORS]:
-            # generator
+        for clf in [*CLASSIFIERS]:
 
-            np.random.seed(123)
-            stream_creator = CustomDriftStream(generator=generator,
-                                               n_drifts=N_DRIFTS,
-                                               drift_every_n=DRIFT_EVERY_N,
-                                               drift_width=DRIFT_WIDTH)
+            for generator in [*CustomDriftStream.GENERATORS]:
+                # generator
 
-            stream = stream_creator.create_stream()
-            sch = stream.get_schema()
+                np.random.seed(123)
+                stream_creator = CustomDriftStream(generator=generator,
+                                                   n_drifts=N_DRIFTS,
+                                                   drift_every_n=DRIFT_EVERY_N,
+                                                   drift_width=DRIFT_WIDTH)
 
-            evaluator = ClassificationEvaluator(schema=sch, window_size=1)
-            learner = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
-            student = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
+                stream = stream_creator.create_stream()
+                sch = stream.get_schema()
 
-            drifts = stream.get_drifts()
-            drifts = [(x.position, x.position + x.width) for x in drifts]
+                evaluator = ClassificationEvaluator(schema=sch, window_size=1)
+                learner = CLASSIFIERS[clf](schema=sch, **CLASSIFIER_PARAMS[clf])
+                student = CLASSIFIERS[clf](schema=sch, **CLASSIFIER_PARAMS[clf])
 
-            if detector_name == 'STUDD':
-                detector_ = detector(student=student, **config_)
-            else:
-                detector_ = detector(**config_)
+                drifts = stream.get_drifts()
+                drifts = [(x.position, x.position + x.width) for x in drifts]
 
-            wf = StreamingWorkflow(model=learner,
-                                   evaluator=evaluator,
-                                   detector=detector_,
-                                   use_window_perf=USE_WINDOW)
+                if detector_name == 'STUDD':
+                    detector_ = detector(student=student, **config_)
+                else:
+                    detector_ = detector(**config_)
 
-            wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
+                wf = StreamingWorkflow(model=learner,
+                                       evaluator=evaluator,
+                                       detector=detector_,
+                                       use_window_perf=USE_WINDOW)
 
-            drift_eval = EvaluateDetector(max_delay=MAX_DELAY)
+                wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
 
-            metrics = drift_eval.calc_performance(trues=drifts,
-                                                  preds=wf.drift_predictions,
-                                                  tot_n_instances=wf.instances_processed)
+                drift_eval = EvaluateDetector(max_delay=MAX_DELAY)
 
-            metadata = {
-                'detector': detector_name,
-                'stream': generator,
-                'learner': CLF,
-                'drift_type': DRIFT_TYPE,
-            }
+                metrics = drift_eval.calc_performance(trues=drifts,
+                                                      preds=wf.drift_predictions,
+                                                      tot_n_instances=wf.instances_processed)
 
-            # results = {**metadata, **config_, **metrics}
-            results = {**metadata, 'params': config_, **metrics}
+                metadata = {
+                    'detector': detector_name,
+                    'stream': generator,
+                    'learner': clf,
+                    'drift_type': DRIFT_TYPE,
+                }
 
-            performance_metrics.append(results)
+                # results = {**metadata, **config_, **metrics}
+                results = {**metadata, 'params': config_, **metrics}
+
+                performance_metrics.append(results)
 
 perf = pd.DataFrame(performance_metrics)
 
-perf.to_csv(f'assets/results/detector_hypertuning,{CLF},{DRIFT_TYPE}.csv')
+perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE}.csv')

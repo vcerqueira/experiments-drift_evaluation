@@ -1,0 +1,565 @@
+,detector,stream,learner,drift_type,params,fp,tp,fn,precision,recall,ep_recall,f1,mdt,fa_1k,alarms_per_1k,n_episodes,n_alarms
+0,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+1,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.001}",17,11,39,0.39285714285714285,0.22,0.22,0.28205128205128205,96.9090909090909,0.16991334419446083,0.27985727279087663,50,28
+2,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.001}",14,18,32,0.5625,0.36,0.36,0.43902439024390244,377.05555555555554,0.13992863639543832,0.3198368831895733,50,32
+3,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+4,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.001}",17,11,39,0.39285714285714285,0.22,0.22,0.28205128205128205,96.9090909090909,0.16991334419446083,0.27985727279087663,50,28
+5,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.001}",14,18,32,0.5625,0.36,0.36,0.43902439024390244,377.05555555555554,0.13992863639543832,0.3198368831895733,50,32
+6,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+7,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.001}",17,11,39,0.39285714285714285,0.22,0.22,0.28205128205128205,96.9090909090909,0.16991334419446083,0.27985727279087663,50,28
+8,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.001}",14,18,32,0.5625,0.36,0.36,0.43902439024390244,377.05555555555554,0.13992863639543832,0.3198368831895733,50,32
+9,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.002}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+10,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.002}",17,11,39,0.39285714285714285,0.22,0.22,0.28205128205128205,214.8181818181818,0.16991334419446083,0.27985727279087663,50,28
+11,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.002}",14,18,32,0.5625,0.36,0.36,0.43902439024390244,358.3888888888889,0.13992863639543832,0.3198368831895733,50,32
+12,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.002}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+13,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.002}",17,11,39,0.39285714285714285,0.22,0.22,0.28205128205128205,214.8181818181818,0.16991334419446083,0.27985727279087663,50,28
+14,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.002}",14,18,32,0.5625,0.36,0.36,0.43902439024390244,358.3888888888889,0.13992863639543832,0.3198368831895733,50,32
+15,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.002}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+16,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.002}",17,11,39,0.39285714285714285,0.22,0.22,0.28205128205128205,214.8181818181818,0.16991334419446083,0.27985727279087663,50,28
+17,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.002}",14,18,32,0.5625,0.36,0.36,0.43902439024390244,358.3888888888889,0.13992863639543832,0.3198368831895733,50,32
+18,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.005}",1,1,49,0.5,0.02,0.02,0.038461538461538464,-243.0,0.009994902599674166,0.019989805199348332,50,2
+19,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.005}",19,10,40,0.3448275862068966,0.2,0.2,0.2531645569620254,206.3,0.18990314939380915,0.2898521753905508,50,29
+20,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'pca', 'delta_drift': 0.005}",12,22,28,0.6470588235294118,0.44,0.44,0.5238095238095238,310.54545454545456,0.11993883119609,0.33982668838892166,50,34
+21,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.005}",1,1,49,0.5,0.02,0.02,0.038461538461538464,-243.0,0.009994902599674166,0.019989805199348332,50,2
+22,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.005}",19,10,40,0.3448275862068966,0.2,0.2,0.2531645569620254,206.3,0.18990314939380915,0.2898521753905508,50,29
+23,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'kpca', 'delta_drift': 0.005}",12,22,28,0.6470588235294118,0.44,0.44,0.5238095238095238,310.54545454545456,0.11993883119609,0.33982668838892166,50,34
+24,ABCD,SEA,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.005}",1,1,49,0.5,0.02,0.02,0.038461538461538464,-243.0,0.009994902599674166,0.019989805199348332,50,2
+25,ABCD,Agrawal,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.005}",19,10,40,0.3448275862068966,0.2,0.2,0.2531645569620254,206.3,0.18990314939380915,0.2898521753905508,50,29
+26,ABCD,STAGGER,NaiveBayes,ABRUPT,"{'model_id': 'ae', 'delta_drift': 0.005}",12,22,28,0.6470588235294118,0.44,0.44,0.5238095238095238,310.54545454545456,0.11993883119609,0.33982668838892166,50,34
+27,ADWIN,SEA,NaiveBayes,ABRUPT,{'delta': 0.001},6,4,46,0.4,0.08,0.08,0.13333333333333333,-156.0,0.059969415598045,0.09994902599674167,50,10
+28,ADWIN,Agrawal,NaiveBayes,ABRUPT,{'delta': 0.001},32,31,37,0.49206349206349204,0.45588235294117646,0.26,0.47328244274809156,9.23076923076923,0.3198368831895733,0.6296788637794725,50,63
+29,ADWIN,STAGGER,NaiveBayes,ABRUPT,{'delta': 0.001},17,44,31,0.7213114754098361,0.5866666666666667,0.38,0.6470588235294118,61.05263157894737,0.16991334419446083,0.6096890585801241,50,61
+30,ADWIN,SEA,NaiveBayes,ABRUPT,{'delta': 0.002},3,8,43,0.7272727272727273,0.1568627450980392,0.14,0.25806451612903225,-99.42857142857143,0.0299847077990225,0.10994392859641583,50,11
+31,ADWIN,Agrawal,NaiveBayes,ABRUPT,{'delta': 0.002},29,39,30,0.5735294117647058,0.5652173913043478,0.4,0.5693430656934305,64.0,0.2898521753905508,0.6796533767778433,50,68
+32,ADWIN,STAGGER,NaiveBayes,ABRUPT,{'delta': 0.002},16,48,28,0.75,0.631578947368421,0.44,0.6857142857142857,34.18181818181818,0.15991844159478666,0.6396737663791466,50,64
+33,ADWIN,SEA,NaiveBayes,ABRUPT,{'delta': 0.005},4,10,42,0.7142857142857143,0.19230769230769232,0.16,0.30303030303030304,-194.0,0.039979610398696665,0.13992863639543832,50,14
+34,ADWIN,Agrawal,NaiveBayes,ABRUPT,{'delta': 0.005},27,37,32,0.578125,0.5362318840579711,0.36,0.556390977443609,54.22222222222222,0.2698623701912025,0.6396737663791466,50,64
+35,ADWIN,STAGGER,NaiveBayes,ABRUPT,{'delta': 0.005},13,44,29,0.7719298245614035,0.6027397260273972,0.42,0.676923076923077,-27.80952380952381,0.12993373379576417,0.5697094481814274,50,57
+36,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.005}",1,0,50,0.0,0.0,0.0,0.0,,0.009994902599674166,0.009994902599674166,50,1
+37,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.005}",7,2,48,0.2222222222222222,0.04,0.04,0.06779661016949154,132.5,0.06996431819771916,0.08995412339706749,50,9
+38,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.005}",8,4,46,0.3333333333333333,0.08,0.08,0.12903225806451613,-161.25,0.07995922079739333,0.11993883119609,50,12
+39,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 150, 'delta': 0.002}",0,1,49,1.0,0.02,0.02,0.0392156862745098,4.0,0.0,0.009994902599674166,50,1
+40,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 150, 'delta': 0.002}",6,4,46,0.4,0.08,0.08,0.13333333333333333,-258.5,0.059969415598045,0.09994902599674167,50,10
+41,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 150, 'delta': 0.002}",8,5,45,0.38461538461538464,0.1,0.1,0.15873015873015872,-160.2,0.07995922079739333,0.12993373379576417,50,13
+42,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.005}",2,1,49,0.3333333333333333,0.02,0.02,0.03773584905660377,-115.0,0.019989805199348332,0.0299847077990225,50,3
+43,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.005}",8,3,47,0.2727272727272727,0.06,0.06,0.09836065573770492,-422.6666666666667,0.07995922079739333,0.10994392859641583,50,11
+44,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.005}",12,0,50,0.0,0.0,0.0,0.0,,0.11993883119609,0.11993883119609,50,12
+45,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.002}",0,1,49,1.0,0.02,0.02,0.0392156862745098,4.0,0.0,0.009994902599674166,50,1
+46,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.002}",6,4,46,0.4,0.08,0.08,0.13333333333333333,-258.5,0.059969415598045,0.09994902599674167,50,10
+47,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.002}",8,5,45,0.38461538461538464,0.1,0.1,0.15873015873015872,-160.2,0.07995922079739333,0.12993373379576417,50,13
+48,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.002}",2,3,47,0.6,0.06,0.06,0.1090909090909091,-222.66666666666666,0.019989805199348332,0.049974512998370836,50,5
+49,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.002}",10,1,49,0.09090909090909091,0.02,0.02,0.032786885245901634,-411.0,0.09994902599674167,0.10994392859641583,50,11
+50,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.002}",11,4,46,0.26666666666666666,0.08,0.08,0.12307692307692307,-135.5,0.10994392859641583,0.1499235389951125,50,15
+51,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 150, 'delta': 0.001}",2,1,49,0.3333333333333333,0.02,0.02,0.03773584905660377,-138.0,0.019989805199348332,0.0299847077990225,50,3
+52,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 150, 'delta': 0.001}",6,4,46,0.4,0.08,0.08,0.13333333333333333,-200.0,0.059969415598045,0.09994902599674167,50,10
+53,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 150, 'delta': 0.001}",8,5,45,0.38461538461538464,0.1,0.1,0.15873015873015872,-191.4,0.07995922079739333,0.12993373379576417,50,13
+54,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.002}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+55,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.002}",1,4,46,0.8,0.08,0.08,0.14545454545454545,-90.75,0.009994902599674166,0.049974512998370836,50,5
+56,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.002}",3,2,48,0.4,0.04,0.04,0.07272727272727272,-162.5,0.0299847077990225,0.049974512998370836,50,5
+57,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 100, 'delta': 0.005}",2,1,49,0.3333333333333333,0.02,0.02,0.03773584905660377,-115.0,0.019989805199348332,0.0299847077990225,50,3
+58,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 100, 'delta': 0.005}",8,3,47,0.2727272727272727,0.06,0.06,0.09836065573770492,-422.6666666666667,0.07995922079739333,0.10994392859641583,50,11
+59,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 100, 'delta': 0.005}",12,0,50,0.0,0.0,0.0,0.0,,0.11993883119609,0.11993883119609,50,12
+60,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 300, 'delta': 0.005}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+61,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 300, 'delta': 0.005}",1,4,46,0.8,0.08,0.08,0.14545454545454545,-210.5,0.009994902599674166,0.049974512998370836,50,5
+62,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 300, 'delta': 0.005}",2,3,47,0.6,0.06,0.06,0.1090909090909091,-251.0,0.019989805199348332,0.049974512998370836,50,5
+63,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 50, 'delta': 0.001}",4,7,43,0.6363636363636364,0.14,0.14,0.22950819672131148,-167.28571428571428,0.039979610398696665,0.10994392859641583,50,11
+64,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 50, 'delta': 0.001}",8,9,41,0.5294117647058824,0.18,0.18,0.26865671641791045,232.66666666666666,0.07995922079739333,0.16991334419446083,50,17
+65,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 50, 'delta': 0.001}",4,18,32,0.8181818181818182,0.36,0.36,0.5,141.61111111111111,0.039979610398696665,0.21988785719283166,50,22
+66,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.001}",2,1,49,0.3333333333333333,0.02,0.02,0.03773584905660377,-138.0,0.019989805199348332,0.0299847077990225,50,3
+67,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.001}",6,4,46,0.4,0.08,0.08,0.13333333333333333,-200.0,0.059969415598045,0.09994902599674167,50,10
+68,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 150, 'delta': 0.001}",8,5,45,0.38461538461538464,0.1,0.1,0.15873015873015872,-191.4,0.07995922079739333,0.12993373379576417,50,13
+69,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.005}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+70,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.005}",1,4,46,0.8,0.08,0.08,0.14545454545454545,-210.5,0.009994902599674166,0.049974512998370836,50,5
+71,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.005}",2,3,47,0.6,0.06,0.06,0.1090909090909091,-251.0,0.019989805199348332,0.049974512998370836,50,5
+72,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+73,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005}",1,4,46,0.8,0.08,0.08,0.14545454545454545,-210.5,0.009994902599674166,0.049974512998370836,50,5
+74,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005}",2,3,47,0.6,0.06,0.06,0.1090909090909091,-251.0,0.019989805199348332,0.049974512998370836,50,5
+75,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 50, 'delta': 0.005}",3,7,43,0.7,0.14,0.14,0.23333333333333336,-127.28571428571429,0.0299847077990225,0.09994902599674167,50,10
+76,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 50, 'delta': 0.005}",9,8,42,0.47058823529411764,0.16,0.16,0.23880597014925375,234.25,0.08995412339706749,0.16991334419446083,50,17
+77,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 50, 'delta': 0.005}",4,18,32,0.8181818181818182,0.36,0.36,0.5,167.88888888888889,0.039979610398696665,0.21988785719283166,50,22
+78,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.002}",4,7,43,0.6363636363636364,0.14,0.14,0.22950819672131148,-130.14285714285714,0.039979610398696665,0.10994392859641583,50,11
+79,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.002}",9,8,42,0.47058823529411764,0.16,0.16,0.23880597014925375,213.125,0.08995412339706749,0.16991334419446083,50,17
+80,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.002}",3,19,31,0.8636363636363636,0.38,0.38,0.5277777777777778,161.68421052631578,0.0299847077990225,0.21988785719283166,50,22
+81,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.001}",4,7,43,0.6363636363636364,0.14,0.14,0.22950819672131148,-167.28571428571428,0.039979610398696665,0.10994392859641583,50,11
+82,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.001}",8,9,41,0.5294117647058824,0.18,0.18,0.26865671641791045,232.66666666666666,0.07995922079739333,0.16991334419446083,50,17
+83,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.001}",4,18,32,0.8181818181818182,0.36,0.36,0.5,141.61111111111111,0.039979610398696665,0.21988785719283166,50,22
+84,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.002}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+85,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.002}",1,4,46,0.8,0.08,0.08,0.14545454545454545,-90.75,0.009994902599674166,0.049974512998370836,50,5
+86,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.002}",3,2,48,0.4,0.04,0.04,0.07272727272727272,-162.5,0.0299847077990225,0.049974512998370836,50,5
+87,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 300, 'delta': 0.002}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+88,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 300, 'delta': 0.002}",1,4,46,0.8,0.08,0.08,0.14545454545454545,-90.75,0.009994902599674166,0.049974512998370836,50,5
+89,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 300, 'delta': 0.002}",3,2,48,0.4,0.04,0.04,0.07272727272727272,-162.5,0.0299847077990225,0.049974512998370836,50,5
+90,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.001}",4,1,49,0.2,0.02,0.02,0.03636363636363636,-225.0,0.039979610398696665,0.049974512998370836,50,5
+91,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.001}",10,1,49,0.09090909090909091,0.02,0.02,0.032786885245901634,-422.0,0.09994902599674167,0.10994392859641583,50,11
+92,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 100, 'delta': 0.001}",10,5,45,0.3333333333333333,0.1,0.1,0.15384615384615383,-6.4,0.09994902599674167,0.1499235389951125,50,15
+93,CUSUM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 300, 'delta': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+94,CUSUM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 300, 'delta': 0.001}",1,4,46,0.8,0.08,0.08,0.14545454545454545,-127.25,0.009994902599674166,0.049974512998370836,50,5
+95,CUSUM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 300, 'delta': 0.001}",3,5,45,0.625,0.1,0.1,0.1724137931034483,-152.6,0.0299847077990225,0.07995922079739333,50,8
+96,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 30}",5,6,44,0.5454545454545454,0.12,0.12,0.19672131147540983,-148.33333333333334,0.049974512998370836,0.10994392859641583,50,11
+97,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 30}",15,8,43,0.34782608695652173,0.1568627450980392,0.14,0.21621621621621623,6.571428571428571,0.1499235389951125,0.2298827597925058,50,23
+98,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 30}",4,16,35,0.8,0.3137254901960784,0.3,0.45070422535211263,59.46666666666667,0.039979610398696665,0.19989805199348334,50,20
+99,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 30}",2,2,48,0.5,0.04,0.04,0.07407407407407407,-186.0,0.019989805199348332,0.039979610398696665,50,4
+100,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 30}",7,2,48,0.2222222222222222,0.04,0.04,0.06779661016949154,200.0,0.06996431819771916,0.08995412339706749,50,9
+101,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 30}",6,5,45,0.45454545454545453,0.1,0.1,0.16393442622950818,69.6,0.059969415598045,0.10994392859641583,50,11
+102,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 30}",6,5,45,0.45454545454545453,0.1,0.1,0.16393442622950818,-213.0,0.059969415598045,0.10994392859641583,50,11
+103,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 30}",15,15,38,0.5,0.2830188679245283,0.24,0.3614457831325301,59.333333333333336,0.1499235389951125,0.299847077990225,50,30
+104,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 30}",7,25,31,0.78125,0.44642857142857145,0.38,0.5681818181818182,36.89473684210526,0.06996431819771916,0.3198368831895733,50,32
+105,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 50}",5,6,44,0.5454545454545454,0.12,0.12,0.19672131147540983,-148.33333333333334,0.049974512998370836,0.10994392859641583,50,11
+106,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 50}",8,12,39,0.6,0.23529411764705882,0.22,0.33802816901408456,-44.72727272727273,0.07995922079739333,0.19989805199348334,50,20
+107,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 50}",7,20,32,0.7407407407407407,0.38461538461538464,0.36,0.5063291139240507,-3.7222222222222223,0.06996431819771916,0.2698623701912025,50,27
+108,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 50}",2,2,48,0.5,0.04,0.04,0.07407407407407407,-186.0,0.019989805199348332,0.039979610398696665,50,4
+109,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 50}",7,2,48,0.2222222222222222,0.04,0.04,0.06779661016949154,200.0,0.06996431819771916,0.08995412339706749,50,9
+110,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 50}",6,7,43,0.5384615384615384,0.14,0.14,0.2222222222222222,163.71428571428572,0.059969415598045,0.12993373379576417,50,13
+111,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 50}",6,7,43,0.5384615384615384,0.14,0.14,0.2222222222222222,-186.57142857142858,0.059969415598045,0.12993373379576417,50,13
+112,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 50}",12,9,45,0.42857142857142855,0.16666666666666666,0.1,0.24,-107.2,0.11993883119609,0.2098929545931575,50,21
+113,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 50}",7,26,31,0.7878787878787878,0.45614035087719296,0.38,0.5777777777777777,29.36842105263158,0.06996431819771916,0.3298317857892475,50,33
+114,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 100}",5,6,44,0.5454545454545454,0.12,0.12,0.19672131147540983,-148.33333333333334,0.049974512998370836,0.10994392859641583,50,11
+115,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 100}",9,13,38,0.5909090909090909,0.2549019607843137,0.24,0.35616438356164387,3.0833333333333335,0.08995412339706749,0.21988785719283166,50,22
+116,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 100}",6,18,32,0.75,0.36,0.36,0.48648648648648657,52.05555555555556,0.059969415598045,0.23987766239218,50,24
+117,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 100}",2,2,48,0.5,0.04,0.04,0.07407407407407407,-186.0,0.019989805199348332,0.039979610398696665,50,4
+118,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 100}",7,2,48,0.2222222222222222,0.04,0.04,0.06779661016949154,200.0,0.06996431819771916,0.08995412339706749,50,9
+119,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 100}",7,7,43,0.5,0.14,0.14,0.21875000000000003,23.285714285714285,0.06996431819771916,0.13992863639543832,50,14
+120,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 100}",6,8,42,0.5714285714285714,0.16,0.16,0.25,-188.5,0.059969415598045,0.13992863639543832,50,14
+121,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 100}",12,14,38,0.5384615384615384,0.2692307692307692,0.24,0.3589743589743589,74.0,0.11993883119609,0.25986746759152834,50,26
+122,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 100}",8,23,28,0.7419354838709677,0.45098039215686275,0.44,0.5609756097560976,61.5,0.07995922079739333,0.30984198058989915,50,31
+123,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 300}",5,5,45,0.5,0.1,0.1,0.16666666666666669,-162.0,0.049974512998370836,0.09994902599674167,50,10
+124,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 300}",11,10,40,0.47619047619047616,0.2,0.2,0.2816901408450704,6.1,0.10994392859641583,0.2098929545931575,50,21
+125,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 2.5, 'min_n_instances': 300}",7,24,26,0.7741935483870968,0.48,0.48,0.5925925925925926,71.625,0.06996431819771916,0.30984198058989915,50,31
+126,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 300}",2,2,48,0.5,0.04,0.04,0.07407407407407407,-186.0,0.019989805199348332,0.039979610398696665,50,4
+127,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 300}",7,2,48,0.2222222222222222,0.04,0.04,0.06779661016949154,200.0,0.06996431819771916,0.08995412339706749,50,9
+128,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 3.0, 'min_n_instances': 300}",6,10,40,0.625,0.2,0.2,0.30303030303030304,75.1,0.059969415598045,0.15991844159478666,50,16
+129,DDM,SEA,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 300}",15,17,33,0.53125,0.34,0.34,0.4146341463414634,-115.82352941176471,0.1499235389951125,0.3198368831895733,50,32
+130,DDM,Agrawal,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 300}",7,14,36,0.6666666666666666,0.28,0.28,0.3943661971830986,12.357142857142858,0.06996431819771916,0.2098929545931575,50,21
+131,DDM,STAGGER,NaiveBayes,ABRUPT,"{'out_control_level': 2.25, 'min_n_instances': 300}",9,28,23,0.7567567567567568,0.5490196078431373,0.54,0.6363636363636364,2.4074074074074074,0.08995412339706749,0.3698113961879442,50,37
+132,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+133,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+134,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+135,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+136,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+137,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+138,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+139,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+140,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+141,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+142,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+143,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.01}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+144,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+145,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.001}",2,2,48,0.5,0.04,0.04,0.07407407407407407,-157.5,0.019989805199348332,0.039979610398696665,50,4
+146,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.001}",1,1,49,0.5,0.02,0.02,0.038461538461538464,-202.0,0.009994902599674166,0.019989805199348332,50,2
+147,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+148,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.001}",2,2,48,0.5,0.04,0.04,0.07407407407407407,-157.5,0.019989805199348332,0.039979610398696665,50,4
+149,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.001}",1,1,49,0.5,0.02,0.02,0.038461538461538464,-202.0,0.009994902599674166,0.019989805199348332,50,2
+150,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+151,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.001}",2,2,48,0.5,0.04,0.04,0.07407407407407407,-157.5,0.019989805199348332,0.039979610398696665,50,4
+152,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.001}",1,1,49,0.5,0.02,0.02,0.038461538461538464,-202.0,0.009994902599674166,0.019989805199348332,50,2
+153,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+154,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.001}",2,2,48,0.5,0.04,0.04,0.07407407407407407,-157.5,0.019989805199348332,0.039979610398696665,50,4
+155,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.001}",1,1,49,0.5,0.02,0.02,0.038461538461538464,-202.0,0.009994902599674166,0.019989805199348332,50,2
+156,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+157,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+158,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+159,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+160,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+161,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+162,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+163,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+164,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+165,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+166,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+167,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.1}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+168,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+169,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+170,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+171,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+172,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+173,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+174,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+175,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+176,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+177,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+178,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+179,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.2}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+180,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+181,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+182,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+183,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+184,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+185,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+186,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+187,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+188,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+189,EWMAChart,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+190,EWMAChart,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+191,EWMAChart,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 0.3}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+192,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+193,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+194,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+195,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 3, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+196,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 3, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+197,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 3, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+198,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+199,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+200,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+201,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+202,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+203,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+204,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+205,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+206,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+207,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 3, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+208,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 3, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+209,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 3, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+210,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+211,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+212,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+213,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 2, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+214,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 2, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+215,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 2, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+216,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+217,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+218,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+219,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 1, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+220,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 1, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+221,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 1, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+222,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+223,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+224,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 3, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+225,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+226,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+227,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+228,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+229,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+230,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 5, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+231,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 1, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+232,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 1, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+233,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 1, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+234,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 1, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+235,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 1, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+236,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 1, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+237,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 1, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+238,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 1, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+239,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 1, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+240,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+241,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+242,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+243,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+244,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+245,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 5, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+246,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+247,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+248,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 2, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+249,GeometricMovingAverage,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 5, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+250,GeometricMovingAverage,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 5, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+251,GeometricMovingAverage,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 5, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+252,HDDMAverage,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.001}",0,4,46,1.0,0.08,0.08,0.14814814814814814,-123.25,0.0,0.039979610398696665,50,4
+253,HDDMAverage,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.001}",6,14,36,0.7,0.28,0.28,0.4,49.57142857142857,0.059969415598045,0.19989805199348334,50,20
+254,HDDMAverage,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.001}",6,16,34,0.7272727272727273,0.32,0.32,0.4444444444444444,9.375,0.059969415598045,0.21988785719283166,50,22
+255,HDDMAverage,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.001}",1,0,50,0.0,0.0,0.0,0.0,,0.009994902599674166,0.009994902599674166,50,1
+256,HDDMAverage,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.001}",6,8,42,0.5714285714285714,0.16,0.16,0.25,171.75,0.059969415598045,0.13992863639543832,50,14
+257,HDDMAverage,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.001}",4,10,40,0.7142857142857143,0.2,0.2,0.3125,148.1,0.039979610398696665,0.13992863639543832,50,14
+258,HDDMAverage,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.002}",2,1,49,0.3333333333333333,0.02,0.02,0.03773584905660377,-274.0,0.019989805199348332,0.0299847077990225,50,3
+259,HDDMAverage,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.002}",5,19,32,0.7916666666666666,0.37254901960784315,0.36,0.5066666666666667,69.66666666666667,0.049974512998370836,0.23987766239218,50,24
+260,HDDMAverage,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.002}",7,18,32,0.72,0.36,0.36,0.4799999999999999,36.94444444444444,0.06996431819771916,0.24987256499185415,50,25
+261,HDDMAverage,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.002}",1,0,50,0.0,0.0,0.0,0.0,,0.009994902599674166,0.009994902599674166,50,1
+262,HDDMAverage,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.002}",3,11,39,0.7857142857142857,0.22,0.22,0.34374999999999994,136.8181818181818,0.0299847077990225,0.13992863639543832,50,14
+263,HDDMAverage,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.002}",3,14,36,0.8235294117647058,0.28,0.28,0.417910447761194,11.0,0.0299847077990225,0.16991334419446083,50,17
+264,HDDMAverage,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.005}",2,1,49,0.3333333333333333,0.02,0.02,0.03773584905660377,-72.0,0.019989805199348332,0.0299847077990225,50,3
+265,HDDMAverage,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.005}",5,21,30,0.8076923076923077,0.4117647058823529,0.4,0.5454545454545454,-16.4,0.049974512998370836,0.25986746759152834,50,26
+266,HDDMAverage,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'drift_confidence': 0.005}",10,22,30,0.6875,0.4230769230769231,0.4,0.5238095238095238,51.5,0.09994902599674167,0.3198368831895733,50,32
+267,HDDMAverage,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.005}",3,2,48,0.4,0.04,0.04,0.07272727272727272,-199.0,0.0299847077990225,0.049974512998370836,50,5
+268,HDDMAverage,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.005}",4,9,41,0.6923076923076923,0.18,0.18,0.28571428571428575,144.11111111111111,0.039979610398696665,0.12993373379576417,50,13
+269,HDDMAverage,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'drift_confidence': 0.005}",4,14,36,0.7777777777777778,0.28,0.28,0.4117647058823529,-3.9285714285714284,0.039979610398696665,0.17990824679413497,50,18
+270,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.001}",5,0,50,0.0,0.0,0.0,0.0,,0.049974512998370836,0.049974512998370836,50,5
+271,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.001}",14,38,20,0.7307692307692307,0.6551724137931034,0.6,0.6909090909090909,4.566666666666666,0.13992863639543832,0.5197349351830567,50,52
+272,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.001}",25,35,24,0.5833333333333334,0.5932203389830508,0.52,0.5882352941176471,-170.03846153846155,0.24987256499185415,0.59969415598045,50,60
+273,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.001}",8,9,41,0.5294117647058824,0.18,0.18,0.26865671641791045,-115.11111111111111,0.07995922079739333,0.16991334419446083,50,17
+274,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.001}",31,56,9,0.6436781609195402,0.8615384615384616,0.82,0.7368421052631579,-44.80487804878049,0.30984198058989915,0.8695565261716525,50,87
+275,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.001}",29,47,16,0.618421052631579,0.746031746031746,0.68,0.6762589928057554,-152.97058823529412,0.2898521753905508,0.7596125975752366,50,76
+276,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.001}",1,2,48,0.6666666666666666,0.04,0.04,0.07547169811320754,-168.0,0.009994902599674166,0.0299847077990225,50,3
+277,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.001}",4,2,48,0.3333333333333333,0.04,0.04,0.07142857142857142,-258.0,0.039979610398696665,0.059969415598045,50,6
+278,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.001}",2,2,48,0.5,0.04,0.04,0.07407407407407407,22.0,0.019989805199348332,0.039979610398696665,50,4
+279,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.001}",3,3,47,0.5,0.06,0.06,0.10714285714285712,13.333333333333334,0.0299847077990225,0.059969415598045,50,6
+280,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.001}",3,6,44,0.6666666666666666,0.12,0.12,0.20338983050847456,124.66666666666667,0.0299847077990225,0.08995412339706749,50,9
+281,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.001}",2,9,41,0.8181818181818182,0.18,0.18,0.29508196721311475,100.44444444444444,0.019989805199348332,0.10994392859641583,50,11
+282,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.001}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+283,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.001}",27,40,19,0.5970149253731343,0.6779661016949152,0.62,0.6349206349206349,14.483870967741936,0.2698623701912025,0.6696584741781691,50,67
+284,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.001}",22,25,29,0.5319148936170213,0.46296296296296297,0.42,0.495049504950495,-52.19047619047619,0.21988785719283166,0.46976042218468583,50,47
+285,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.001}",2,5,45,0.7142857142857143,0.1,0.1,0.1754385964912281,30.6,0.019989805199348332,0.06996431819771916,50,7
+286,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.001}",42,56,11,0.5714285714285714,0.835820895522388,0.78,0.6787878787878787,-5.17948717948718,0.419785909186315,0.9795004547680684,50,98
+287,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.001}",28,50,18,0.6410256410256411,0.7352941176470589,0.64,0.6849315068493151,-133.75,0.27985727279087663,0.7796024027745849,50,78
+288,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.002}",0,6,44,1.0,0.12,0.12,0.21428571428571425,5.666666666666667,0.0,0.059969415598045,50,6
+289,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.002}",24,42,18,0.6363636363636364,0.7,0.64,0.6666666666666666,-66.875,0.23987766239218,0.659663571578495,50,66
+290,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.002}",27,40,22,0.5970149253731343,0.6451612903225806,0.56,0.6201550387596899,-204.35714285714286,0.2698623701912025,0.6696584741781691,50,67
+291,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.002}",4,23,31,0.8518518518518519,0.42592592592592593,0.38,0.5679012345679013,-126.36842105263158,0.039979610398696665,0.2698623701912025,50,27
+292,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.002}",41,67,4,0.6203703703703703,0.9436619718309859,0.92,0.7486033519553073,-53.23913043478261,0.4097910065866408,1.07944948076481,50,108
+293,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.002}",37,60,9,0.6185567010309279,0.8695652173913043,0.82,0.7228915662650603,-225.1219512195122,0.3698113961879442,0.9695055521683941,50,97
+294,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.002}",1,1,49,0.5,0.02,0.02,0.038461538461538464,55.0,0.009994902599674166,0.019989805199348332,50,2
+295,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.002}",1,3,47,0.75,0.06,0.06,0.1111111111111111,-332.3333333333333,0.009994902599674166,0.039979610398696665,50,4
+296,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.002}",1,3,47,0.75,0.06,0.06,0.1111111111111111,261.3333333333333,0.009994902599674166,0.039979610398696665,50,4
+297,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.002}",3,3,47,0.5,0.06,0.06,0.10714285714285712,-109.33333333333333,0.0299847077990225,0.059969415598045,50,6
+298,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.002}",2,7,43,0.7777777777777778,0.14,0.14,0.23728813559322035,-31.857142857142858,0.019989805199348332,0.08995412339706749,50,9
+299,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.002}",1,10,40,0.9090909090909091,0.2,0.2,0.32786885245901637,-31.3,0.009994902599674166,0.10994392859641583,50,11
+300,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.002}",0,2,48,1.0,0.04,0.04,0.07692307692307693,-116.0,0.0,0.019989805199348332,50,2
+301,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.002}",36,58,6,0.6170212765957447,0.90625,0.88,0.7341772151898734,26.09090909090909,0.35981649358826995,0.9395208443693717,50,94
+302,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.002}",28,59,10,0.6781609195402298,0.855072463768116,0.8,0.7564102564102564,-91.425,0.27985727279087663,0.8695565261716525,50,87
+303,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.002}",3,14,36,0.8235294117647058,0.28,0.28,0.417910447761194,-156.14285714285714,0.0299847077990225,0.16991334419446083,50,17
+304,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.002}",65,81,3,0.5547945205479452,0.9642857142857143,0.94,0.7043478260869566,-47.638297872340424,0.6496686689788208,1.4592557795524284,50,146
+305,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.002}",59,82,1,0.5815602836879432,0.9879518072289156,0.98,0.7321428571428571,-114.6734693877551,0.5896992533807759,1.4092812665540573,50,141
+306,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.005}",12,2,48,0.14285714285714285,0.04,0.04,0.0625,245.5,0.11993883119609,0.13992863639543832,50,14
+307,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.005}",37,59,8,0.6145833333333334,0.8805970149253731,0.84,0.7239263803680982,-40.095238095238095,0.3698113961879442,0.95951064956872,50,96
+308,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.05, 'drift_confidence': 0.005}",40,53,14,0.5698924731182796,0.7910447761194029,0.72,0.6625,-224.38888888888889,0.3997961039869667,0.9295259417696975,50,93
+309,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.005}",30,18,35,0.375,0.33962264150943394,0.3,0.3564356435643565,94.33333333333333,0.299847077990225,0.47975532478436,50,48
+310,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.005}",62,85,1,0.5782312925170068,0.9883720930232558,0.98,0.7296137339055794,-139.71428571428572,0.6196839611797983,1.4692506821521025,50,147
+311,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.05, 'drift_confidence': 0.005}",64,78,7,0.5492957746478874,0.9176470588235294,0.86,0.6872246696035242,-269.6511627906977,0.6396737663791466,1.4192761691537314,50,142
+312,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.005}",2,0,50,0.0,0.0,0.0,0.0,,0.019989805199348332,0.019989805199348332,50,2
+313,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.005}",3,2,48,0.4,0.04,0.04,0.07272727272727272,-248.5,0.0299847077990225,0.049974512998370836,50,5
+314,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.001, 'drift_confidence': 0.005}",1,7,43,0.875,0.14,0.14,0.24137931034482757,-134.42857142857142,0.009994902599674166,0.07995922079739333,50,8
+315,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.005}",2,5,45,0.7142857142857143,0.1,0.1,0.1754385964912281,-137.0,0.019989805199348332,0.06996431819771916,50,7
+316,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.005}",2,9,41,0.8181818181818182,0.18,0.18,0.29508196721311475,-154.33333333333334,0.019989805199348332,0.10994392859641583,50,11
+317,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.001, 'drift_confidence': 0.005}",2,10,40,0.8333333333333334,0.2,0.2,0.3225806451612903,-93.6,0.019989805199348332,0.11993883119609,50,12
+318,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.005}",4,0,50,0.0,0.0,0.0,0.0,,0.039979610398696665,0.039979610398696665,50,4
+319,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.005}",68,93,5,0.577639751552795,0.9489795918367347,0.9,0.7181467181467182,-23.711111111111112,0.6796533767778433,1.609179318547541,50,161
+320,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'Two-sided', 'lambda_': 0.1, 'drift_confidence': 0.005}",50,78,6,0.609375,0.9285714285714286,0.88,0.7358490566037736,-136.88636363636363,0.4997451299837083,1.2793475327582933,50,128
+321,HDDMWeighted,SEA,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.005}",28,12,38,0.3,0.24,0.24,0.2666666666666666,204.58333333333334,0.27985727279087663,0.3997961039869667,50,40
+322,HDDMWeighted,Agrawal,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.005}",109,133,0,0.5495867768595041,1.0,1.0,0.7093333333333334,-200.56,1.0894443833644842,2.418766429121148,50,242
+323,HDDMWeighted,STAGGER,NaiveBayes,ABRUPT,"{'test_type': 'One-sided', 'lambda_': 0.1, 'drift_confidence': 0.005}",77,131,1,0.6298076923076923,0.9924242424242424,0.98,0.7705882352941177,-262.2040816326531,0.7696075001749108,2.0789397407322268,50,208
+324,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+325,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+326,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+327,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+328,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+329,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+330,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.999}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+331,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.999}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+332,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.999}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+333,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.001, 'alpha': 0.999}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+334,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.001, 'alpha': 0.999}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+335,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.001, 'alpha': 0.999}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+336,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 30, 'delta': 0.002, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+337,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 30, 'delta': 0.002, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+338,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 30, 'delta': 0.002, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+339,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 30, 'delta': 0.002, 'alpha': 0.999}",0,5,45,1.0,0.1,0.1,0.18181818181818182,-162.6,0.0,0.049974512998370836,50,5
+340,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 30, 'delta': 0.002, 'alpha': 0.999}",10,7,43,0.4117647058823529,0.14,0.14,0.208955223880597,-123.42857142857143,0.09994902599674167,0.16991334419446083,50,17
+341,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 30, 'delta': 0.002, 'alpha': 0.999}",8,10,40,0.5555555555555556,0.2,0.2,0.29411764705882354,78.3,0.07995922079739333,0.17990824679413497,50,18
+342,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.005, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+343,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.005, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+344,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 50, 'delta': 0.005, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+345,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+346,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+347,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+348,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.001, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+349,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.001, 'alpha': 0.995}",1,1,49,0.5,0.02,0.02,0.038461538461538464,-19.0,0.009994902599674166,0.019989805199348332,50,2
+350,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.001, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+351,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+352,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+353,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 300, 'delta': 0.005, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+354,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.01, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+355,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.01, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+356,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'lambda_': 300, 'delta': 0.01, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+357,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 30, 'delta': 0.001, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+358,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 30, 'delta': 0.001, 'alpha': 0.995}",1,3,47,0.75,0.06,0.06,0.1111111111111111,104.66666666666667,0.009994902599674166,0.039979610398696665,50,4
+359,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 30, 'delta': 0.001, 'alpha': 0.995}",5,5,45,0.5,0.1,0.1,0.16666666666666669,-178.8,0.049974512998370836,0.09994902599674167,50,10
+360,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.999}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+361,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.999}",3,1,49,0.25,0.02,0.02,0.037037037037037035,-490.0,0.0299847077990225,0.039979610398696665,50,4
+362,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.999}",1,2,48,0.6666666666666666,0.04,0.04,0.07547169811320754,-265.0,0.009994902599674166,0.0299847077990225,50,3
+363,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.01, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+364,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.01, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+365,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.01, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+366,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 30, 'delta': 0.005, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+367,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 30, 'delta': 0.005, 'alpha': 0.995}",1,3,47,0.75,0.06,0.06,0.1111111111111111,115.0,0.009994902599674166,0.039979610398696665,50,4
+368,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'lambda_': 30, 'delta': 0.005, 'alpha': 0.995}",5,3,47,0.375,0.06,0.06,0.10344827586206896,-240.33333333333334,0.049974512998370836,0.07995922079739333,50,8
+369,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+370,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+371,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 100, 'delta': 0.002, 'alpha': 0.995}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+372,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 100, 'delta': 0.005, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+373,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 100, 'delta': 0.005, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+374,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 100, 'delta': 0.005, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+375,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 300, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+376,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 300, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+377,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'lambda_': 300, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+378,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.01, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+379,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.01, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+380,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.01, 'alpha': 0.9}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+381,PageHinkley,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+382,PageHinkley,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+383,PageHinkley,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'lambda_': 50, 'delta': 0.002, 'alpha': 0.99}",0,0,50,0.0,0.0,0.0,0.0,,0.0,0.0,50,0
+384,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 1.9}",40,34,24,0.4594594594594595,0.5862068965517241,0.52,0.5151515151515151,-134.1153846153846,0.3997961039869667,0.7396227923758883,50,74
+385,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 1.9}",30,37,32,0.5522388059701493,0.5362318840579711,0.36,0.5441176470588235,-30.22222222222222,0.299847077990225,0.6696584741781691,50,67
+386,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 1.9}",29,62,18,0.6813186813186813,0.775,0.64,0.7251461988304093,-83.6875,0.2898521753905508,0.9095361365703492,50,91
+387,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 1.9}",39,34,24,0.4657534246575342,0.5862068965517241,0.52,0.5190839694656488,-134.73076923076923,0.38980120138729246,0.7296278897762142,50,73
+388,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 1.9}",29,33,29,0.532258064516129,0.532258064516129,0.42,0.532258064516129,3.142857142857143,0.2898521753905508,0.6196839611797983,50,62
+389,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 1.9}",38,69,14,0.6448598130841121,0.8313253012048193,0.72,0.7263157894736842,-88.02777777777777,0.3798062987876183,1.069454578165136,50,107
+390,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 1.9}",35,36,24,0.5070422535211268,0.6,0.52,0.549618320610687,-125.92307692307692,0.34982159098859583,0.7096380845768657,50,71
+391,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 1.9}",19,25,32,0.5681818181818182,0.43859649122807015,0.36,0.4950495049504951,13.666666666666666,0.18990314939380915,0.4397757143856633,50,44
+392,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 1.9}",21,42,20,0.6666666666666666,0.6774193548387096,0.6,0.6719999999999999,-53.53333333333333,0.2098929545931575,0.6296788637794725,50,63
+393,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 1.9}",27,31,23,0.5344827586206896,0.5740740740740741,0.54,0.5535714285714285,-140.11111111111111,0.2698623701912025,0.5797043507811016,50,58
+394,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 1.9}",13,23,30,0.6388888888888888,0.4339622641509434,0.4,0.5168539325842696,26.25,0.12993373379576417,0.35981649358826995,50,36
+395,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 1.9}",24,31,22,0.5636363636363636,0.5849056603773585,0.56,0.5740740740740741,-44.67857142857143,0.23987766239218,0.5497196429820791,50,55
+396,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2}",24,16,36,0.4,0.3076923076923077,0.28,0.34782608695652173,-143.71428571428572,0.23987766239218,0.3997961039869667,50,40
+397,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2}",13,17,35,0.5666666666666667,0.3269230769230769,0.3,0.41463414634146345,43.0,0.12993373379576417,0.299847077990225,50,30
+398,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2}",16,34,26,0.68,0.5666666666666667,0.48,0.6181818181818183,-5.208333333333333,0.15991844159478666,0.4997451299837083,50,50
+399,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2}",24,16,36,0.4,0.3076923076923077,0.28,0.34782608695652173,-143.71428571428572,0.23987766239218,0.3997961039869667,50,40
+400,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2}",12,20,34,0.625,0.37037037037037035,0.32,0.4651162790697674,-3.6875,0.11993883119609,0.3198368831895733,50,32
+401,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2}",16,42,21,0.7241379310344828,0.6666666666666666,0.58,0.6942148760330579,8.310344827586206,0.15991844159478666,0.5797043507811016,50,58
+402,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2}",24,16,36,0.4,0.3076923076923077,0.28,0.34782608695652173,-143.71428571428572,0.23987766239218,0.3997961039869667,50,40
+403,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2}",12,17,35,0.5862068965517241,0.3269230769230769,0.3,0.41975308641975306,43.0,0.11993883119609,0.2898521753905508,50,29
+404,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2}",16,40,22,0.7142857142857143,0.6451612903225806,0.56,0.6779661016949152,-7.607142857142857,0.15991844159478666,0.5597145455817533,50,56
+405,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2}",21,16,34,0.43243243243243246,0.32,0.32,0.36781609195402293,-125.8125,0.2098929545931575,0.3698113961879442,50,37
+406,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2}",7,16,35,0.6956521739130435,0.3137254901960784,0.3,0.43243243243243246,57.2,0.06996431819771916,0.2298827597925058,50,23
+407,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2}",11,29,22,0.725,0.5686274509803921,0.56,0.6373626373626374,-45.357142857142854,0.10994392859641583,0.3997961039869667,50,40
+408,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.1}",16,15,37,0.4838709677419355,0.28846153846153844,0.26,0.36144578313253006,-148.23076923076923,0.15991844159478666,0.30984198058989915,50,31
+409,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.1}",8,16,36,0.6666666666666666,0.3076923076923077,0.28,0.42105263157894735,53.42857142857143,0.07995922079739333,0.23987766239218,50,24
+410,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.1}",9,30,22,0.7692307692307693,0.5769230769230769,0.56,0.6593406593406593,10.785714285714286,0.08995412339706749,0.38980120138729246,50,39
+411,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.1}",16,15,37,0.4838709677419355,0.28846153846153844,0.26,0.36144578313253006,-148.23076923076923,0.15991844159478666,0.30984198058989915,50,31
+412,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.1}",8,17,35,0.68,0.3269230769230769,0.3,0.44155844155844154,38.8,0.07995922079739333,0.24987256499185415,50,25
+413,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.1}",10,28,23,0.7368421052631579,0.5490196078431373,0.54,0.6292134831460675,0.9259259259259259,0.09994902599674167,0.3798062987876183,50,38
+414,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.1}",16,15,37,0.4838709677419355,0.28846153846153844,0.26,0.36144578313253006,-148.23076923076923,0.15991844159478666,0.30984198058989915,50,31
+415,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.1}",8,17,35,0.68,0.3269230769230769,0.3,0.44155844155844154,38.8,0.07995922079739333,0.24987256499185415,50,25
+416,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.1}",10,28,23,0.7368421052631579,0.5490196078431373,0.54,0.6292134831460675,0.9259259259259259,0.09994902599674167,0.3798062987876183,50,38
+417,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.1}",15,14,37,0.4827586206896552,0.27450980392156865,0.26,0.3500000000000001,-148.6153846153846,0.1499235389951125,0.2898521753905508,50,29
+418,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.1}",6,16,35,0.7272727272727273,0.3137254901960784,0.3,0.4383561643835617,48.4,0.059969415598045,0.21988785719283166,50,22
+419,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.1}",11,27,23,0.7105263157894737,0.54,0.54,0.6136363636363636,-43.407407407407405,0.10994392859641583,0.3798062987876183,50,38
+420,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.25}",9,5,45,0.35714285714285715,0.1,0.1,0.15625,-139.8,0.08995412339706749,0.13992863639543832,50,14
+421,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.25}",9,14,39,0.6086956521739131,0.2641509433962264,0.22,0.368421052631579,69.63636363636364,0.08995412339706749,0.2298827597925058,50,23
+422,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.25}",8,25,27,0.7575757575757576,0.4807692307692308,0.46,0.5882352941176471,46.26086956521739,0.07995922079739333,0.3298317857892475,50,33
+423,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.25}",9,5,45,0.35714285714285715,0.1,0.1,0.15625,-139.8,0.08995412339706749,0.13992863639543832,50,14
+424,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.25}",9,15,39,0.625,0.2777777777777778,0.22,0.3846153846153846,90.36363636363636,0.08995412339706749,0.23987766239218,50,24
+425,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.25}",8,24,27,0.75,0.47058823529411764,0.46,0.5783132530120481,46.26086956521739,0.07995922079739333,0.3198368831895733,50,32
+426,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.25}",9,5,45,0.35714285714285715,0.1,0.1,0.15625,-139.8,0.08995412339706749,0.13992863639543832,50,14
+427,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.25}",9,15,39,0.625,0.2777777777777778,0.22,0.3846153846153846,90.36363636363636,0.08995412339706749,0.23987766239218,50,24
+428,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.25}",8,24,27,0.75,0.47058823529411764,0.46,0.5783132530120481,46.26086956521739,0.07995922079739333,0.3198368831895733,50,32
+429,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.25}",8,7,43,0.4666666666666667,0.14,0.14,0.2153846153846154,-144.28571428571428,0.07995922079739333,0.1499235389951125,50,15
+430,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.25}",9,12,39,0.5714285714285714,0.23529411764705882,0.22,0.3333333333333333,119.45454545454545,0.08995412339706749,0.2098929545931575,50,21
+431,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.25}",10,25,25,0.7142857142857143,0.5,0.5,0.588235294117647,25.24,0.09994902599674167,0.34982159098859583,50,35
+432,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.5}",4,8,42,0.6666666666666666,0.16,0.16,0.25806451612903225,-32.25,0.039979610398696665,0.11993883119609,50,12
+433,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.5}",10,10,42,0.5,0.19230769230769232,0.16,0.2777777777777778,208.5,0.09994902599674167,0.19989805199348334,50,20
+434,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 30, 'drift_level': 2.5}",8,18,33,0.6923076923076923,0.35294117647058826,0.34,0.4675324675324675,20.58823529411765,0.07995922079739333,0.25986746759152834,50,26
+435,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.5}",4,8,42,0.6666666666666666,0.16,0.16,0.25806451612903225,-32.25,0.039979610398696665,0.11993883119609,50,12
+436,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.5}",10,10,41,0.5,0.19607843137254902,0.18,0.28169014084507044,152.11111111111111,0.09994902599674167,0.19989805199348334,50,20
+437,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 50, 'drift_level': 2.5}",8,18,33,0.6923076923076923,0.35294117647058826,0.34,0.4675324675324675,20.58823529411765,0.07995922079739333,0.25986746759152834,50,26
+438,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.5}",4,8,42,0.6666666666666666,0.16,0.16,0.25806451612903225,-32.25,0.039979610398696665,0.11993883119609,50,12
+439,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.5}",10,10,41,0.5,0.19607843137254902,0.18,0.28169014084507044,152.11111111111111,0.09994902599674167,0.19989805199348334,50,20
+440,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 100, 'drift_level': 2.5}",8,18,33,0.6923076923076923,0.35294117647058826,0.34,0.4675324675324675,20.58823529411765,0.07995922079739333,0.25986746759152834,50,26
+441,RDDM,SEA,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.5}",4,8,42,0.6666666666666666,0.16,0.16,0.25806451612903225,-32.25,0.039979610398696665,0.11993883119609,50,12
+442,RDDM,Agrawal,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.5}",12,8,43,0.4,0.1568627450980392,0.14,0.22535211267605632,157.42857142857142,0.11993883119609,0.19989805199348334,50,20
+443,RDDM,STAGGER,NaiveBayes,ABRUPT,"{'min_n_instances': 300, 'drift_level': 2.5}",9,14,36,0.6086956521739131,0.28,0.28,0.3835616438356165,116.35714285714286,0.08995412339706749,0.2298827597925058,50,23
+444,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 50, 'alpha': 0.8}",8,19,34,0.7037037037037037,0.3584905660377358,0.32,0.47500000000000003,140.625,0.07995922079739333,0.2698623701912025,50,27
+445,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 50, 'alpha': 0.8}",7,36,19,0.8372093023255814,0.6545454545454545,0.62,0.7346938775510204,67.74193548387096,0.06996431819771916,0.4297808117859891,50,43
+446,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 50, 'alpha': 0.8}",12,37,16,0.7551020408163265,0.6981132075471698,0.68,0.7254901960784315,113.23529411764706,0.11993883119609,0.4897502273840342,50,49
+447,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 50, 'alpha': 0.8}",9,7,43,0.4375,0.14,0.14,0.21212121212121213,-85.71428571428571,0.08995412339706749,0.15991844159478666,50,16
+448,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 50, 'alpha': 0.8}",6,29,24,0.8285714285714286,0.5471698113207547,0.52,0.6590909090909092,186.53846153846155,0.059969415598045,0.34982159098859583,50,35
+449,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 50, 'alpha': 0.8}",6,33,19,0.8461538461538461,0.6346153846153846,0.62,0.7252747252747251,150.0,0.059969415598045,0.38980120138729246,50,39
+450,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 50, 'alpha': 0.6}",9,7,43,0.4375,0.14,0.14,0.21212121212121213,-128.57142857142858,0.08995412339706749,0.15991844159478666,50,16
+451,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 50, 'alpha': 0.6}",6,29,24,0.8285714285714286,0.5471698113207547,0.52,0.6590909090909092,173.07692307692307,0.059969415598045,0.34982159098859583,50,35
+452,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 50, 'alpha': 0.6}",6,33,19,0.8461538461538461,0.6346153846153846,0.62,0.7252747252747251,150.0,0.059969415598045,0.38980120138729246,50,39
+453,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 256, 'alpha': 0.7}",17,3,47,0.15,0.06,0.06,0.08571428571428572,-18.666666666666668,0.16991334419446083,0.19989805199348334,50,20
+454,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 256, 'alpha': 0.7}",14,20,30,0.5882352941176471,0.4,0.4,0.4761904761904762,243.2,0.13992863639543832,0.33982668838892166,50,34
+455,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 256, 'alpha': 0.7}",8,36,18,0.8181818181818182,0.6666666666666666,0.64,0.7346938775510203,206.5,0.07995922079739333,0.4397757143856633,50,44
+456,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 256, 'alpha': 0.6}",16,9,42,0.36,0.17647058823529413,0.16,0.2368421052631579,108.0,0.15991844159478666,0.24987256499185415,50,25
+457,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 256, 'alpha': 0.6}",10,30,23,0.75,0.5660377358490566,0.54,0.6451612903225807,237.92592592592592,0.09994902599674167,0.3997961039869667,50,40
+458,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 256, 'alpha': 0.6}",8,43,16,0.8431372549019608,0.7288135593220338,0.68,0.7818181818181819,123.29411764705883,0.07995922079739333,0.5097400325833824,50,51
+459,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 100, 'alpha': 0.6}",10,9,41,0.47368421052631576,0.18,0.18,0.2608695652173913,-166.66666666666666,0.09994902599674167,0.18990314939380915,50,19
+460,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 100, 'alpha': 0.6}",7,28,25,0.8,0.5283018867924528,0.5,0.6363636363636364,204.0,0.06996431819771916,0.34982159098859583,50,35
+461,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 100, 'alpha': 0.6}",6,33,19,0.8461538461538461,0.6346153846153846,0.62,0.7252747252747251,177.41935483870967,0.059969415598045,0.38980120138729246,50,39
+462,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 256, 'alpha': 0.6}",11,5,45,0.3125,0.1,0.1,0.15151515151515152,-97.6,0.10994392859641583,0.15991844159478666,50,16
+463,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 256, 'alpha': 0.6}",16,19,33,0.5428571428571428,0.36538461538461536,0.34,0.43678160919540227,205.64705882352942,0.15991844159478666,0.34982159098859583,50,35
+464,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.001, 'block_size': 256, 'alpha': 0.6}",7,29,21,0.8055555555555556,0.58,0.58,0.6744186046511629,267.86206896551727,0.06996431819771916,0.35981649358826995,50,36
+465,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.1, 'block_size': 100, 'alpha': 0.6}",10,21,32,0.6774193548387096,0.39622641509433965,0.36,0.5,105.55555555555556,0.09994902599674167,0.30984198058989915,50,31
+466,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.1, 'block_size': 100, 'alpha': 0.6}",5,41,17,0.8913043478260869,0.7068965517241379,0.66,0.7884615384615384,78.78787878787878,0.049974512998370836,0.4597655195850116,50,46
+467,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.1, 'block_size': 100, 'alpha': 0.6}",11,39,12,0.78,0.7647058823529411,0.76,0.7722772277227723,126.3157894736842,0.10994392859641583,0.4997451299837083,50,50
+468,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 50, 'alpha': 0.7}",12,10,41,0.45454545454545453,0.19607843137254902,0.18,0.273972602739726,200.0,0.11993883119609,0.21988785719283166,50,22
+469,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 50, 'alpha': 0.7}",6,34,20,0.85,0.6296296296296297,0.6,0.723404255319149,113.33333333333333,0.059969415598045,0.3997961039869667,50,40
+470,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 50, 'alpha': 0.7}",6,40,17,0.8695652173913043,0.7017543859649122,0.66,0.7766990291262136,54.54545454545455,0.059969415598045,0.4597655195850116,50,46
+471,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.05, 'block_size': 50, 'alpha': 0.7}",8,20,33,0.7142857142857143,0.37735849056603776,0.34,0.4938271604938272,158.8235294117647,0.07995922079739333,0.27985727279087663,50,28
+472,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.05, 'block_size': 50, 'alpha': 0.7}",8,36,19,0.8181818181818182,0.6545454545454545,0.62,0.7272727272727274,74.19354838709677,0.07995922079739333,0.4397757143856633,50,44
+473,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.05, 'block_size': 50, 'alpha': 0.7}",12,37,15,0.7551020408163265,0.7115384615384616,0.7,0.7326732673267328,102.85714285714286,0.11993883119609,0.4897502273840342,50,49
+474,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 100, 'alpha': 0.8}",13,13,39,0.5,0.25,0.22,0.3333333333333333,145.45454545454547,0.12993373379576417,0.25986746759152834,50,26
+475,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 100, 'alpha': 0.8}",6,39,19,0.8666666666666667,0.6724137931034483,0.62,0.7572815533980582,61.29032258064516,0.059969415598045,0.4497706169853375,50,45
+476,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 100, 'alpha': 0.8}",10,36,17,0.782608695652174,0.6792452830188679,0.66,0.7272727272727273,115.15151515151516,0.09994902599674167,0.4597655195850116,50,46
+477,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.1, 'block_size': 50, 'alpha': 0.8}",12,22,32,0.6470588235294118,0.4074074074074074,0.36,0.5,155.55555555555554,0.11993883119609,0.33982668838892166,50,34
+478,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.1, 'block_size': 50, 'alpha': 0.8}",7,38,17,0.8444444444444444,0.6909090909090909,0.66,0.7599999999999999,75.75757575757575,0.06996431819771916,0.4497706169853375,50,45
+479,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.1, 'block_size': 50, 'alpha': 0.8}",8,46,11,0.8518518518518519,0.8070175438596491,0.78,0.8288288288288288,61.53846153846154,0.07995922079739333,0.539724740382405,50,54
+480,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 256, 'alpha': 0.8}",17,3,47,0.15,0.06,0.06,0.08571428571428572,-18.666666666666668,0.16991334419446083,0.19989805199348334,50,20
+481,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 256, 'alpha': 0.8}",14,20,30,0.5882352941176471,0.4,0.4,0.4761904761904762,243.2,0.13992863639543832,0.33982668838892166,50,34
+482,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.0025, 'delta': 0.01, 'block_size': 256, 'alpha': 0.8}",8,36,18,0.8181818181818182,0.6666666666666666,0.64,0.7346938775510203,206.5,0.07995922079739333,0.4397757143856633,50,44
+483,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.05, 'block_size': 50, 'alpha': 0.5}",8,20,33,0.7142857142857143,0.37735849056603776,0.34,0.4938271604938272,158.8235294117647,0.07995922079739333,0.27985727279087663,50,28
+484,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.05, 'block_size': 50, 'alpha': 0.5}",8,36,19,0.8181818181818182,0.6545454545454545,0.62,0.7272727272727274,74.19354838709677,0.07995922079739333,0.4397757143856633,50,44
+485,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.05, 'block_size': 50, 'alpha': 0.5}",12,37,15,0.7551020408163265,0.7115384615384616,0.7,0.7326732673267328,102.85714285714286,0.11993883119609,0.4897502273840342,50,49
+486,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.1, 'block_size': 256, 'alpha': 0.7}",15,15,38,0.5,0.2830188679245283,0.24,0.3614457831325301,85.33333333333333,0.1499235389951125,0.299847077990225,50,30
+487,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.1, 'block_size': 256, 'alpha': 0.7}",7,32,22,0.8205128205128205,0.5925925925925926,0.56,0.6881720430107526,236.57142857142858,0.06996431819771916,0.38980120138729246,50,39
+488,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.1, 'block_size': 256, 'alpha': 0.7}",13,38,18,0.7450980392156863,0.6785714285714286,0.64,0.7102803738317757,181.0,0.12993373379576417,0.5097400325833824,50,51
+489,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.01, 'block_size': 32, 'alpha': 0.6}",12,12,39,0.5,0.23529411764705882,0.22,0.31999999999999995,137.45454545454547,0.11993883119609,0.23987766239218,50,24
+490,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.01, 'block_size': 32, 'alpha': 0.6}",7,32,21,0.8205128205128205,0.6037735849056604,0.58,0.6956521739130435,107.3103448275862,0.06996431819771916,0.38980120138729246,50,39
+491,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.01, 'block_size': 32, 'alpha': 0.6}",8,40,17,0.8333333333333334,0.7017543859649122,0.66,0.7619047619047619,55.03030303030303,0.07995922079739333,0.47975532478436,50,48
+492,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 100, 'alpha': 0.6}",13,13,39,0.5,0.25,0.22,0.3333333333333333,145.45454545454547,0.12993373379576417,0.25986746759152834,50,26
+493,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 100, 'alpha': 0.6}",6,39,19,0.8666666666666667,0.6724137931034483,0.62,0.7572815533980582,61.29032258064516,0.059969415598045,0.4497706169853375,50,45
+494,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 100, 'alpha': 0.6}",10,36,17,0.782608695652174,0.6792452830188679,0.66,0.7272727272727273,115.15151515151516,0.09994902599674167,0.4597655195850116,50,46
+495,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.1, 'block_size': 100, 'alpha': 0.6}",10,21,32,0.6774193548387096,0.39622641509433965,0.36,0.5,105.55555555555556,0.09994902599674167,0.30984198058989915,50,31
+496,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.1, 'block_size': 100, 'alpha': 0.6}",5,41,17,0.8913043478260869,0.7068965517241379,0.66,0.7884615384615384,78.78787878787878,0.049974512998370836,0.4597655195850116,50,46
+497,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.1, 'block_size': 100, 'alpha': 0.6}",11,38,13,0.7755102040816326,0.7450980392156863,0.74,0.76,143.24324324324326,0.10994392859641583,0.4897502273840342,50,49
+498,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 50, 'alpha': 0.5}",7,20,33,0.7407407407407407,0.37735849056603776,0.34,0.5,141.1764705882353,0.06996431819771916,0.2698623701912025,50,27
+499,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 50, 'alpha': 0.5}",8,36,19,0.8181818181818182,0.6545454545454545,0.62,0.7272727272727274,77.41935483870968,0.07995922079739333,0.4397757143856633,50,44
+500,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.01, 'delta': 0.05, 'block_size': 50, 'alpha': 0.5}",12,37,16,0.7551020408163265,0.6981132075471698,0.68,0.7254901960784315,113.23529411764706,0.11993883119609,0.4897502273840342,50,49
+501,SEED,SEA,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.1, 'block_size': 50, 'alpha': 0.6}",12,23,31,0.6571428571428571,0.42592592592592593,0.38,0.5168539325842697,147.3684210526316,0.11993883119609,0.34982159098859583,50,35
+502,SEED,Agrawal,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.1, 'block_size': 50, 'alpha': 0.6}",7,38,17,0.8444444444444444,0.6909090909090909,0.66,0.7599999999999999,75.75757575757575,0.06996431819771916,0.4497706169853375,50,45
+503,SEED,STAGGER,NaiveBayes,ABRUPT,"{'epsilon_prime': 0.005, 'delta': 0.1, 'block_size': 50, 'alpha': 0.6}",8,46,11,0.8518518518518519,0.8070175438596491,0.78,0.8288288288288288,61.53846153846154,0.07995922079739333,0.539724740382405,50,54
+504,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.001}",24,19,31,0.4418604651162791,0.38,0.38,0.40860215053763443,267.4736842105263,0.23987766239218,0.4297808117859891,50,43
+505,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.001}",7,30,20,0.8108108108108109,0.6,0.6,0.6896551724137931,57.833333333333336,0.06996431819771916,0.3698113961879442,50,37
+506,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.001}",11,48,14,0.8135593220338984,0.7741935483870968,0.72,0.7933884297520662,81.91666666666667,0.10994392859641583,0.5896992533807759,50,59
+507,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.001}",12,12,38,0.5,0.24,0.24,0.32432432432432434,256.3333333333333,0.11993883119609,0.23987766239218,50,24
+508,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.001}",5,30,23,0.8571428571428571,0.5660377358490566,0.54,0.6818181818181818,50.2962962962963,0.049974512998370836,0.34982159098859583,50,35
+509,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.001}",9,38,19,0.8085106382978723,0.6666666666666666,0.62,0.7307692307692306,50.225806451612904,0.08995412339706749,0.46976042218468583,50,47
+510,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.001}",18,18,32,0.5,0.36,0.36,0.41860465116279066,275.27777777777777,0.17990824679413497,0.35981649358826995,50,36
+511,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.001}",2,35,19,0.9459459459459459,0.6481481481481481,0.62,0.7692307692307693,8.419354838709678,0.019989805199348332,0.3698113961879442,50,37
+512,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.001}",9,39,17,0.8125,0.6964285714285714,0.66,0.75,19.575757575757574,0.08995412339706749,0.47975532478436,50,48
+513,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.001}",8,18,32,0.6923076923076923,0.36,0.36,0.47368421052631576,230.5,0.07995922079739333,0.25986746759152834,50,26
+514,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.001}",4,36,17,0.9,0.6792452830188679,0.66,0.7741935483870968,94.6969696969697,0.039979610398696665,0.3997961039869667,50,40
+515,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.001}",11,39,16,0.78,0.7090909090909091,0.68,0.7428571428571428,103.38235294117646,0.10994392859641583,0.4997451299837083,50,50
+516,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.002}",24,34,18,0.5862068965517241,0.6538461538461539,0.64,0.6181818181818182,225.15625,0.23987766239218,0.5797043507811016,50,58
+517,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.002}",11,36,18,0.7659574468085106,0.6666666666666666,0.64,0.7128712871287127,22.25,0.10994392859641583,0.46976042218468583,50,47
+518,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.002}",16,59,10,0.7866666666666666,0.855072463768116,0.8,0.8194444444444444,32.725,0.15991844159478666,0.7496176949755625,50,75
+519,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.002}",19,18,32,0.4864864864864865,0.36,0.36,0.4137931034482759,220.88888888888889,0.18990314939380915,0.3698113961879442,50,37
+520,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.002}",9,39,16,0.8125,0.7090909090909091,0.68,0.7572815533980584,31.11764705882353,0.08995412339706749,0.47975532478436,50,48
+521,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.002}",12,49,14,0.8032786885245902,0.7777777777777778,0.72,0.7903225806451613,6.194444444444445,0.11993883119609,0.6096890585801241,50,61
+522,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.002}",22,21,30,0.4883720930232558,0.4117647058823529,0.4,0.44680851063829785,248.4,0.21988785719283166,0.4297808117859891,50,43
+523,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.002}",4,41,14,0.9111111111111111,0.7454545454545455,0.72,0.8200000000000001,-25.36111111111111,0.039979610398696665,0.4497706169853375,50,45
+524,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.002}",12,40,16,0.7692307692307693,0.7142857142857143,0.68,0.7407407407407408,36.3235294117647,0.11993883119609,0.5197349351830567,50,52
+525,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.002}",10,19,31,0.6551724137931034,0.38,0.38,0.48101265822784806,211.42105263157896,0.09994902599674167,0.2898521753905508,50,29
+526,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.002}",4,39,15,0.9069767441860465,0.7222222222222222,0.7,0.8041237113402061,47.68571428571428,0.039979610398696665,0.4297808117859891,50,43
+527,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.002}",13,44,15,0.7719298245614035,0.7457627118644068,0.7,0.7586206896551725,56.08571428571429,0.12993373379576417,0.5697094481814274,50,57
+528,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.003}",32,48,13,0.6,0.7868852459016393,0.74,0.6808510638297871,204.48648648648648,0.3198368831895733,0.7995922079739334,50,80
+529,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.003}",11,50,10,0.819672131147541,0.8333333333333334,0.8,0.8264462809917356,42.525,0.10994392859641583,0.6096890585801241,50,61
+530,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.003}",18,63,9,0.7777777777777778,0.875,0.82,0.823529411764706,24.585365853658537,0.17990824679413497,0.8095871105736074,50,81
+531,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.003}",37,23,28,0.38333333333333336,0.45098039215686275,0.44,0.41441441441441446,210.45454545454547,0.3698113961879442,0.59969415598045,50,60
+532,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.003}",10,41,16,0.803921568627451,0.7192982456140351,0.68,0.7592592592592592,33.6764705882353,0.09994902599674167,0.5097400325833824,50,51
+533,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.003}",13,53,13,0.803030303030303,0.803030303030303,0.74,0.803030303030303,-67.70270270270271,0.12993373379576417,0.659663571578495,50,66
+534,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.003}",29,25,26,0.46296296296296297,0.49019607843137253,0.48,0.47619047619047616,254.16666666666666,0.2898521753905508,0.539724740382405,50,54
+535,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.003}",5,42,12,0.8936170212765957,0.7777777777777778,0.76,0.8316831683168316,-23.07894736842105,0.049974512998370836,0.46976042218468583,50,47
+536,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.003}",14,46,14,0.7666666666666667,0.7666666666666667,0.72,0.7666666666666667,22.22222222222222,0.13992863639543832,0.59969415598045,50,60
+537,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.003}",11,21,29,0.65625,0.42,0.42,0.5121951219512195,169.0952380952381,0.10994392859641583,0.3198368831895733,50,32
+538,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.003}",4,41,13,0.9111111111111111,0.7592592592592593,0.74,0.8282828282828282,62.729729729729726,0.039979610398696665,0.4497706169853375,50,45
+539,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.003}",14,46,14,0.7666666666666667,0.7666666666666667,0.72,0.7666666666666667,43.02777777777778,0.13992863639543832,0.59969415598045,50,60
+540,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.005}",40,59,10,0.5959595959595959,0.855072463768116,0.8,0.7023809523809524,183.25,0.3997961039869667,0.9894953573677423,50,99
+541,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.005}",19,66,6,0.7764705882352941,0.9166666666666666,0.88,0.8407643312101911,-32.61363636363637,0.18990314939380915,0.8495667209723041,50,85
+542,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 30, 'alpha_drift': 0.005}",24,79,7,0.7669902912621359,0.9186046511627907,0.86,0.835978835978836,-59.16279069767442,0.23987766239218,1.029474967766439,50,103
+543,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.005}",46,30,26,0.39473684210526316,0.5357142857142857,0.48,0.45454545454545453,215.58333333333334,0.4597655195850116,0.7596125975752366,50,76
+544,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.005}",14,52,11,0.7878787878787878,0.8253968253968254,0.78,0.8062015503875969,-17.205128205128204,0.13992863639543832,0.659663571578495,50,66
+545,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 50, 'alpha_drift': 0.005}",18,65,9,0.7831325301204819,0.8783783783783784,0.82,0.8280254777070063,-91.09756097560975,0.17990824679413497,0.8295769157729558,50,83
+546,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.005}",37,32,22,0.463768115942029,0.5925925925925926,0.56,0.5203252032520325,226.21428571428572,0.3698113961879442,0.6896482793775175,50,69
+547,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.005}",7,47,10,0.8703703703703703,0.8245614035087719,0.8,0.8468468468468469,-58.725,0.06996431819771916,0.539724740382405,50,54
+548,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 100, 'alpha_drift': 0.005}",14,50,12,0.78125,0.8064516129032258,0.76,0.7936507936507936,3.9210526315789473,0.13992863639543832,0.6396737663791466,50,64
+549,STEPD,SEA,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.005}",11,28,22,0.717948717948718,0.56,0.56,0.6292134831460674,96.32142857142857,0.10994392859641583,0.38980120138729246,50,39
+550,STEPD,Agrawal,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.005}",3,43,12,0.9347826086956522,0.7818181818181819,0.76,0.8514851485148516,52.28947368421053,0.0299847077990225,0.4597655195850116,50,46
+551,STEPD,STAGGER,NaiveBayes,ABRUPT,"{'window_size': 300, 'alpha_drift': 0.005}",15,47,13,0.7580645161290323,0.7833333333333333,0.74,0.7704918032786884,19.513513513513512,0.1499235389951125,0.6196839611797983,50,62
+552,STUDD,SEA,NaiveBayes,ABRUPT,{'min_n_instances': 250},6,0,50,0.0,0.0,0.0,0.0,,0.059969415598045,0.059969415598045,50,6
+553,STUDD,Agrawal,NaiveBayes,ABRUPT,{'min_n_instances': 250},2,10,44,0.8333333333333334,0.18518518518518517,0.12,0.303030303030303,-94.0,0.019989805199348332,0.11993883119609,50,12
+554,STUDD,STAGGER,NaiveBayes,ABRUPT,{'min_n_instances': 250},23,9,43,0.28125,0.17307692307692307,0.14,0.2142857142857143,98.0,0.2298827597925058,0.3198368831895733,50,32
+555,STUDD,SEA,NaiveBayes,ABRUPT,{'min_n_instances': 500},7,7,48,0.5,0.12727272727272726,0.04,0.2028985507246377,-20.0,0.06996431819771916,0.13992863639543832,50,14
+556,STUDD,Agrawal,NaiveBayes,ABRUPT,{'min_n_instances': 500},2,12,45,0.8571428571428571,0.21052631578947367,0.1,0.33802816901408456,-122.0,0.019989805199348332,0.13992863639543832,50,14
+557,STUDD,STAGGER,NaiveBayes,ABRUPT,{'min_n_instances': 500},23,9,44,0.28125,0.16981132075471697,0.12,0.21176470588235294,-96.0,0.2298827597925058,0.3198368831895733,50,32
+558,STUDD,SEA,NaiveBayes,ABRUPT,{'min_n_instances': 1000},5,11,46,0.6875,0.19298245614035087,0.08,0.30136986301369867,106.0,0.049974512998370836,0.15991844159478666,50,16
+559,STUDD,Agrawal,NaiveBayes,ABRUPT,{'min_n_instances': 1000},5,10,45,0.6666666666666666,0.18181818181818182,0.1,0.28571428571428575,-135.2,0.049974512998370836,0.1499235389951125,50,15
+560,STUDD,STAGGER,NaiveBayes,ABRUPT,{'min_n_instances': 1000},24,8,44,0.25,0.15384615384615385,0.12,0.1904761904761905,20.666666666666668,0.23987766239218,0.3198368831895733,50,32
+561,STUDD,SEA,NaiveBayes,ABRUPT,{'min_n_instances': 2000},10,5,47,0.3333333333333333,0.09615384615384616,0.06,0.14925373134328357,-186.66666666666666,0.09994902599674167,0.1499235389951125,50,15
+562,STUDD,Agrawal,NaiveBayes,ABRUPT,{'min_n_instances': 2000},2,11,43,0.8461538461538461,0.2037037037037037,0.14,0.3283582089552239,-176.85714285714286,0.019989805199348332,0.12993373379576417,50,13
+563,STUDD,STAGGER,NaiveBayes,ABRUPT,{'min_n_instances': 2000},23,10,44,0.30303030303030304,0.18518518518518517,0.12,0.22988505747126436,102.66666666666667,0.2298827597925058,0.3298317857892475,50,33
