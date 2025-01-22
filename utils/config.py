@@ -84,14 +84,14 @@ DETECTOR_PARAM_SPACE = {
 
     'SEED': {
         'delta': [0.001, 0.01, 0.05, 0.1],
-        'epsilon_prime': [0.001, 0.01, 0.05, 0.1],
-        'block_size': [30, 50, 100, 300],
-        'alpha': [0.99, 0.999, 0.995, 0.9, 0.8]
+        'epsilon_prime': [0.0025, 0.01, 0.005],
+        'block_size': [32, 50, 100, 256],
+        'alpha': [0.5, 0.6, 0.7, 0.8]
     },
 
     'STEPD': {
         'window_size': [30, 50, 100, 300],
-        'drift_confidence': [0.001, 0.002, 0.003, 0.005],
+        'alpha_drift': [0.001, 0.002, 0.003, 0.005],
     },
 
     'STUDD': {'min_n_instances': [250, 500, 1000, 2000]},
