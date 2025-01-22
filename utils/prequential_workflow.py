@@ -9,7 +9,6 @@ class StreamingWorkflow:
         retraining on buffer?
 
     """
-    METRIC = 'accuracy'
     MIN_TRAINING_SIZE = 1000
 
     def __init__(self,
@@ -71,8 +70,8 @@ class StreamingWorkflow:
     def _get_latest_score(self, true, pred):
         if self.use_window_perf:
             self.evaluator.update(true, pred)
-            return self.evaluator.f1_score()
-            # return self.evaluator.accuracy()
+            # return self.evaluator.f1_score()
+            return self.evaluator.accuracy()
             # return self.evaluator.kappa()
         else:
             return int(true == pred)

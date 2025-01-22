@@ -4,6 +4,7 @@ mode = 'abrupt'
 
 # point = pd.read_csv(f'assets/{mode},OnlineBagging,point.csv').set_index('Unnamed: 0')
 # window = pd.read_csv(f'assets/{mode},ARF,window.csv').set_index('Unnamed: 0')
+df = pd.read_csv(f'assets/results/STAGGER,ABRUPT,ARF,POINT.csv').set_index('Unnamed: 0')
 df = pd.read_csv(f'assets/results/Electricity,ABRUPT@Y,ARF,POINT.csv').set_index('Unnamed: 0')
 
 # point['f1']
