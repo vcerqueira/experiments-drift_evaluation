@@ -12,7 +12,7 @@ DETECTORS = {
     # 'CUSUM': detectors.CUSUM,
     # 'DDM': detectors.DDM,
     'EWMAChart': detectors.EWMAChart,
-    'GeometricMovingAverage': detectors.GeometricMovingAverage,
+    # 'GeometricMovingAverage': detectors.GeometricMovingAverage,
     # 'HDDMAverage': detectors.HDDMAverage,
     # 'HDDMWeighted': detectors.HDDMWeighted,
     # 'PageHinkley': detectors.PageHinkley,
@@ -21,6 +21,9 @@ DETECTORS = {
     # 'STEPD': detectors.STEPD,
     # 'STUDD': STUDD,
 }
+
+# AFTERWARDS, PICK THE TOP 3 BASED ON SYNTHETIC EXPERIMENTS
+DETECTOR_ENSEMBLE = ['ABCD', 'ADWIN', 'CUSUM']
 
 CLASSIFIERS = {
     'OnlineBagging': OnlineBagging,
@@ -38,6 +41,67 @@ CLASSIFIER_PARAMS = {
 
 DETECTOR_PARAM_SPACE = {
     'ABCD': {
+        'delta_drift': [0.001, 0.002, 0.005, 0.01],
+        'model_id': ["pca", "kpca", "ae"],
+    },
+    'ADWIN': {'delta': [0.001, 0.002, 0.005, 0.01, 0.0005, 0.0001]},
+    'CUSUM': {'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
+              'delta': [0.001, 0.002, 0.005, 0.0001, 0.01],
+              'lambda_': [50, 100, 150, 300, 500, 1000, 2000]},
+    'DDM': {
+        'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
+        'out_control_level': [1.75, 2, 2.5, 3.0, 2.25, 2.75, 3.5, 4],
+    },
+    'EWMAChart': {
+        'min_n_instances': [50, 100, 300, 500, 1000, 2000, 3000, 5000, 10000],
+        'lambda_': [0.9, 0.01, 0.001, 0.1, 0.005, 0.002, 0.0001],
+    },
+
+    'GeometricMovingAverage': {
+        'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
+        'lambda_': [0.001, 0.002,0.01, 0.1, 0.5, 1, 2, 3, 5],
+        'alpha': [0.99, 0.995, 0.9, 0.8, 0.7, 0.5, 0.1, 0.01]
+    },
+
+    'HDDMAverage': {
+        'drift_confidence': [0.001, 0.002, 0.005, 0.01, 0.0001],
+        'test_type': ['Two-sided', 'One-sided']
+    },
+
+    'HDDMWeighted': {
+        'drift_confidence': [0.001, 0.002, 0.005, 0.01, 0.0001],
+        'test_type': ['Two-sided', 'One-sided'],
+        'lambda_': [0.05, 0.001, 0.1, 0.01, 0.0001],
+    },
+    'PageHinkley': {
+        'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
+        'delta': [0.001, 0.002, 0.005, 0.01, 0.0001, 0.1],
+        'lambda_': [30, 50, 100, 300, 500, 1000, 2000],
+        'alpha': [0.99, 0.999, 0.995, 0.9, 0.8, 0.5]
+    },
+
+    'RDDM': {
+        'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
+        'drift_level': [1.9, 2, 2.1, 2.25, 2.5, 3, 1.5, 1.75]
+    },
+    'SEED': {
+        'delta': [0.0001, 0.001, 0.01, 0.05, 0.1],
+        'epsilon_prime': [0.0025, 0.01, 0.005, 0.0075],
+        'block_size': [32, 50, 100, 150, 256],
+        'alpha': [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+    },
+
+    'STEPD': {
+        'window_size': [30, 50, 100, 300, 500, 1000],
+        'alpha_drift': [0.001, 0.002, 0.003, 0.005, 0.01, 0.1],
+    },
+
+    'STUDD': {'min_n_instances': [250, 500, 1000, 2000, 3000, 5000, 10000]},
+}
+
+
+DETECTOR_PARAM_SPACE_old = {
+    'ABCD': {
         'delta_drift': [0.001, 0.002, 0.005],
         'model_id': ["pca", "kpca", "ae"],
     },
@@ -50,14 +114,14 @@ DETECTOR_PARAM_SPACE = {
         'out_control_level': [2.5, 3.0, 2.25],
     },
     'EWMAChart': {
-        'min_n_instances': [30, 50, 100, 300],
-        'lambda_': [0.01, 0.001, 0.1, 0.2, 0.3, 0.9, 0.95],
+        'min_n_instances': [50, 100, 300, 500, 1000],
+        'lambda_': [0.01, 0.001, 0.1, 0.005, 0.002],
     },
 
     'GeometricMovingAverage': {
         'min_n_instances': [30, 50, 100, 300],
         'lambda_': [0.01, 0.1, 0.5, 1, 2, 3, 5],
-        'alpha': [0.99, 0.995, 0.9, 0.8, 0.7,0.5]
+        'alpha': [0.99, 0.995, 0.9, 0.8, 0.7, 0.5]
     },
 
     'HDDMAverage': {
@@ -94,5 +158,5 @@ DETECTOR_PARAM_SPACE = {
         'alpha_drift': [0.001, 0.002, 0.003, 0.005],
     },
 
-    'STUDD': {'min_n_instances': [250, 500, 1000, 2000]},
+    'STUDD': {'min_n_instances': [250, 500, 1000, 2000, 3000]},
 }

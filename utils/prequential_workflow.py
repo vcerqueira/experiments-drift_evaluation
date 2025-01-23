@@ -4,11 +4,6 @@ from utils.streams.inject_drift import DriftSimulator
 
 
 class StreamingWorkflow:
-    """
-    todo add adaptation mechanism
-        retraining on buffer?
-
-    """
     MIN_TRAINING_SIZE = 1000
 
     def __init__(self,
@@ -64,6 +59,40 @@ class StreamingWorkflow:
                     self.model.train(instance)
             else:
                 self.model.train(instance)
+
+            self.instances_processed += 1
+
+    def run_prequential_ensemble_detectors(self, stream, max_size: Optional[int] = None):
+        self._reset_params()
+
+        assert isinstance(self.detector, dict), \
+            'self.detector should be a dict containing an ensemble of detectors'
+
+        detectors_alarms = {k: [] for k in [*self.detector]}
+
+        while stream.has_more_instances():
+            if max_size is not None:
+                if self.instances_processed > max_size:
+                    break
+
+            instance = stream.next_instance()
+
+            if self.instances_processed > self.MIN_TRAINING_SIZE:
+                prediction = self.model.predict(instance)
+
+                score = self._get_latest_score(instance.y_index, prediction)
+
+                for detector_name, detector in self.detector.items():
+
+                    if detector_name == 'STUDD':
+                        detector.add_element(instance.x, prediction)
+                    else:
+                        detector.add_element(score)
+
+                    if detector.detected_change():
+                        detectors_alarms[detector_name].append(self.instances_processed)
+
+            self.model.train(instance)
 
             self.instances_processed += 1
 

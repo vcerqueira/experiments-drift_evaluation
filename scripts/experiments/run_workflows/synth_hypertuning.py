@@ -27,7 +27,7 @@ DRIFT_WIDTH = 0
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
 WINDOW_MODE = 'WINDOW' if USE_WINDOW else 'POINT'
 DRIFT_TYPE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
-N_ITER_RANDOM_SEARCH = 30
+N_ITER_RANDOM_SEARCH = 50
 
 performance_metrics = []
 for detector_name, detector in DETECTORS.items():
@@ -40,6 +40,7 @@ for detector_name, detector in DETECTORS.items():
         print(config_)
 
         for clf in [*CLASSIFIERS]:
+        # for clf in ['NaiveBayes']:
 
             for generator in [*CustomDriftStream.GENERATORS]:
                 # generator
@@ -85,11 +86,10 @@ for detector_name, detector in DETECTORS.items():
                     'drift_type': DRIFT_TYPE,
                 }
 
-                # results = {**metadata, **config_, **metrics}
                 results = {**metadata, 'params': config_, **metrics}
 
                 performance_metrics.append(results)
 
 perf = pd.DataFrame(performance_metrics)
 
-perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE}2.csv', index=False)
+perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE}.csv', index=False)
