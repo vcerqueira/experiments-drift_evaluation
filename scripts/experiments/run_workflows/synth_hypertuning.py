@@ -12,7 +12,7 @@ from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_PAR
 In this script, we optimize a detector's parameters using a grid search
 
 for each detector:
-sample 20 configurations
+sample 50 configurations
 store results
 
 
@@ -40,7 +40,6 @@ for detector_name, detector in DETECTORS.items():
         print(config_)
 
         for clf in [*CLASSIFIERS]:
-        # for clf in ['NaiveBayes']:
 
             for generator in [*CustomDriftStream.GENERATORS]:
                 # generator

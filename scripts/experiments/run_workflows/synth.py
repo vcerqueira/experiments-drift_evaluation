@@ -5,10 +5,10 @@ from capymoa.evaluation.evaluation import ClassificationEvaluator
 from utils.streams.synth import CustomDriftStream
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
-from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
+from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
 CLF = 'ARF'
-GENERATOR = 'STAGGER'
+GENERATOR = 'Agrawal'
 USE_WINDOW = False
 MAX_DELAY = 500
 N_DRIFTS = 50
@@ -36,15 +36,33 @@ drifts = [(x.position, x.position + x.width) for x in drifts]
 detector_perf = {}
 for detector_name, detector in DETECTORS.items():
     print(f'Running detector: {detector_name}')
-    np.random.seed(123)
 
-    if detector_name == 'STUDD':
-        detector_ = detector(student=student)
-    else:
-        detector_ = detector()
+    np.random.seed(123)
+    stream_creator = CustomDriftStream(generator=GENERATOR,
+                                       n_drifts=N_DRIFTS,
+                                       drift_every_n=DRIFT_EVERY_N,
+                                       drift_width=DRIFT_WIDTH)
+
+    stream = stream_creator.create_stream()
+
+    sch = stream.get_schema()
 
     evaluator = ClassificationEvaluator(schema=sch, window_size=1)
     learner = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
+    student = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
+
+    drifts = stream.get_drifts()
+    drifts = [(x.position, x.position + x.width) for x in drifts]
+
+    detector_config = DETECTOR_SYNTH_PARAMS[GENERATOR][detector_name]
+
+    if detector_name == 'STUDD':
+        adwin_conf = DETECTOR_SYNTH_PARAMS[GENERATOR]['ADWIN']
+        dct = DETECTORS['ADWIN'](**adwin_conf)
+
+        detector_ = detector(student=student, detector=dct, **detector_config)
+    else:
+        detector_ = detector(**detector_config)
 
     wf = StreamingWorkflow(model=learner,
                            evaluator=evaluator,

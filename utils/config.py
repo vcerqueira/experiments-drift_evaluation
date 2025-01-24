@@ -7,19 +7,19 @@ from capymoa.classifier import (OnlineBagging,
 from utils.studd import STUDD
 
 DETECTORS = {
-    # 'ABCD': detectors.ABCD,
-    # 'ADWIN': detectors.ADWIN,
-    # 'CUSUM': detectors.CUSUM,
-    # 'DDM': detectors.DDM,
+    'ABCD': detectors.ABCD,
+    'ADWIN': detectors.ADWIN,
+    'CUSUM': detectors.CUSUM,
+    'DDM': detectors.DDM,
     'EWMAChart': detectors.EWMAChart,
-    # 'GeometricMovingAverage': detectors.GeometricMovingAverage,
-    # 'HDDMAverage': detectors.HDDMAverage,
-    # 'HDDMWeighted': detectors.HDDMWeighted,
-    # 'PageHinkley': detectors.PageHinkley,
-    # 'RDDM': detectors.RDDM,
-    # 'SEED': detectors.SEED,
-    # 'STEPD': detectors.STEPD,
-    # 'STUDD': STUDD,
+    'GeometricMovingAverage': detectors.GeometricMovingAverage,
+    'HDDMAverage': detectors.HDDMAverage,
+    'HDDMWeighted': detectors.HDDMWeighted,
+    'PageHinkley': detectors.PageHinkley,
+    'RDDM': detectors.RDDM,
+    'SEED': detectors.SEED,
+    'STEPD': detectors.STEPD,
+    'STUDD': STUDD,
 }
 
 # AFTERWARDS, PICK THE TOP 3 BASED ON SYNTHETIC EXPERIMENTS
@@ -59,7 +59,7 @@ DETECTOR_PARAM_SPACE = {
 
     'GeometricMovingAverage': {
         'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
-        'lambda_': [0.001, 0.002,0.01, 0.1, 0.5, 1, 2, 3, 5],
+        'lambda_': [0.001, 0.002, 0.01, 0.1, 0.5, 1, 2, 3, 5],
         'alpha': [0.99, 0.995, 0.9, 0.8, 0.7, 0.5, 0.1, 0.01]
     },
 
@@ -99,64 +99,75 @@ DETECTOR_PARAM_SPACE = {
     'STUDD': {'min_n_instances': [250, 500, 1000, 2000, 3000, 5000, 10000]},
 }
 
-
-DETECTOR_PARAM_SPACE_old = {
-    'ABCD': {
-        'delta_drift': [0.001, 0.002, 0.005],
-        'model_id': ["pca", "kpca", "ae"],
-    },
-    'ADWIN': {'delta': [0.001, 0.002, 0.005]},
-    'CUSUM': {'min_n_instances': [30, 50, 100, 300],
-              'delta': [0.001, 0.002, 0.005],
-              'lambda_': [50, 100, 150, 300]},
-    'DDM': {
-        'min_n_instances': [30, 50, 100, 300],
-        'out_control_level': [2.5, 3.0, 2.25],
-    },
-    'EWMAChart': {
-        'min_n_instances': [50, 100, 300, 500, 1000],
-        'lambda_': [0.01, 0.001, 0.1, 0.005, 0.002],
-    },
-
-    'GeometricMovingAverage': {
-        'min_n_instances': [30, 50, 100, 300],
-        'lambda_': [0.01, 0.1, 0.5, 1, 2, 3, 5],
-        'alpha': [0.99, 0.995, 0.9, 0.8, 0.7, 0.5]
-    },
-
-    'HDDMAverage': {
-        'drift_confidence': [0.001, 0.002, 0.005],
-        'test_type': ['Two-sided', 'One-sided']
-    },
-
-    'HDDMWeighted': {
-        'drift_confidence': [0.001, 0.002, 0.005],
-        'test_type': ['Two-sided', 'One-sided'],
-        'lambda_': [0.05, 0.001, 0.1],
-    },
-    'PageHinkley': {
-        'min_n_instances': [30, 50, 100, 300],
-        'delta': [0.001, 0.002, 0.005, 0.01],
-        'lambda_': [30, 50, 100, 300],
-        'alpha': [0.99, 0.999, 0.995, 0.9]
-    },
-
-    'RDDM': {
-        'min_n_instances': [30, 50, 100, 300],
-        'drift_level': [1.9, 2, 2.1, 2.25, 2.5]
-    },
-
-    'SEED': {
-        'delta': [0.001, 0.01, 0.05, 0.1],
-        'epsilon_prime': [0.0025, 0.01, 0.005],
-        'block_size': [32, 50, 100, 256],
-        'alpha': [0.5, 0.6, 0.7, 0.8]
-    },
-
-    'STEPD': {
-        'window_size': [30, 50, 100, 300],
-        'alpha_drift': [0.001, 0.002, 0.003, 0.005],
-    },
-
-    'STUDD': {'min_n_instances': [250, 500, 1000, 2000, 3000]},
-}
+# OPTIMIZED USING LOO
+DETECTOR_SYNTH_PARAMS = {'Agrawal': {'ABCD': {'delta_drift': 0.01, 'model_id': 'pca'},
+                                     'ADWIN': {'delta': 0.002},
+                                     'CUSUM': {'delta': 0.002, 'lambda_': 50, 'min_n_instances': 500},
+                                     'DDM': {'min_n_instances': 500, 'out_control_level': 1.75},
+                                     'EWMAChart': {'lambda_': 0.001, 'min_n_instances': 2000},
+                                     'GeometricMovingAverage': {'alpha': 0.1,
+                                                                'lambda_': 0.002,
+                                                                'min_n_instances': 300},
+                                     'HDDMAverage': {'drift_confidence': 0.002,
+                                                     'test_type': 'Two-sided'},
+                                     'HDDMWeighted': {'drift_confidence': 0.01,
+                                                      'lambda_': 0.1,
+                                                      'test_type': 'One-sided'},
+                                     'PageHinkley': {'alpha': 0.999,
+                                                     'delta': 0.001,
+                                                     'lambda_': 30,
+                                                     'min_n_instances': 300},
+                                     'RDDM': {'drift_level': 1.5, 'min_n_instances': 500},
+                                     'SEED': {'alpha': 0.3,
+                                              'block_size': 50,
+                                              'delta': 0.05,
+                                              'epsilon_prime': 0.005},
+                                     'STEPD': {'alpha_drift': 0.01, 'window_size': 300},
+                                     'STUDD': {'min_n_instances': 1000}},
+                         'SEA': {'ABCD': {'delta_drift': 0.01, 'model_id': 'pca'},
+                                 'ADWIN': {'delta': 0.01},
+                                 'CUSUM': {'delta': 0.0001, 'lambda_': 50, 'min_n_instances': 1000},
+                                 'DDM': {'min_n_instances': 30, 'out_control_level': 1.75},
+                                 'EWMAChart': {'lambda_': 0.001, 'min_n_instances': 3000},
+                                 'GeometricMovingAverage': {'alpha': 0.1,
+                                                            'lambda_': 0.002,
+                                                            'min_n_instances': 300},
+                                 'HDDMAverage': {'drift_confidence': 0.01, 'test_type': 'Two-sided'},
+                                 'HDDMWeighted': {'drift_confidence': 0.005,
+                                                  'lambda_': 0.1,
+                                                  'test_type': 'One-sided'},
+                                 'PageHinkley': {'alpha': 0.999,
+                                                 'delta': 0.001,
+                                                 'lambda_': 30,
+                                                 'min_n_instances': 300},
+                                 'RDDM': {'drift_level': 1.5, 'min_n_instances': 50},
+                                 'SEED': {'alpha': 0.2,
+                                          'block_size': 100,
+                                          'delta': 0.1,
+                                          'epsilon_prime': 0.01},
+                                 'STEPD': {'alpha_drift': 0.005, 'window_size': 50},
+                                 'STUDD': {'min_n_instances': 1000}},
+                         'STAGGER': {'ABCD': {'delta_drift': 0.01, 'model_id': 'pca'},
+                                     'ADWIN': {'delta': 0.005},
+                                     'CUSUM': {'delta': 0.0001, 'lambda_': 50, 'min_n_instances': 1000},
+                                     'DDM': {'min_n_instances': 300, 'out_control_level': 1.75},
+                                     'EWMAChart': {'lambda_': 0.001, 'min_n_instances': 3000},
+                                     'GeometricMovingAverage': {'alpha': 0.5,
+                                                                'lambda_': 0.01,
+                                                                'min_n_instances': 1000},
+                                     'HDDMAverage': {'drift_confidence': 0.01,
+                                                     'test_type': 'Two-sided'},
+                                     'HDDMWeighted': {'drift_confidence': 0.01,
+                                                      'lambda_': 0.1,
+                                                      'test_type': 'One-sided'},
+                                     'PageHinkley': {'alpha': 0.999,
+                                                     'delta': 0.001,
+                                                     'lambda_': 30,
+                                                     'min_n_instances': 300},
+                                     'RDDM': {'drift_level': 1.5, 'min_n_instances': 30},
+                                     'SEED': {'alpha': 0.3,
+                                              'block_size': 50,
+                                              'delta': 0.05,
+                                              'epsilon_prime': 0.0025},
+                                     'STEPD': {'alpha_drift': 0.01, 'window_size': 300},
+                                     'STUDD': {'min_n_instances': 5000}}}
