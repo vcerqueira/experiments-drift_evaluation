@@ -9,8 +9,8 @@ from capymoa.datasets import (ElectricityTiny,
 
 CAPYMOA_DATASETS = {
     'Electricity': Electricity,
-    'Bike': Bike,
-    'Covtype': CovtypeTiny,
-    'Fried': Fried,
+    # 'Bike': Bike,
+    'Covtype': CovtypeNorm,
+    # 'Fried': Fried,
     'Sensor': Sensor,
 }

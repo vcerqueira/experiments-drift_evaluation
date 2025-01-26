@@ -96,6 +96,8 @@ class StreamingWorkflow:
 
             self.instances_processed += 1
 
+        return detectors_alarms
+
     def _get_latest_score(self, true, pred):
         if self.use_window_perf:
             self.evaluator.update(true, pred)
@@ -108,3 +110,24 @@ class StreamingWorkflow:
     def _reset_params(self):
         self.instances_processed = 0
         self.drift_predictions = []
+
+    @staticmethod
+    def find_stable_periods(alarms_dict, min_gap: int, n: int, max_delay: int):
+        all_alarms = []
+        for alarm_ in alarms_dict.values():
+            all_alarms.extend(alarm_)
+
+        all_alarms = sorted(set(all_alarms))
+
+        if not all_alarms:
+            return []
+
+        stable_periods = []
+        for i in range(len(all_alarms) - 1):
+            gap = all_alarms[i + 1] - all_alarms[i]
+            period_end = all_alarms[i + 1]
+
+            if gap >= min_gap and (n - period_end) >= max_delay:
+                stable_periods.append((all_alarms[i], period_end))
+
+        return stable_periods

@@ -13,7 +13,7 @@ stream_list = perf['stream'].unique().tolist()
 detector_list = perf['detector'].unique().tolist()
 
 loo_best_configs = {}
-for stream in stream_list:
+for stream in stream_list + ['ALL']:
     # stream
     perf_loo = perf.query(f'stream!="{stream}"')
 
