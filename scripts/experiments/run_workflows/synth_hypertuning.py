@@ -20,14 +20,14 @@ store results
 
 # CLF = 'NaiveBayes'
 USE_WINDOW = False
-MAX_DELAY = 500
-N_DRIFTS = 50
-DRIFT_EVERY_N = 2000
+MAX_DELAY = 1000
+N_DRIFTS = 30
+DRIFT_EVERY_N = 10000
 DRIFT_WIDTH = 0
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
 WINDOW_MODE = 'WINDOW' if USE_WINDOW else 'POINT'
 DRIFT_TYPE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
-N_ITER_RANDOM_SEARCH = 50
+N_ITER_RANDOM_SEARCH = 30
 
 performance_metrics = []
 for detector_name, detector in DETECTORS.items():
@@ -89,6 +89,10 @@ for detector_name, detector in DETECTORS.items():
 
                 performance_metrics.append(results)
 
+                perf = pd.DataFrame(performance_metrics)
+
+                perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE},5000.csv', index=False)
+
 perf = pd.DataFrame(performance_metrics)
 
-perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE}.csv', index=False)
+perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE},5000.csv', index=False)

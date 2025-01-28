@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple
 
 from utils.streams.inject_drift import DriftSimulator
 
@@ -11,6 +11,7 @@ class StreamingWorkflow:
                  evaluator,
                  detector,
                  use_window_perf: bool,
+                 start_detector_on_onset: bool = False,
                  drift_simulator: Optional[DriftSimulator] = None):
 
         self.model = model
@@ -19,10 +20,13 @@ class StreamingWorkflow:
         self.instances_processed = 0
         self.drift_predictions = []
         self.drift_simulator = drift_simulator
+        self.start_detector_on_onset = start_detector_on_onset
 
         self.use_window_perf = use_window_perf
 
-    def run_prequential(self, stream, max_size: Optional[int] = None):
+    def run_prequential(self,
+                        stream,
+                        max_size: Optional[int] = None):
         self._reset_params()
 
         while stream.has_more_instances():
@@ -42,6 +46,10 @@ class StreamingWorkflow:
 
             if self.instances_processed > self.MIN_TRAINING_SIZE:
                 prediction = self.model.predict(instance)
+
+                if self.start_detector_on_onset:
+                    if self.instances_processed < self.drift_simulator.fitted['drift_onset'] - 10000:
+                        continue
 
                 score = self._get_latest_score(instance.y_index, prediction)
 

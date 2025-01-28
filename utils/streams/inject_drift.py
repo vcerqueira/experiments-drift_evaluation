@@ -21,18 +21,26 @@ class DriftSimulator:
                  on_y_prior: bool,
                  on_x: bool,
                  drift_region=(0.3, 0.7),
+                 burn_in_samples: int = 0,
                  label_skip_proba: float = 0.75):
 
         self.on_y_prior = on_y_prior
         self.on_x = on_x
         self.drift_region = drift_region
+        self.burn_in_samples = burn_in_samples
         self.label_skip_proba = label_skip_proba
         self.schema = schema
 
         self.fitted = {}
 
     def fit(self, stream_size):
-        self.fitted['drift_onset'] = int(stream_size * self.sample_drift_location())
+        drift_loc = self.sample_drift_location()
+        assert drift_loc > 0
+        if drift_loc < 1:
+            self.fitted['drift_onset'] = int(stream_size * self.sample_drift_location())
+        else:
+            self.fitted['drift_onset'] = int(drift_loc)
+
         self.fitted['selected_label'] = np.random.choice(self.schema.get_label_indexes(), 1)[0]
         self.fitted['perm_idx'] = np.random.permutation(self.schema.get_num_attributes())
 
@@ -49,7 +57,8 @@ class DriftSimulator:
             return t_instance
 
     def sample_drift_location(self):
-        loc = np.random.uniform(self.drift_region[0], self.drift_region[1], 1)[0]
+        loc = np.random.uniform(self.drift_region[0] + self.burn_in_samples,
+                                self.drift_region[1] - self.burn_in_samples, 1)[0]
 
         return loc
 
