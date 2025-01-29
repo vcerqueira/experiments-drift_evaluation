@@ -8,8 +8,8 @@ from utils.prequential_workflow import StreamingWorkflow
 from utils.streams.real import CAPYMOA_DATASETS, STABLE_PERIODS
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
-# CLF = 'ARF'
-CLF = 'HoeffdingTree'
+CLF = 'ARF'
+# CLF = 'HoeffdingTree'
 DATASET = 'Covtype'
 USE_WINDOW = False
 # MAX_DELAY_PERC = 0.1
@@ -63,7 +63,7 @@ for detector_name, detector in DETECTORS.items():
                                evaluator=evaluator,
                                detector=detector_,
                                use_window_perf=USE_WINDOW,
-                               start_detector_on_onset=True,
+                               start_detector_on_onset=False,
                                drift_simulator=drift_sim)
 
         wf.run_prequential(stream=stream, max_size=stb_period[1]+1)
@@ -77,6 +77,9 @@ for detector_name, detector in DETECTORS.items():
     metrics = drift_eval.calc_performance_from_eps(drift_eps=drift_episodes, tot_n_instances=n)
 
     detector_perf[detector_name] = metrics
+
+    perf = pd.DataFrame(detector_perf).T
+    perf.to_csv(f'assets/results/{DATASET},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')
 
 perf = pd.DataFrame(detector_perf).T
 perf.to_csv(f'assets/results/{DATASET},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')
