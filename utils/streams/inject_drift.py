@@ -46,6 +46,7 @@ class DriftSimulator:
 
     def transform(self, instance) -> Optional[LabeledInstance]:
         if self.on_y_prior:
+            # todo numa classe
             skip = self._skip_instance()
             if skip:
                 return None

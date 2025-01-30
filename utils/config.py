@@ -57,18 +57,15 @@ DETECTOR_PARAM_SPACE = {
         'min_n_instances': [50, 100, 300, 500, 1000, 2000, 3000, 5000, 10000],
         'lambda_': [0.9, 0.01, 0.001, 0.1, 0.005, 0.002, 0.0001],
     },
-
     'GeometricMovingAverage': {
         'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
         'lambda_': [0.001, 0.002, 0.01, 0.1, 0.5, 1, 2, 3, 5],
         'alpha': [0.99, 0.995, 0.9, 0.8, 0.7, 0.5, 0.1, 0.01]
     },
-
     'HDDMAverage': {
         'drift_confidence': [0.001, 0.002, 0.005, 0.01, 0.0001],
         'test_type': ['Two-sided', 'One-sided']
     },
-
     'HDDMWeighted': {
         'drift_confidence': [0.001, 0.002, 0.005, 0.01, 0.0001],
         'test_type': ['Two-sided', 'One-sided'],
@@ -80,7 +77,6 @@ DETECTOR_PARAM_SPACE = {
         'lambda_': [30, 50, 100, 300, 500, 1000, 2000],
         'alpha': [0.99, 0.999, 0.995, 0.9, 0.8, 0.5]
     },
-
     'RDDM': {
         'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
         'drift_level': [1.9, 2, 2.1, 2.25, 2.5, 3, 1.5, 1.75]

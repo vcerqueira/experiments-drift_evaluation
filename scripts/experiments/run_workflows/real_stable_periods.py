@@ -41,6 +41,8 @@ stable_periods = wf.find_stable_periods(alarms_dict=detectors_alarms,
 
 pprint(stable_periods)
 
+
+
 {
     'Covtype': [(224000, 233806), (517400, 526300)],
     'Sensor': [(7304, 19200),
