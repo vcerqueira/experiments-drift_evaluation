@@ -39,13 +39,13 @@ for detector_name, detector in DETECTORS.items():
     for i in range(N_DRIFTS):
         stream = CAPYMOA_DATASETS[DATASET]()
 
-        stb_period_idx = np.random.choice(range(len(STABLE_PERIODS[DATASET])), 1)
-        stb_period = STABLE_PERIODS[DATASET][stb_period_idx[0]]
+        # stb_period_idx = np.random.choice(range(len(STABLE_PERIODS[DATASET])), 1)
+        # stb_period = STABLE_PERIODS[DATASET][stb_period_idx[0]]
 
         drift_sim = DriftSimulator(on_x=DRIFT_ON_X,
                                    on_y_prior=DRIFT_ON_Y,
-                                   drift_region = stb_period,
-                                   burn_in_samples=max_delay,
+                                   # drift_region = stb_period,
+                                   burn_in_samples=0,
                                    schema=sch)
 
         drift_sim.fit(stream_size=n)
@@ -69,11 +69,12 @@ for detector_name, detector in DETECTORS.items():
                                start_detector_on_onset=False,
                                drift_simulator=drift_sim)
 
-        wf.run_prequential(stream=stream, max_size=stb_period[1]+1)
+        # wf.run_prequential(stream=stream, max_size=stb_period[1]+1)
+        wf.run_prequential(stream=stream)
 
-        alarms = [x for x in wf.drift_predictions if x >= stb_period[0]]
+        # alarms = [x for x in wf.drift_predictions if x >= stb_period[0]]
 
-        drift_episodes.append({'preds': alarms, 'true': (drift_loc, drift_loc)})
+        drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
 
     drift_eval = EvaluateDetector(max_delay=max_delay)
 

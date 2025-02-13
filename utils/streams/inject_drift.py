@@ -1,7 +1,9 @@
 from typing import Optional
 
 import numpy as np
+import pandas as pd
 from capymoa.instance import LabeledInstance
+from capymoa.stream import NumpyStream
 
 
 class DriftSimulator:
@@ -46,10 +48,11 @@ class DriftSimulator:
 
     def transform(self, instance) -> Optional[LabeledInstance]:
         if self.on_y_prior:
-            # todo numa classe
-            skip = self._skip_instance()
-            if skip:
-                return None
+            # todo test this
+            if instance.y_index == self.fitted['selected_label']:
+                skip = self._skip_instance()
+                if skip:
+                    return None
 
         if self.on_x:
             x_t = self._shuffle_arr(instance.x)
@@ -61,6 +64,10 @@ class DriftSimulator:
         loc = np.random.uniform(self.drift_region[0] + self.burn_in_samples,
                                 self.drift_region[1] - self.burn_in_samples, 1)[0]
 
+        print(loc)
+
+        # np.random.uniform(.3,.7, 1)[0]
+
         return loc
 
     def _shuffle_arr(self, arr):
@@ -70,3 +77,26 @@ class DriftSimulator:
 
     def _skip_instance(self):
         return np.random.binomial(1, 1 - self.label_skip_proba) < 1
+
+    @staticmethod
+    def shuffle_stream(stream):
+        X_list, y_list = [], []
+        while stream.has_more_instances():
+            instance = stream.next_instance()
+
+            X_list.append(instance.x)
+            y_list.append(instance.y_index)
+
+        X = pd.DataFrame(X_list)
+        y = pd.Series(y_list)
+
+        shuffle_idx = np.random.permutation(X.shape[0])
+        X_shuffled = X.iloc[shuffle_idx]
+        X_shuffled.columns = [f'attr_{i}' for i in X_shuffled.columns]
+        y_shuffled = y.iloc[shuffle_idx]
+
+        np_stream = NumpyStream(X=X_shuffled.values, y=y_shuffled.values,
+                                dataset_name=f'ShuffledData',
+                                feature_names=X_shuffled.columns)
+
+        return np_stream
