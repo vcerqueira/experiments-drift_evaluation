@@ -5,7 +5,7 @@ from capymoa.evaluation.evaluation import ClassificationEvaluator
 from utils.streams.inject_drift import DriftSimulator
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
-from utils.streams.real import CAPYMOA_DATASETS, STABLE_PERIODS
+from utils.streams.real import CAPYMOA_DATASETS
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
 # CLF = 'ARF'
@@ -14,8 +14,8 @@ DATASET = 'Electricity'
 USE_WINDOW = False
 # MAX_DELAY_PERC = 0.1
 N_DRIFTS = 30
-DRIFT_ON_X = False
-DRIFT_ON_Y = True
+DRIFT_ON_X = True
+DRIFT_ON_Y = False
 WINDOW_MODE = 'WINDOW' if USE_WINDOW else 'POINT'
 DRIFT_TYPE = 'ABRUPT@X' if DRIFT_ON_X else 'ABRUPT@Y'
 
@@ -27,7 +27,7 @@ x = stream.next_instance()
 sch = stream.get_schema()
 
 # max_delay = int(n * MAX_DELAY_PERC)
-max_delay = 1000
+max_delay = 2500
 
 detector_perf = {}
 for detector_name, detector in DETECTORS.items():
@@ -39,13 +39,13 @@ for detector_name, detector in DETECTORS.items():
     for i in range(N_DRIFTS):
         stream = CAPYMOA_DATASETS[DATASET]()
 
-        stb_period_idx = np.random.choice(range(len(STABLE_PERIODS[DATASET])), 1)
-        stb_period = STABLE_PERIODS[DATASET][stb_period_idx[0]]
+        # stb_period_idx = np.random.choice(range(len(STABLE_PERIODS[DATASET])), 1)
+        # stb_period = STABLE_PERIODS[DATASET][stb_period_idx[0]]
 
         drift_sim = DriftSimulator(on_x=DRIFT_ON_X,
                                    on_y_prior=DRIFT_ON_Y,
-                                   drift_region = stb_period,
-                                   burn_in_samples=max_delay,
+                                   # drift_region = stb_period,
+                                   burn_in_samples=0,
                                    schema=sch)
 
         drift_sim.fit(stream_size=n)
@@ -69,11 +69,12 @@ for detector_name, detector in DETECTORS.items():
                                start_detector_on_onset=False,
                                drift_simulator=drift_sim)
 
-        wf.run_prequential(stream=stream, max_size=stb_period[1]+1)
+        # wf.run_prequential(stream=stream, max_size=stb_period[1]+1)
+        wf.run_prequential(stream=stream)
 
-        alarms = [x for x in wf.drift_predictions if x >= stb_period[0]]
+        # alarms = [x for x in wf.drift_predictions if x >= stb_period[0]]
 
-        drift_episodes.append({'preds': alarms, 'true': (drift_loc, drift_loc)})
+        drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
 
     drift_eval = EvaluateDetector(max_delay=max_delay)
 
