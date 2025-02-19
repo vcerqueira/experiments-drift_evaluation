@@ -2,7 +2,7 @@ from typing_extensions import override
 from capymoa.base import MOAClassifier
 from capymoa.drift.detectors import ADWIN
 from capymoa.drift.base_detector import BaseDriftDetector, MOADriftDetector
-from capymoa.instance import LabeledInstance
+from capymoa.instance import LabeledInstance, Instance
 
 
 class STUDD(BaseDriftDetector):
@@ -27,7 +27,7 @@ class STUDD(BaseDriftDetector):
         return 'STUDD'
 
     @override
-    def add_element(self, instance_x, teacher_prediction) -> None:
+    def add_element(self, instance_x: Instance, teacher_prediction) -> None:
         tmp_instance = self.instance_from_instance(instance_x, teacher_prediction)
 
         if self.idx >= self.min_n_instances:

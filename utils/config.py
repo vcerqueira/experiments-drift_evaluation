@@ -8,6 +8,7 @@ from utils.studd import STUDD
 
 DETECTORS = {
     'ABCD': detectors.ABCD,
+    'ABCDx': detectors.ABCD,
     'ADWIN': detectors.ADWIN,
     'CUSUM': detectors.CUSUM,
     'DDM': detectors.DDM,

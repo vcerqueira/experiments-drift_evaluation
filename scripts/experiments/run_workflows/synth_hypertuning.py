@@ -91,8 +91,8 @@ for detector_name, detector in DETECTORS.items():
 
                 perf = pd.DataFrame(performance_metrics)
 
-                perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE},5000.csv', index=False)
+                perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE}.csv', index=False)
 
 perf = pd.DataFrame(performance_metrics)
 
-perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE},5000.csv', index=False)
+perf.to_csv(f'assets/results/detector_hypertuning,{DRIFT_TYPE}.csv', index=False)

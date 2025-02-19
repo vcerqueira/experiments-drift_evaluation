@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
@@ -12,12 +11,12 @@ from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 CLF = 'HoeffdingTree'
 DATASET = 'Electricity'
 USE_WINDOW = False
-# MAX_DELAY_PERC = 0.1
 N_DRIFTS = 30
-DRIFT_ON_X = True
-DRIFT_ON_Y = False
 WINDOW_MODE = 'WINDOW' if USE_WINDOW else 'POINT'
-DRIFT_TYPE = 'ABRUPT@X' if DRIFT_ON_X else 'ABRUPT@Y'
+DRIFT_ON_X = False
+DRIFT_ON_Y = True
+DRIFT_TYPE = 'ABRUPT@XY' if (DRIFT_ON_X and DRIFT_ON_Y) else ('ABRUPT@X' if DRIFT_ON_X
+                                                              else 'ABRUPT@Y' if DRIFT_ON_Y else None)
 
 stream = CAPYMOA_DATASETS[DATASET]()
 n = stream._length
@@ -39,12 +38,8 @@ for detector_name, detector in DETECTORS.items():
     for i in range(N_DRIFTS):
         stream = CAPYMOA_DATASETS[DATASET]()
 
-        # stb_period_idx = np.random.choice(range(len(STABLE_PERIODS[DATASET])), 1)
-        # stb_period = STABLE_PERIODS[DATASET][stb_period_idx[0]]
-
         drift_sim = DriftSimulator(on_x=DRIFT_ON_X,
                                    on_y_prior=DRIFT_ON_Y,
-                                   # drift_region = stb_period,
                                    burn_in_samples=0,
                                    schema=sch)
 
@@ -69,10 +64,7 @@ for detector_name, detector in DETECTORS.items():
                                start_detector_on_onset=False,
                                drift_simulator=drift_sim)
 
-        # wf.run_prequential(stream=stream, max_size=stb_period[1]+1)
         wf.run_prequential(stream=stream)
-
-        # alarms = [x for x in wf.drift_predictions if x >= stb_period[0]]
 
         drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
 

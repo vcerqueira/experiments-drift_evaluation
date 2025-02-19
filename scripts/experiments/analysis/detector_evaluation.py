@@ -8,6 +8,7 @@ mode = 'abrupt'
 # df = pd.read_csv(f'assets/results/SEA,ABRUPT,ARF,POINT.csv').set_index('Unnamed: 0')
 # df = pd.read_csv(f'assets/results/Agrawal,ABRUPT,ARF,POINT.csv').set_index('Unnamed: 0')
 df = pd.read_csv(f'assets/results/Electricity,ABRUPT@X,HoeffdingTree,POINT.csv').set_index('Unnamed: 0')
+df = pd.read_csv(f'assets/results/Electricity,ABRUPT@Y,HoeffdingTree,POINT.csv').set_index('Unnamed: 0')
 
 # point['f1']
 # window['f1']
