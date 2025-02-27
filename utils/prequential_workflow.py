@@ -26,7 +26,8 @@ class StreamingWorkflow:
 
     def run_prequential(self,
                         stream,
-                        max_size: Optional[int] = None):
+                        max_size: Optional[int] = None,
+                        monitor_instance: bool=False):
         self._reset_params()
 
         while stream.has_more_instances():
@@ -53,10 +54,13 @@ class StreamingWorkflow:
 
                 score = self._get_latest_score(instance.y_index, prediction)
 
-                if self.detector.__str__() == 'STUDD':
-                    self.detector.add_element(instance.x, prediction)
+                if monitor_instance:
+                    self.detector.add_element(instance)
                 else:
-                    self.detector.add_element(score)
+                    if self.detector.__str__() == 'STUDD':
+                        self.detector.add_element(instance.x, prediction)
+                    else:
+                        self.detector.add_element(score)
 
                 if self.detector.detected_change():
                     print(f'Change detected at index: {self.instances_processed}')

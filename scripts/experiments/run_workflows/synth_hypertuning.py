@@ -27,7 +27,7 @@ DRIFT_WIDTH = 0
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
 WINDOW_MODE = 'WINDOW' if USE_WINDOW else 'POINT'
 DRIFT_TYPE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
-N_ITER_RANDOM_SEARCH = 30
+N_ITER_RANDOM_SEARCH = 40
 
 performance_metrics = []
 for detector_name, detector in DETECTORS.items():
@@ -70,7 +70,11 @@ for detector_name, detector in DETECTORS.items():
                                        detector=detector_,
                                        use_window_perf=USE_WINDOW)
 
-                wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
+                monitor_x = True if detector_name == 'ABCDx' else False
+
+                wf.run_prequential(stream=stream,
+                                   max_size=MAX_STREAM_SIZE,
+                                   monitor_instance=monitor_x)
 
                 drift_eval = EvaluateDetector(max_delay=MAX_DELAY)
 
@@ -79,10 +83,8 @@ for detector_name, detector in DETECTORS.items():
                                                       tot_n_instances=wf.instances_processed)
 
                 metadata = {
-                    'detector': detector_name,
-                    'stream': generator,
-                    'learner': clf,
-                    'drift_type': DRIFT_TYPE,
+                    'detector': detector_name, 'stream': generator,
+                    'learner': clf, 'drift_type': DRIFT_TYPE,
                 }
 
                 results = {**metadata, 'params': config_, **metrics}
