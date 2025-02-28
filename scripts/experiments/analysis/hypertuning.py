@@ -3,11 +3,13 @@ from pprint import pprint
 
 import pandas as pd
 
-perf = pd.read_csv('assets/results/detector_hypertuning,ABRUPT,5000.csv')
+perf = pd.read_csv('assets/results/detector_hypertuning2,ABRUPT.csv')
 # perf = perf.query('learner=="ARF"')
 # perf.groupby(['detector', 'stream']).apply(lambda x: x.sort_values('f1').iloc[-1, :]['f1'])
 # perf.groupby(['detector', 'stream']).apply(lambda x: x.sort_values('f1').iloc[-1, :])
 
+# measure methods' sensitivity to parameters
+# var of scores of top 10 configs?
 
 stream_list = perf['stream'].unique().tolist()
 detector_list = perf['detector'].unique().tolist()
