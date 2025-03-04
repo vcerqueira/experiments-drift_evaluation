@@ -33,7 +33,7 @@ performance_metrics = []
 for detector_name, detector in DETECTORS.items():
     print(f'Running detector: {detector_name}')
 
-    if detector_name not in ['ABCD']:
+    if detector_name not in ['ABCDx']:
         continue
 
     config_space = ParameterSampler(param_distributions=DETECTOR_PARAM_SPACE[detector_name],
