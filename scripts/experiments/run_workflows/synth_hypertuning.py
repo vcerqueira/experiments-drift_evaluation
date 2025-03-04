@@ -33,7 +33,7 @@ performance_metrics = []
 for detector_name, detector in DETECTORS.items():
     print(f'Running detector: {detector_name}')
 
-    if detector_name in ['ABCD','ABCDx']:
+    if detector_name not in ['ABCD']:
         continue
 
     config_space = ParameterSampler(param_distributions=DETECTOR_PARAM_SPACE[detector_name],
@@ -96,8 +96,8 @@ for detector_name, detector in DETECTORS.items():
 
                 perf = pd.DataFrame(performance_metrics)
 
-                perf.to_csv(f'assets/results/detector_hypertuning2,{DRIFT_TYPE}.csv', index=False)
+                perf.to_csv(f'assets/results/detector_hypertuning3,{DRIFT_TYPE}.csv', index=False)
 
 perf = pd.DataFrame(performance_metrics)
 
-perf.to_csv(f'assets/results/detector_hypertuning2,{DRIFT_TYPE}.csv', index=False)
+perf.to_csv(f'assets/results/detector_hypertuning3,{DRIFT_TYPE}.csv', index=False)

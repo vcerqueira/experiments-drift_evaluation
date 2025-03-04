@@ -43,18 +43,18 @@ CLASSIFIER_PARAMS = {
 
 DETECTOR_PARAM_SPACE = {
     'ABCD': {
-        'delta_drift': [0.001, 0.002, 0.005, 0.01, 0.02],
+        'delta_drift': [0.001, 0.002, 0.0001, 0.01, 0.02],
         'delta_warn': [0.1, 0.01],
         'encoding_factor': [0.3, 0.5, 0.7],
         'model_id': ["kpca", "ae"],
         'num_splits': [20, 50, 100],
     },
     'ABCDx': {
-        'delta_drift': [0.001, 0.002, 0.005, 0.01, 0.02],
-        'delta_warn': [0.1, 0.01],
+        'delta_drift': [0.1, 0.4],
+        # 'delta_warn': [0.1, 0.01],
         'encoding_factor': [0.3, 0.5, 0.7],
-        'model_id': ["kpca", "ae"],
-        'num_splits': [20, 50, 100],
+        'model_id': ["pca", "ae"],
+        'num_splits': [10, 20, 50],
     },
     'ADWIN': {'delta': [0.001, 0.002, 0.005, 0.01, 0.0005, 0.0001]},
     'CUSUM': {'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
