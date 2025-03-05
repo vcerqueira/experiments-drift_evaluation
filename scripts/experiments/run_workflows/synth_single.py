@@ -8,7 +8,7 @@ from utils.prequential_workflow import StreamingWorkflow
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
 CLF = 'ARF'
-GENERATOR = 'STAGGER'
+GENERATOR = 'SEA'
 USE_WINDOW = False
 MAX_DELAY = 1000
 N_DRIFTS = 30

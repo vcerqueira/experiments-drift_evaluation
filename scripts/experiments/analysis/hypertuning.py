@@ -3,7 +3,7 @@ from pprint import pprint
 
 import pandas as pd
 
-perf = pd.read_csv('assets/results/detector_hypertuning2,ABRUPT.csv')
+perf = pd.read_csv('assets/results/detector_hypertuning,ABRUPT.csv')
 # perf = perf.query('learner=="ARF"')
 # perf.groupby(['detector', 'stream']).apply(lambda x: x.sort_values('f1').iloc[-1, :]['f1'])
 # perf.groupby(['detector', 'stream']).apply(lambda x: x.sort_values('f1').iloc[-1, :])
@@ -21,6 +21,7 @@ for stream in stream_list + ['ALL']:
 
     detectors_f1 = {}
     for detector in detector_list:
+        print(detector)
         perf_dct = perf_loo.query(f'detector=="{detector}"')
 
         params_f1 = perf_dct.groupby('params').mean(numeric_only=True)['f1']
