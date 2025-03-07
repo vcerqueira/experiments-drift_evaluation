@@ -10,6 +10,8 @@ mode = 'abrupt'
 # df = pd.read_csv(f'assets/results/Electricity,ABRUPT@X,HoeffdingTree,POINT.csv').set_index('Unnamed: 0')
 df = pd.read_csv(f'assets/results/Electricity,ABRUPT@Y,HoeffdingTree.csv').set_index('Unnamed: 0')
 df = pd.read_csv(f'assets/results/Covtype,ABRUPT@Y,HoeffdingTree.csv').set_index('Unnamed: 0')
+df = pd.read_csv(f'assets/results/Electricity,ABRUPT@X,HoeffdingTree.csv').set_index('Unnamed: 0')
+df = pd.read_csv(f'assets/results/Covtype,ABRUPT@X,HoeffdingTree.csv').set_index('Unnamed: 0')
 
 # point['f1']
 # window['f1']
