@@ -1,81 +1,92 @@
+import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
 from utils.streams.inject_drift import DriftSimulator
 from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
-from utils.streams.real import CAPYMOA_DATASETS
+from utils.streams.real import CAPYMOA_DATASETS, MAX_DELAY
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
-# CLF = 'ARF'
-CLF = 'HoeffdingTree'
-DATASET = 'Electricity'
-USE_WINDOW = False
-N_DRIFTS = 30
-WINDOW_MODE = 'WINDOW' if USE_WINDOW else 'POINT'
-DRIFT_ON_X = False
-DRIFT_ON_Y = True
-DRIFT_TYPE = 'ABRUPT@XY' if (DRIFT_ON_X and DRIFT_ON_Y) else ('ABRUPT@X' if DRIFT_ON_X
-                                                              else 'ABRUPT@Y' if DRIFT_ON_Y else None)
+N_DRIFTS = 20
 
-stream = CAPYMOA_DATASETS[DATASET]()
-n = stream._length
-stream = DriftSimulator.shuffle_stream(stream)
-x = stream.next_instance()
-# print(x.x)
-sch = stream.get_schema()
+for drift_x in [False, True]:
 
-# max_delay = int(n * MAX_DELAY_PERC)
-max_delay = 2500
+    for drift_y in [False, True]:
 
-detector_perf = {}
-for detector_name, detector in DETECTORS.items():
-    print(f'Running detector: {detector_name}')
-    # if detector_name != 'STUDD':
-    #     continue
+        if np.sum([drift_x, drift_y]) < 1:
+            continue
 
-    drift_episodes = []
-    for i in range(N_DRIFTS):
-        stream = CAPYMOA_DATASETS[DATASET]()
+        DRIFT_TYPE = 'ABRUPT@XY' if (drift_x and drift_y) else ('ABRUPT@X' if drift_x
+                                                                else 'ABRUPT@Y' if drift_y else None)
 
-        drift_sim = DriftSimulator(on_x=DRIFT_ON_X,
-                                   on_y_prior=DRIFT_ON_Y,
-                                   burn_in_samples=0,
-                                   schema=sch)
+        if DRIFT_TYPE == 'ABRUPT@Y':
+            continue
 
-        drift_sim.fit(stream_size=n)
+        for clf in [*CLASSIFIERS]:
 
-        drift_loc = drift_sim.fitted['drift_onset']
-        drifts = [(drift_loc, drift_loc)]
+            for ds in [*CAPYMOA_DATASETS]:
+                print(ds)
 
-        evaluator = ClassificationEvaluator(schema=sch, window_size=1)
-        learner = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
-        student = CLASSIFIERS[CLF](schema=sch, **CLASSIFIER_PARAMS[CLF])
+                pre_stream = CAPYMOA_DATASETS[ds]()
+                n = pre_stream._length
 
-        if detector_name == 'STUDD':
-            detector_ = detector(student=student)
-        else:
-            detector_ = detector()
+                pre_stream = DriftSimulator.shuffle_stream(pre_stream)
+                x = pre_stream.next_instance()
+                sch = pre_stream.get_schema()
 
-        wf = StreamingWorkflow(model=learner,
-                               evaluator=evaluator,
-                               detector=detector_,
-                               use_window_perf=USE_WINDOW,
-                               start_detector_on_onset=False,
-                               drift_simulator=drift_sim)
+                detector_perf = {}
+                for detector_name, detector in DETECTORS.items():
+                    print(f'Running detector: {detector_name}')
+                    # if detector_name != 'STUDD':
+                    #     continue
+                    np.random.seed(123)
 
-        wf.run_prequential(stream=stream)
+                    drift_episodes = []
+                    for i in range(N_DRIFTS):
+                        stream = CAPYMOA_DATASETS[ds]()
+                        stream = DriftSimulator.shuffle_stream(stream)
 
-        drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
+                        drift_sim = DriftSimulator(on_x=drift_x,
+                                                   on_y_prior=drift_y,
+                                                   drift_region=(0.6, 0.9),
+                                                   burn_in_samples=0,
+                                                   schema=sch)
 
-    drift_eval = EvaluateDetector(max_delay=max_delay)
+                        drift_sim.fit(stream_size=n)
 
-    metrics = drift_eval.calc_performance_from_eps(drift_eps=drift_episodes, tot_n_instances=n)
+                        drift_loc = drift_sim.fitted['drift_onset']
+                        drifts = [(drift_loc, drift_loc)]
 
-    detector_perf[detector_name] = metrics
+                        evaluator = ClassificationEvaluator(schema=sch, window_size=1)
+                        learner = CLASSIFIERS[clf](schema=sch, **CLASSIFIER_PARAMS[clf])
+                        student = CLASSIFIERS[clf](schema=sch, **CLASSIFIER_PARAMS[clf])
 
-    perf = pd.DataFrame(detector_perf).T
-    perf.to_csv(f'assets/results/{DATASET},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')
+                        if detector_name == 'STUDD':
+                            detector_ = detector(student=student)
+                        else:
+                            detector_ = detector()
 
-perf = pd.DataFrame(detector_perf).T
-perf.to_csv(f'assets/results/{DATASET},{DRIFT_TYPE},{CLF},{WINDOW_MODE}.csv')
+                        wf = StreamingWorkflow(model=learner,
+                                               evaluator=evaluator,
+                                               detector=detector_,
+                                               use_window_perf=False,
+                                               min_training_size=int(n*0.5),
+                                               start_detector_on_onset=False,
+                                               drift_simulator=drift_sim)
+
+                        wf.run_prequential(stream=stream)
+
+                        drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
+
+                    drift_eval = EvaluateDetector(max_delay=MAX_DELAY[ds])
+
+                    metrics = drift_eval.calc_performance_from_eps(drift_eps=drift_episodes, tot_n_instances=n)
+
+                    detector_perf[detector_name] = metrics
+
+                    perf = pd.DataFrame(detector_perf).T
+                    perf.to_csv(f'assets/results/{ds},{DRIFT_TYPE},{clf}.csv')
+
+                perf = pd.DataFrame(detector_perf).T
+                perf.to_csv(f'assets/results/{ds},{DRIFT_TYPE},{clf}.csv')

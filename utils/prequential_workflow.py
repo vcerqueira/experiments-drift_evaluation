@@ -4,13 +4,13 @@ from utils.streams.inject_drift import DriftSimulator
 
 
 class StreamingWorkflow:
-    MIN_TRAINING_SIZE = 1000
 
     def __init__(self,
                  model,
                  evaluator,
                  detector,
                  use_window_perf: bool,
+                 min_training_size: int = 1000,
                  start_detector_on_onset: bool = False,
                  drift_simulator: Optional[DriftSimulator] = None):
 
@@ -18,6 +18,7 @@ class StreamingWorkflow:
         self.evaluator = evaluator
         self.detector = detector
         self.instances_processed = 0
+        self.min_training_size = min_training_size
         self.drift_predictions = []
         self.drift_simulator = drift_simulator
         self.start_detector_on_onset = start_detector_on_onset
@@ -45,7 +46,7 @@ class StreamingWorkflow:
                 self.instances_processed += 1
                 continue
 
-            if self.instances_processed > self.MIN_TRAINING_SIZE:
+            if self.instances_processed > self.min_training_size:
                 prediction = self.model.predict(instance)
 
                 if self.start_detector_on_onset:
@@ -90,7 +91,7 @@ class StreamingWorkflow:
 
             instance = stream.next_instance()
 
-            if self.instances_processed > self.MIN_TRAINING_SIZE:
+            if self.instances_processed > self.min_training_size:
                 prediction = self.model.predict(instance)
 
                 score = self._get_latest_score(instance.y_index, prediction)

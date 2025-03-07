@@ -64,7 +64,7 @@ class DriftSimulator:
         loc = np.random.uniform(self.drift_region[0] + self.burn_in_samples,
                                 self.drift_region[1] - self.burn_in_samples, 1)[0]
 
-        print(loc)
+        # print(loc)
 
         # np.random.uniform(.3,.7, 1)[0]
 

@@ -9,10 +9,12 @@ from capymoa.datasets import (ElectricityTiny,
 
 CAPYMOA_DATASETS = {
     'Electricity': Electricity,
-    # 'Bike': Bike,
     'Covtype': CovtypeNorm,
-    # 'Fried': Fried,
-    'Sensor': Sensor,
+    # 'Sensor': Sensor,
+}
+
+MAX_DELAY = {
+    'Electricity': 2500, 'Covtype': 5000, 'Sensor': 5000,
 }
 
 # STABLE_PERIODS = {
