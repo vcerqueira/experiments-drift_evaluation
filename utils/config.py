@@ -4,7 +4,6 @@ from capymoa.classifier import (OnlineBagging,
                                 HoeffdingTree,
                                 AdaptiveRandomForestClassifier,
                                 NaiveBayes)
-from utils.studd import STUDD
 
 DETECTORS = {
     'ABCD': detectors.ABCD,
@@ -20,7 +19,7 @@ DETECTORS = {
     'RDDM': detectors.RDDM,
     'SEED': detectors.SEED,
     'STEPD': detectors.STEPD,
-    'STUDD': STUDD,
+    'STUDD': detectors.STUDD,
 }
 
 # AFTERWARDS, PICK THE TOP 3 BASED ON SYNTHETIC EXPERIMENTS

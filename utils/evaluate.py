@@ -58,7 +58,7 @@ class EvaluateDetector:
             ValueError: If max_delay is not a positive integer.
 
         Note:
-            - The max_delay parameter is crucial for evaluating both the accuracy and speed
+            - The max_delay parameter is important for evaluating both the accuracy and speed
               of drift detection.
             - For gradual drifts (where start_location != end_location), the detection
               window extends from (start_location - max_delay) to (end_location + max_delay).
@@ -125,7 +125,6 @@ class EvaluateDetector:
             drift_start, drift_end = episode['true']
 
             for pred in episode['preds']:
-                # print(pred)
                 n_alarms += 1
 
                 if drift_start - self.max_delay <= pred <= drift_end + self.max_delay:
