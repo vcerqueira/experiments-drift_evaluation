@@ -57,10 +57,11 @@ class StreamingWorkflow:
 
                 if monitor_instance:
                     # print(instance.x.flatten())
-                    self.detector.add_element(instance.x.flatten())
+                    # self.detector.add_element(instance.x.flatten())
+                    self.detector.add_element(instance)
                 else:
                     if self.detector.__str__() == 'STUDD':
-                        self.detector.add_element(instance.x, prediction)
+                        self.detector.add_element(instance, prediction)
                     else:
                         self.detector.add_element(score)
 

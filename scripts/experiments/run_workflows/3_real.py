@@ -40,6 +40,9 @@ for drift_x in [False, True]:
                     print(f'Running detector: {detector_name}')
                     # if detector_name != 'STUDD':
                     #     continue
+                    # detector_name = 'ABCDx'
+                    # detector = DETECTORS[detector_name]
+
                     np.random.seed(123)
 
                     drift_episodes = []

@@ -1,103 +1,186 @@
+"""
+Hyperparameter Tuning for Drift Detectors on Synthetic Data Streams
+
+This script performs hyperparameter optimization for drift detectors using synthetic data streams.
+It evaluates different parameter configurations using a random search approach and saves the results.
+
+The workflow:
+1. For each detector, sample N parameter configurations
+2. For each configuration, evaluate performance on different synthetic data streams
+3. Store and analyze the results to identify optimal configurations
+"""
+
+import os
 import numpy as np
 import pandas as pd
+from datetime import datetime
+from typing import Dict, List, Any
+
 from capymoa.evaluation.evaluation import ClassificationEvaluator
+from capymoa.drift.eval_detector import EvaluateDriftDetector
 from sklearn.model_selection import ParameterSampler
 
 from utils.streams.synth import CustomDriftStream
-from utils.evaluate import EvaluateDetector
 from utils.prequential_workflow import StreamingWorkflow
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_PARAM_SPACE
 
-"""
-In this script, we optimize a detector's parameters using a grid search
-
-for each detector:
-sample 50 configurations
-store results
-
-
-"""
-
-# CLF = 'NaiveBayes'
-USE_WINDOW = False
+# Configuration constants
+USE_PERFORMANCE_WINDOW = False
 MAX_DELAY = 1000
 N_DRIFTS = 30
 DRIFT_EVERY_N = 10000
 DRIFT_WIDTH = 0
-MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
-WINDOW_MODE = 'WINDOW' if USE_WINDOW else 'POINT'
 DRIFT_TYPE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
 N_ITER_RANDOM_SEARCH = 30
+MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
+RANDOM_SEED = 123
+OUTPUT_DIR = 'assets/results'
 
-performance_metrics = []
-for detector_name, detector in DETECTORS.items():
-    print(f'Running detector: {detector_name}')
 
-    if detector_name not in ['ABCDx']:
-        continue
+def setup_output_directory(output_dir: str) -> None:
+    """
+    Create output directory if it doesn't exist.
+    
+    Args:
+        output_dir: Path to the output directory
+    """
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        print(f"Created output directory: {output_dir}")
 
-    config_space = ParameterSampler(param_distributions=DETECTOR_PARAM_SPACE[detector_name],
-                                    n_iter=N_ITER_RANDOM_SEARCH)
 
-    for config_ in config_space:
-        print(config_)
+def run_experiment(detector_name: str,
+                   detector,
+                   config: Dict[str, Any],
+                   classifier_name: str,
+                   generator_name: str) -> Dict[str, Any]:
+    """
+    Run a single experiment with the given configuration.
+    
+    Args:
+        detector_name: Name of the drift detector
+        detector: Detector class object
+        config: Parameter configuration for the detector
+        classifier_name: Name of the classifier to use
+        generator_name: Name of the synthetic data generator
+        
+    Returns:
+        Dict containing the results of the experiment
+    """
+    print(f"Running: {detector_name} with {classifier_name} on {generator_name}")
+    print(f"Config: {config}")
 
-        for clf in [*CLASSIFIERS]:
+    # Create the synthetic data stream
+    np.random.seed(RANDOM_SEED)
+    stream_creator = CustomDriftStream(
+        generator=generator_name,
+        n_drifts=N_DRIFTS,
+        drift_every_n=DRIFT_EVERY_N,
+        drift_width=DRIFT_WIDTH
+    )
 
-            for generator in [*CustomDriftStream.GENERATORS]:
-                # generator
+    stream = stream_creator.create_stream()
+    schema = stream.get_schema()
 
-                np.random.seed(123)
-                stream_creator = CustomDriftStream(generator=generator,
-                                                   n_drifts=N_DRIFTS,
-                                                   drift_every_n=DRIFT_EVERY_N,
-                                                   drift_width=DRIFT_WIDTH)
+    # Initialize evaluator and learner
+    evaluator = ClassificationEvaluator(schema=schema, window_size=1)
+    learner = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
 
-                stream = stream_creator.create_stream()
-                sch = stream.get_schema()
+    # For STUDD detector, initialize and pass the student model
+    if detector_name == 'STUDD':
+        student = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
+        config['student'] = student
 
-                evaluator = ClassificationEvaluator(schema=sch, window_size=1)
-                learner = CLASSIFIERS[clf](schema=sch, **CLASSIFIER_PARAMS[clf])
-                student = CLASSIFIERS[clf](schema=sch, **CLASSIFIER_PARAMS[clf])
+    # Initialize the detector with the configuration
+    detector_instance = detector(**config)
 
-                drifts = stream.get_drifts()
-                drifts = [(x.position, x.position + x.width) for x in drifts]
+    # Set up the streaming workflow
+    wf = StreamingWorkflow(
+        model=learner,
+        evaluator=evaluator,
+        detector=detector_instance,
+        use_window_perf=USE_PERFORMANCE_WINDOW
+    )
 
-                if detector_name == 'STUDD':
-                    detector_ = detector(student=student, **config_)
-                else:
-                    detector_ = detector(**config_)
+    # Run the prequential evaluation
+    monitor_instance = detector_name == 'ABCDx'
+    wf.run_prequential(
+        stream=stream,
+        max_size=MAX_STREAM_SIZE,
+        monitor_instance=monitor_instance
+    )
 
-                wf = StreamingWorkflow(model=learner,
-                                       evaluator=evaluator,
-                                       detector=detector_,
-                                       use_window_perf=USE_WINDOW)
+    # Get the true drift points
+    drifts = stream.get_drifts()
+    true_drifts = [(x.position, x.position + x.width) for x in drifts]
 
-                monitor_x = True if detector_name == 'ABCDx' else False
+    # Evaluate detector performance
+    drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY)
+    metrics = drift_eval.calc_performance(
+        trues=true_drifts,
+        preds=wf.drift_predictions,
+        tot_n_instances=wf.instances_processed
+    )
 
-                wf.run_prequential(stream=stream,
-                                   max_size=MAX_STREAM_SIZE,
-                                   monitor_instance=monitor_x)
+    # Compile metadata and results
+    metadata = {
+        'detector': detector_name,
+        'stream': generator_name,
+        'learner': classifier_name,
+        'drift_type': DRIFT_TYPE,
+    }
 
-                drift_eval = EvaluateDetector(max_delay=MAX_DELAY)
+    return {**metadata, 'params': config, **metrics}
 
-                metrics = drift_eval.calc_performance(trues=drifts,
-                                                      preds=wf.drift_predictions,
-                                                      tot_n_instances=wf.instances_processed)
 
-                metadata = {
-                    'detector': detector_name, 'stream': generator,
-                    'learner': clf, 'drift_type': DRIFT_TYPE,
-                }
+def main():
+    """
+    Main function to run the hyperparameter tuning process.
+    """
+    # Setup output directory
+    setup_output_directory(OUTPUT_DIR)
 
-                results = {**metadata, 'params': config_, **metrics}
+    performance_metrics = []
 
-                performance_metrics.append(results)
+    # Iterate through detectors to tune
+    for detector_name, detector in DETECTORS.items():
+        print(f'Running detector: {detector_name}')
 
-                perf = pd.DataFrame(performance_metrics)
+        # Filter to specific detectors if needed
+        if detector_name not in ['ABCDx']:
+            continue
 
-                perf.to_csv(f'assets/results/detector_hypertuning3,{DRIFT_TYPE}.csv', index=False)
+        # Sample parameter configurations using random search
+        config_space = ParameterSampler(
+            param_distributions=DETECTOR_PARAM_SPACE[detector_name],
+            n_iter=N_ITER_RANDOM_SEARCH
+        )
 
-perf = pd.DataFrame(performance_metrics)
+        # Evaluate each configuration
+        for config in config_space:
+            for classifier_name in CLASSIFIERS:
+                for generator_name in CustomDriftStream.GENERATORS:
+                    try:
+                        result = run_experiment(
+                            detector_name=detector_name,
+                            detector=detector,
+                            config=config,
+                            classifier_name=classifier_name,
+                            generator_name=generator_name
+                        )
+                        performance_metrics.append(result)
+                    except Exception as e:
+                        print(f"Error in experiment: {e}")
+                        # Continue with next experiment rather than stopping entirely
+                        continue
 
-perf.to_csv(f'assets/results/detector_hypertuning3,{DRIFT_TYPE}.csv', index=False)
+    # Save results to CSV
+    results_df = pd.DataFrame(performance_metrics)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_file = f'{OUTPUT_DIR}/detector_hypertuning_{DRIFT_TYPE}_{timestamp}.csv'
+    results_df.to_csv(output_file, index=False)
+    print(f"Results saved to: {output_file}")
+
+
+if __name__ == "__main__":
+    main()
