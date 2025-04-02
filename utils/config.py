@@ -22,15 +22,11 @@ DETECTORS = {
     'STUDD': detectors.STUDD,
 }
 
-# AFTERWARDS, PICK THE TOP 3 BASED ON SYNTHETIC EXPERIMENTS
-# DETECTOR_ENSEMBLE = ['SEED', 'ADWIN', 'HDDMAverage', 'ABCD']
-DETECTOR_ENSEMBLE = ['SEED', 'ADWIN', 'HDDMAverage']
-
 CLASSIFIERS = {
     # 'OnlineBagging': OnlineBagging,
     'HoeffdingTree': HoeffdingTree,
-    # 'ARF': AdaptiveRandomForestClassifier,
-    # 'NaiveBayes': NaiveBayes,
+    'ARF': AdaptiveRandomForestClassifier,
+    'NaiveBayes': NaiveBayes,
 }
 
 CLASSIFIER_PARAMS = {

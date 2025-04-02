@@ -9,6 +9,7 @@ The workflow:
 2. For each configuration, evaluate performance on different synthetic data streams
 3. Store and analyze the results to identify optimal configurations
 """
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -32,7 +33,7 @@ DRIFT_TYPE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
 N_ITER_RANDOM_SEARCH = 30
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
 RANDOM_SEED = 123
-OUTPUT_DIR = 'assets/results'
+OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results'
 
 
 def run_experiment(detector_name: str,
