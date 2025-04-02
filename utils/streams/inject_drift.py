@@ -48,7 +48,6 @@ class DriftSimulator:
 
     def transform(self, instance) -> Optional[LabeledInstance]:
         if self.on_y_prior:
-            # todo test this
             if instance.y_index == self.fitted['selected_label']:
                 skip = self._skip_instance()
                 if skip:

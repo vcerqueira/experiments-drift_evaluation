@@ -20,9 +20,6 @@ for drift_x in [False, True]:
         DRIFT_TYPE = 'ABRUPT@XY' if (drift_x and drift_y) else ('ABRUPT@X' if drift_x
                                                                 else 'ABRUPT@Y' if drift_y else None)
 
-        if DRIFT_TYPE == 'ABRUPT@Y':
-            continue
-
         for clf in [*CLASSIFIERS]:
 
             for ds in [*CAPYMOA_DATASETS]:
@@ -38,10 +35,6 @@ for drift_x in [False, True]:
                 detector_perf = {}
                 for detector_name, detector in DETECTORS.items():
                     print(f'Running detector: {detector_name}')
-                    # if detector_name != 'STUDD':
-                    #     continue
-                    # detector_name = 'ABCDx'
-                    # detector = DETECTORS[detector_name]
 
                     np.random.seed(123)
 
