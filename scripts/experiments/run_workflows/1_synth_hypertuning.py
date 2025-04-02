@@ -10,11 +10,9 @@ The workflow:
 3. Store and analyze the results to identify optimal configurations
 """
 
-import os
 import numpy as np
 import pandas as pd
-from datetime import datetime
-from typing import Dict, List, Any
+from typing import Dict, Any
 
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 from capymoa.drift.eval_detector import EvaluateDriftDetector
@@ -35,18 +33,6 @@ N_ITER_RANDOM_SEARCH = 30
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
 RANDOM_SEED = 123
 OUTPUT_DIR = 'assets/results'
-
-
-def setup_output_directory(output_dir: str) -> None:
-    """
-    Create output directory if it doesn't exist.
-    
-    Args:
-        output_dir: Path to the output directory
-    """
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-        print(f"Created output directory: {output_dir}")
 
 
 def run_experiment(detector_name: str,
@@ -70,7 +56,6 @@ def run_experiment(detector_name: str,
     print(f"Running: {detector_name} with {classifier_name} on {generator_name}")
     print(f"Config: {config}")
 
-    # Create the synthetic data stream
     np.random.seed(RANDOM_SEED)
     stream_creator = CustomDriftStream(
         generator=generator_name,
@@ -82,19 +67,16 @@ def run_experiment(detector_name: str,
     stream = stream_creator.create_stream()
     schema = stream.get_schema()
 
-    # Initialize evaluator and learner
     evaluator = ClassificationEvaluator(schema=schema, window_size=1)
     learner = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
 
-    # For STUDD detector, initialize and pass the student model
+    # for STUDD detector, initialize and pass the student model
     if detector_name == 'STUDD':
         student = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
         config['student'] = student
 
-    # Initialize the detector with the configuration
     detector_instance = detector(**config)
 
-    # Set up the streaming workflow
     wf = StreamingWorkflow(
         model=learner,
         evaluator=evaluator,
@@ -102,19 +84,17 @@ def run_experiment(detector_name: str,
         use_window_perf=USE_PERFORMANCE_WINDOW
     )
 
-    # Run the prequential evaluation
     monitor_instance = detector_name == 'ABCDx'
+
     wf.run_prequential(
         stream=stream,
         max_size=MAX_STREAM_SIZE,
         monitor_instance=monitor_instance
     )
 
-    # Get the true drift points
     drifts = stream.get_drifts()
     true_drifts = [(x.position, x.position + x.width) for x in drifts]
 
-    # Evaluate detector performance
     drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY)
     metrics = drift_eval.calc_performance(
         trues=true_drifts,
@@ -137,8 +117,6 @@ def main():
     """
     Main function to run the hyperparameter tuning process.
     """
-    # Setup output directory
-    setup_output_directory(OUTPUT_DIR)
 
     performance_metrics = []
 
@@ -147,16 +125,14 @@ def main():
         print(f'Running detector: {detector_name}')
 
         # Filter to specific detectors if needed
-        if detector_name not in ['ABCDx']:
-            continue
+        # if detector_name not in ['ABCDx']:
+        #     continue
 
-        # Sample parameter configurations using random search
         config_space = ParameterSampler(
             param_distributions=DETECTOR_PARAM_SPACE[detector_name],
             n_iter=N_ITER_RANDOM_SEARCH
         )
 
-        # Evaluate each configuration
         for config in config_space:
             for classifier_name in CLASSIFIERS:
                 for generator_name in CustomDriftStream.GENERATORS:
@@ -171,15 +147,15 @@ def main():
                         performance_metrics.append(result)
                     except Exception as e:
                         print(f"Error in experiment: {e}")
-                        # Continue with next experiment rather than stopping entirely
                         continue
 
-    # Save results to CSV
+                    results_df = pd.DataFrame(performance_metrics)
+                    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{DRIFT_TYPE}.csv'
+                    results_df.to_csv(output_file, index=False)
+
     results_df = pd.DataFrame(performance_metrics)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = f'{OUTPUT_DIR}/detector_hypertuning_{DRIFT_TYPE}_{timestamp}.csv'
+    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{DRIFT_TYPE}.csv'
     results_df.to_csv(output_file, index=False)
-    print(f"Results saved to: {output_file}")
 
 
 if __name__ == "__main__":
