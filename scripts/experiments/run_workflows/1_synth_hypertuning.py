@@ -126,7 +126,7 @@ def main():
         print(f'Running detector: {detector_name}')
 
         # Filter to specific detectors if needed
-        if detector_name in ['ABCD', 'ABCDx']:
+        if detector_name not in ['ABCD']:
             continue
 
         config_space = ParameterSampler(
@@ -155,7 +155,7 @@ def main():
                     results_df.to_csv(output_file, index=False)
 
     results_df = pd.DataFrame(performance_metrics)
-    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{DRIFT_TYPE}2.csv'
+    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{DRIFT_TYPE}.csv'
     results_df.to_csv(output_file, index=False)
 
 
