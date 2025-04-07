@@ -10,8 +10,7 @@ from utils.prequential_workflow import StreamingWorkflow
 from utils.streams.real import CAPYMOA_DATASETS, MAX_DELAY
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
 
-# Constants
-N_DRIFTS = 30
+N_DRIFTS = 50
 RANDOM_SEED = 123
 OUTPUT_DIR = Path('assets/results')
 DRIFT_REGION = (0.6, 0.9)

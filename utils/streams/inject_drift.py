@@ -114,32 +114,32 @@ class DriftSimulator:
         Returns:
             Optional[LabeledInstance]: The transformed instance, or None if the instance was skipped
         """
-        instance_ = copy.deepcopy(instance)
+        # instance_ = copy.deepcopy(instance)
 
         if self.on_y_prior:
-            if instance_.y_index == self.fitted['y_selected_label']:
+            if instance.y_index == self.fitted['y_selected_label']:
                 skip = self._skip_instance()
                 if skip:
                     return None
 
         if self.on_y_swap:
-            if instance_.y_index == self.fitted['y_selected_label']:
+            if instance.y_index == self.fitted['y_selected_label']:
                 y_swapper = self.fitted['y_selected_swap']
 
-                instance_ = LabeledInstance.from_array(self.schema,
-                                                       instance_.x,
-                                                       y_swapper)
+                instance = LabeledInstance.from_array(self.schema,
+                                                      instance.x,
+                                                      y_swapper)
 
         if self.on_x_permute:
-            x_t = self._shuffle_arr(instance_.x)
-            instance_ = LabeledInstance.from_array(self.schema, x_t, instance_.y_index)
+            x_t = self._shuffle_arr(instance.x)
+            instance = LabeledInstance.from_array(self.schema, x_t, instance.y_index)
 
         if self.on_x_exceed:
-            exceeds_threshold = self._arr_exceeds_threshold(instance_.x)
+            exceeds_threshold = self._arr_exceeds_threshold(instance.x)
             if exceeds_threshold:
                 return None
 
-        return instance_
+        return instance
 
     def sample_drift_location(self):
         """
