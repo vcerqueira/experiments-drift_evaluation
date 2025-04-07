@@ -10,7 +10,7 @@ from utils.streams.inject_drift import DriftSimulator
 
 streams = {
     'ElectricityTiny': Electricity(),
-    'CovtypeTiny': CovtypeNorm(),
+    # 'CovtypeTiny': CovtypeNorm(),
     # 'Sensor': Sensor()
 }
 

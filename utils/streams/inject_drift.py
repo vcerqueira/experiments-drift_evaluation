@@ -1,4 +1,4 @@
-import copy
+import random
 from typing import Optional
 
 import numpy as np
@@ -196,9 +196,10 @@ class DriftSimulator:
 
     @classmethod
     def select_random_num_attr(cls, schema):
-        numeric_attrs = schema.get_numeric_attributes()
+        # numeric_attrs = schema.get_numeric_attributes()
+        numeric_attrs = [*STREAM_MEDIANS[schema.dataset_name]]
 
-        selected_attr = numeric_attrs[np.random.choice(len(numeric_attrs))]
+        selected_attr = random.choice(numeric_attrs)
 
         selected_attr_idx = cls.get_attr_position(schema, selected_attr)
 

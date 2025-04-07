@@ -109,6 +109,9 @@ for drift_type, drift_params in DRIFT_CONFIGS.items():
 
     for classifier_name in CLASSIFIERS:
         for dataset_name in CAPYMOA_DATASETS:
+            # stream = CAPYMOA_DATASETS[dataset_name]()
+            # sch = stream.get_schema()
+
             output_file = OUTPUT_DIR.parent.parent.parent / f'{dataset_name},{drift_type},{classifier_name}.csv'
 
             results_df = run_experiment(
