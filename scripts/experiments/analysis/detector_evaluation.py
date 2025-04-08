@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def read_real(dataset: str, type: str, learner: str, metric: str):
-    df = pd.read_csv(f'assets/results/{dataset},{type},{learner}.csv').set_index('Unnamed: 0')
+    df = pd.read_csv(f'{dataset},{type},{learner}.csv').set_index('Unnamed: 0')
     df.index.name = 'Detector'
 
     df_metric = df[metric]
@@ -10,7 +10,11 @@ def read_real(dataset: str, type: str, learner: str, metric: str):
     return df_metric
 
 
-df_y = read_real('Electricity', 'ABRUPT@Y', 'HoeffdingTree', 'f1')
+df_y = read_real('Electricity', 'x_permutations', 'HoeffdingTree', 'f1')
+df_y = read_real('Electricity', 'x_permutations', 'HoeffdingTree', 'far')
+df_y = read_real('Electricity', 'x_permutations', 'ARF', 'f1')
+df_y = read_real('Electricity', 'x_exceed_skip', 'HoeffdingTree', 'f1')
+
 df_x = read_real('Electricity', 'ABRUPT@X', 'HoeffdingTree', 'f1')
 df_xy = read_real('Electricity', 'ABRUPT@X', 'HoeffdingTree', 'f1')
 df_1 = pd.concat([df_y, df_x, df_xy], axis=1).round(4)

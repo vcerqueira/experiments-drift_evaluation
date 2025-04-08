@@ -86,7 +86,9 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
                 drift_simulator=drift_sim
             )
 
-            wf.run_prequential(stream=stream)
+            monitor_instance = detector_name == 'ABCDx'
+
+            wf.run_prequential(stream=stream, monitor_instance=monitor_instance)
 
             drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
 
