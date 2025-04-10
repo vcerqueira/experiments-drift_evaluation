@@ -40,7 +40,9 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
     print(f"Running experiment: {dataset_name}, {classifier_name}, {drift_type}")
 
     pre_stream = CAPYMOA_DATASETS[dataset_name]()
-    stream_length = pre_stream._length
+    # stream_length = pre_stream._length
+    stream_length = min(pre_stream._length, 100000)
+    print('stream_length:', stream_length)
 
     pre_stream = DriftSimulator.shuffle_stream(pre_stream)
     pre_stream.next_instance()
@@ -88,7 +90,11 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
             monitor_instance = detector_name == 'ABCDx'
 
-            wf.run_prequential(stream=stream, monitor_instance=monitor_instance)
+            wf.run_prequential(stream=stream,
+                               monitor_instance=monitor_instance,
+                               max_size=stream_length)
+
+            # print('finished at', wf.instances_processed)
 
             drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
 
@@ -111,6 +117,7 @@ for drift_type, drift_params in DRIFT_CONFIGS.items():
 
     for classifier_name in CLASSIFIERS:
         for dataset_name in CAPYMOA_DATASETS:
+            print(dataset_name)
             # stream = CAPYMOA_DATASETS[dataset_name]()
             # sch = stream.get_schema()
 

@@ -8,13 +8,15 @@ from capymoa.datasets import (ElectricityTiny,
                               Sensor)
 
 CAPYMOA_DATASETS = {
-    'Electricity': Electricity,
-    # 'Covtype': CovtypeNorm,
+    # 'Electricity': Electricity,
+    'Covtype': CovtypeNorm,
     # 'Sensor': Sensor,
 }
 
 MAX_DELAY = {
-    'Electricity': 2500, 'Covtype': 5000, 'Sensor': 5000,
+    'Electricity': 2500,
+    'Covtype': 2500,# 5000 for full ds
+    'Sensor': 5000,
 }
 
 STREAM_MEDIANS = {'covtype-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0': {'Aspect': 0.352778,

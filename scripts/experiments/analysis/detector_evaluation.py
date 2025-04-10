@@ -11,6 +11,7 @@ def read_real(dataset: str, type: str, learner: str, metric: str):
 
 
 df_y = read_real('Electricity', 'x_permutations', 'HoeffdingTree', 'f1')
+
 df_y = read_real('Electricity', 'x_permutations', 'HoeffdingTree', 'far')
 df_y = read_real('Electricity', 'x_permutations', 'ARF', 'f1')
 df_y = read_real('Electricity', 'x_exceed_skip', 'HoeffdingTree', 'f1')
