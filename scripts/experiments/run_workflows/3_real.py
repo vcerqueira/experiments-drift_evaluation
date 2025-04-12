@@ -1,3 +1,4 @@
+import os.path
 from pathlib import Path
 
 import numpy as np
@@ -122,6 +123,9 @@ for drift_type, drift_params in DRIFT_CONFIGS.items():
             # sch = stream.get_schema()
 
             output_file = OUTPUT_DIR.parent.parent.parent / f'{dataset_name},{drift_type},{classifier_name}.csv'
+
+            if os.path.exists(output_file):
+                continue
 
             results_df = run_experiment(
                 dataset_name=dataset_name,
