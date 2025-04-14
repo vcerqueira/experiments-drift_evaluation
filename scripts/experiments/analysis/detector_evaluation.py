@@ -24,6 +24,7 @@ df_y = read_real('Electricity', 'y_swaps', 'ARF', 'f1')
 df_y = read_real('Electricity', 'y_swaps', 'NaiveBayes', 'f1')
 df_y = read_real('Electricity', 'y_swaps', 'NaiveBayes', 'f1')
 df_y = read_real('Covtype', 'x_permutations', 'HoeffdingTree', 'f1')
+df_y = read_real('Covtype', 'x_permutations', 'ARF', 'f1')
 print(df_y)
 
 df_x = read_real('Electricity', 'ABRUPT@X', 'HoeffdingTree', 'f1')

@@ -16,6 +16,7 @@ RANDOM_SEED = 123
 OUTPUT_DIR = Path('assets/results')
 DRIFT_REGION = (0.6, 0.9)
 MIN_TRAINING_RATIO = 0.5
+MAX_N_INSTANCES = 70_000
 
 DRIFT_CONFIGS = {
     'x_permutations': {'on_x_permute': True, 'on_x_exceed': False, 'on_y_prior': False, 'on_y_swap': False},
@@ -42,10 +43,10 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
     pre_stream = CAPYMOA_DATASETS[dataset_name]()
     # stream_length = pre_stream._length
-    stream_length = min(pre_stream._length, 100000)
+    stream_length = min(pre_stream._length, MAX_N_INSTANCES)
     print('stream_length:', stream_length)
 
-    pre_stream = DriftSimulator.shuffle_stream(pre_stream)
+    pre_stream = DriftSimulator.shuffle_stream(pre_stream, max_n_instances=MAX_N_INSTANCES)
     pre_stream.next_instance()
     schema = pre_stream.get_schema()
 
@@ -57,6 +58,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
         drift_episodes = []
         for i in range(N_DRIFTS):
+            print('Iter:', i)
             stream = CAPYMOA_DATASETS[dataset_name]()
             stream = DriftSimulator.shuffle_stream(stream)
 

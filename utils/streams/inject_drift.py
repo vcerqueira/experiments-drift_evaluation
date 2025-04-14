@@ -215,7 +215,7 @@ class DriftSimulator:
         return i
 
     @staticmethod
-    def shuffle_stream(stream):
+    def shuffle_stream(stream, max_n_instances: Optional[int] = None):
         """
         Create a new stream by randomly shuffling all instances.
         
@@ -224,6 +224,7 @@ class DriftSimulator:
             
         Returns:
             NumpyStream: A new stream with shuffled instances
+            :param max_n_instances: max n instances
         """
 
         sch = stream.get_schema()
@@ -232,11 +233,17 @@ class DriftSimulator:
                       for i in range(sch.get_num_attributes())]
 
         X_list, y_list = [], []
+        instance_processed = 0
         while stream.has_more_instances():
+            if max_n_instances is not None:
+                if instance_processed > max_n_instances:
+                    break
+
             instance = stream.next_instance()
 
             X_list.append(instance.x)
             y_list.append(instance.y_index)
+            instance_processed += 1
 
         X = pd.DataFrame(X_list)
         y = pd.Series(y_list)

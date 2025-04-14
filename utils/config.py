@@ -25,8 +25,8 @@ DETECTORS = {
 CLASSIFIERS = {
     # 'OnlineBagging': OnlineBagging,
     'HoeffdingTree': HoeffdingTree,
-    'ARF': AdaptiveRandomForestClassifier,
-    'NaiveBayes': NaiveBayes,
+    # 'ARF': AdaptiveRandomForestClassifier,
+    # 'NaiveBayes': NaiveBayes,
 }
 
 CLASSIFIER_PARAMS = {
