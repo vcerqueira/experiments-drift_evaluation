@@ -34,7 +34,6 @@ def get_best_configs(
     for stream in stream_list + ['ALL']:
         print(f"Processing leave-one-out for stream: {stream}")
 
-        # Filter data for leave-one-out
         if stream == 'ALL':
             perf_loo = perf_data
         else:
@@ -44,14 +43,12 @@ def get_best_configs(
         for detector in detector_list:
             print(f"Finding best config for detector: {detector}")
 
-            # Filter data for current detector
             perf_dct = perf_loo.query(f'detector=="{detector}"')
 
-            # Group by parameters and calculate mean F1 score
+            # group by parameters and rank by f1
             params_f1 = perf_dct.groupby('params').mean(numeric_only=True)['f1']
 
             if not params_f1.empty:
-                # Get the best configuration
                 best_config = literal_eval(params_f1.sort_values().index[-1])
                 detectors_f1[detector] = best_config
             else:
@@ -65,17 +62,13 @@ def get_best_configs(
 
 def main() -> None:
     """Main function to run the hyperparameter analysis."""
-    # Load performance data
     perf = pd.read_csv(file_path)
 
-    # Get unique streams and detectors
     stream_list = perf['stream'].unique().tolist()
     detector_list = perf['detector'].unique().tolist()
 
-    # Find best configurations
     loo_best_configs = get_best_configs(perf, stream_list, detector_list)
 
-    # Print results
     print("Best configurations found:")
     pp = pprint.PrettyPrinter(indent=2)
     pp.pprint(loo_best_configs)

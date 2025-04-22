@@ -20,7 +20,7 @@ from capymoa.drift.eval_detector import EvaluateDriftDetector
 from sklearn.model_selection import ParameterSampler
 
 from utils.streams.synth import CustomDriftStream
-from utils.prequential_workflow import StreamingWorkflow
+from utils.prequential_workflow import SupervisedStreamingWorkflow
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_PARAM_SPACE
 
 # Configuration constants
@@ -29,7 +29,7 @@ MAX_DELAY = 1000
 N_DRIFTS = 30
 DRIFT_EVERY_N = 10000
 DRIFT_WIDTH = 0
-DRIFT_TYPE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
+MODE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
 N_ITER_RANDOM_SEARCH = 30
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
 RANDOM_SEED = 123
@@ -78,7 +78,7 @@ def run_experiment(detector_name: str,
 
     detector_instance = detector(**config)
 
-    wf = StreamingWorkflow(
+    wf = SupervisedStreamingWorkflow(
         model=learner,
         evaluator=evaluator,
         detector=detector_instance,
@@ -108,7 +108,7 @@ def run_experiment(detector_name: str,
         'detector': detector_name,
         'stream': generator_name,
         'learner': classifier_name,
-        'drift_type': DRIFT_TYPE,
+        'drift_type': MODE,
     }
 
     return {**metadata, 'params': config, **metrics}
@@ -151,11 +151,11 @@ def main():
                         continue
 
                     results_df = pd.DataFrame(performance_metrics)
-                    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{DRIFT_TYPE}.csv'
+                    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{MODE}.csv'
                     results_df.to_csv(output_file, index=False)
 
     results_df = pd.DataFrame(performance_metrics)
-    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{DRIFT_TYPE}.csv'
+    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{MODE}.csv'
     results_df.to_csv(output_file, index=False)
 
 

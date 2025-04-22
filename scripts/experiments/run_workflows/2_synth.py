@@ -20,7 +20,7 @@ from capymoa.evaluation.evaluation import ClassificationEvaluator
 from capymoa.drift.eval_detector import EvaluateDriftDetector
 
 from utils.streams.synth import CustomDriftStream
-from utils.prequential_workflow import StreamingWorkflow
+from utils.prequential_workflow import SupervisedStreamingWorkflow
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
 USE_PERFORMANCE_WINDOW = False
@@ -29,7 +29,7 @@ N_DRIFTS = 30
 DRIFT_EVERY_N = 10000
 DRIFT_WIDTH = 0
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
-DRIFT_TYPE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
+MODE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
 RANDOM_SEED = 123
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results'
 GENERATORS = ['Agrawal', 'SEA', 'STAGGER']
@@ -76,7 +76,7 @@ def run_detector(detector_name: str,
     schema = stream.get_schema()
     evaluator = ClassificationEvaluator(schema=schema, window_size=1)
 
-    wf = StreamingWorkflow(
+    wf = SupervisedStreamingWorkflow(
         model=learner,
         evaluator=evaluator,
         detector=detector_instance,
@@ -96,7 +96,7 @@ def run_detector(detector_name: str,
 
 
 def process_generator_classifier_pair(generator_name: str, classifier_name: str) -> None:
-    output_file = OUTPUT_DIR / f"{generator_name},{DRIFT_TYPE},{classifier_name}.csv"
+    output_file = OUTPUT_DIR / f"{generator_name},{classifier_name},{MODE}.csv"
 
     if output_file.exists():
         print(f"Results already exist for {generator_name}, {classifier_name}. Skipping.")

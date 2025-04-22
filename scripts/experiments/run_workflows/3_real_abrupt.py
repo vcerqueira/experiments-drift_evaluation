@@ -7,16 +7,18 @@ from capymoa.evaluation.evaluation import ClassificationEvaluator
 from capymoa.drift.eval_detector import EvaluateDriftDetector
 
 from utils.streams.inject_drift import DriftSimulator
-from utils.prequential_workflow import StreamingWorkflow
+from utils.prequential_workflow import SupervisedStreamingWorkflow
 from utils.streams.real import CAPYMOA_DATASETS, MAX_DELAY
-from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS
+from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
+WIDTH = 0  # ABRUPT
+MODE = 'ABRUPT' if WIDTH > 0 else 'GRADUAL'
 N_DRIFTS = 50
 RANDOM_SEED = 123
 OUTPUT_DIR = Path('assets/results')
 DRIFT_REGION = (0.6, 0.9)
 MIN_TRAINING_RATIO = 0.5
-MAX_N_INSTANCES = 70_000
+MAX_N_INSTANCES = 100_000
 
 DRIFT_CONFIGS = {
     'x_permutations': {'on_x_permute': True, 'on_x_exceed': False, 'on_y_prior': False, 'on_y_swap': False},
@@ -64,6 +66,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
             drift_sim = DriftSimulator(
                 **drift_params,
+                width=WIDTH,
                 drift_region=DRIFT_REGION,
                 burn_in_samples=0,
                 schema=schema
@@ -76,12 +79,14 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
             learner = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
             student = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
 
-            if detector_name == 'STUDD':
-                detector_instance = detector_class(student=student)
-            else:
-                detector_instance = detector_class()
+            detector_params = DETECTOR_SYNTH_PARAMS['ALL'][detector_name]
 
-            wf = StreamingWorkflow(
+            if detector_name == 'STUDD':
+                detector_instance = detector_class(student=student, **detector_params)
+            else:
+                detector_instance = detector_class(**detector_params)
+
+            wf = SupervisedStreamingWorkflow(
                 model=learner,
                 evaluator=evaluator,
                 detector=detector_instance,
@@ -124,7 +129,7 @@ for drift_type, drift_params in DRIFT_CONFIGS.items():
             # stream = CAPYMOA_DATASETS[dataset_name]()
             # sch = stream.get_schema()
 
-            output_file = OUTPUT_DIR.parent.parent.parent / f'{dataset_name},{drift_type},{classifier_name}.csv'
+            output_file = OUTPUT_DIR.parent.parent.parent / f'{dataset_name},{drift_type},{classifier_name},{MODE}.csv'
 
             if os.path.exists(output_file):
                 continue

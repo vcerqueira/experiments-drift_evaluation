@@ -53,7 +53,8 @@ class DriftSimulator:
                  on_y_swap: bool,
                  on_x_permute: bool,
                  on_x_exceed: bool,
-                 drift_region=(0.3, 0.7),
+                 width: int = 0,
+                 drift_region=(0.5, 0.7),
                  burn_in_samples: int = 0,
                  label_skip_proba: float = 0.75):
         """
@@ -67,6 +68,10 @@ class DriftSimulator:
             burn_in_samples (int): Number of samples to skip at the beginning of the stream
             label_skip_proba (float): Probability of skipping an instance when label-based drift is active
         """
+        # if width is 0, drift is abrupt, gradual otherwise
+        self.width = width
+        assert self.width >= 0
+
         self.on_y_prior = on_y_prior
         self.on_y_swap = on_y_swap
         self.on_x_permute = on_x_permute
@@ -140,6 +145,31 @@ class DriftSimulator:
                 return None
 
         return instance
+
+    def apply_drift(self, instance_idx):
+        """
+        Determine if drift should be applied based on the instance index.
+        
+        Args:
+            instance_idx (int): The current instance index
+            
+        Returns:
+            bool: True if drift should be applied, False otherwise
+        """
+        # if instance is after drift onset + width, always apply drift
+        if instance_idx >= self.fitted['drift_onset'] + self.width:
+            return True
+
+        # instance is before drift onset
+        if instance_idx < self.fitted['drift_onset']:
+            return False
+
+        # probability based on position in the drift window
+        progress = (instance_idx - self.fitted['drift_onset']) / self.width
+        # 1 with probability that increases linearly from 0 to 1 across the width
+        apply_drift_prob = np.random.random() < progress
+
+        return apply_drift_prob
 
     def sample_drift_location(self):
         """
@@ -258,3 +288,37 @@ class DriftSimulator:
                                 feature_names=X_shuffled.columns)
 
         return np_stream
+
+    # @staticmethod
+    # def stream_to_npstream(stream, max_size: Optional[int] = None):
+    #     sch = stream.get_schema()
+    #
+    #     attr_names = [sch._moa_header.attribute(i).name()
+    #                   for i in range(sch.get_num_attributes())]
+    #
+    #     X_list, y_list = [], []
+    #     instance_processed = 0
+    #     while stream.has_more_instances():
+    #         if max_size is not None:
+    #             if instance_processed > max_size:
+    #                 break
+    #
+    #         if instance_processed % 1000 == 0:
+    #             print(f"Processed {instance_processed} instances")
+    #
+    #         instance = stream.next_instance()
+    #
+    #         X_list.append(instance.x)
+    #         y_list.append(instance.y_index)
+    #         instance_processed += 1
+    #
+    #     X = pd.DataFrame(X_list)
+    #     y = pd.Series(y_list)
+    #
+    #     X.columns = attr_names
+    #
+    #     np_stream = NumpyStream(X=X.values, y=y.values,
+    #                             dataset_name=stream.get_schema().dataset_name,
+    #                             feature_names=X.columns)
+    #
+    #     return np_stream

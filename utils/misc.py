@@ -1,7 +1,6 @@
 import pandas as pd
 import warnings
 
-# Ignore FutureWarning from pandas
 warnings.filterwarnings('ignore', category=FutureWarning)
 
 
@@ -25,7 +24,7 @@ class DataReader:
             for classifier in learners:
                 df = pd.read_csv(f'assets/results/{stream},ABRUPT,{classifier}.csv', index_col='Unnamed: 0')
 
-                df = df.drop('ABCDx').drop(columns=['error'])
+                # df = df.drop('ABCDx').drop(columns=['error'])
 
                 df_result = df[metric]
 
@@ -40,6 +39,7 @@ class DataReader:
             df_all = df_all.round(round_to)
 
         return df_all
+
 
 def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False):
     """
