@@ -44,13 +44,13 @@ DETECTOR_PARAM_SPACE = {
         'model_id': ["kpca", "ae"],
         'num_splits': [20, 50, 100],
     },
-    # 'ABCDx': {
-    #     'delta_drift': [0.001, 0.002, 0.0001, 0.01, 0.02],
-    #     'delta_warn': [0.1, 0.01],
-    #     'encoding_factor': [0.3, 0.5, 0.7],
-    #     'model_id': ["kpca", "ae"],
-    #     'num_splits': [20, 50, 100],
-    # },
+    'ABCDx': {
+        'delta_drift': [0.001, 0.002, 0.0001, 0.01, 0.02],
+        'delta_warn': [0.1, 0.01],
+        'encoding_factor': [0.3, 0.5, 0.7],
+        'model_id': ["kpca", "ae"],
+        'num_splits': [20, 50, 100],
+    },
     'ADWIN': {'delta': [0.001, 0.002, 0.005, 0.01, 0.0005, 0.0001]},
     'CUSUM': {'min_n_instances': [30, 50, 100, 300, 500, 1000, 2000],
               'delta': [0.001, 0.002, 0.005, 0.0001, 0.01],
@@ -99,7 +99,7 @@ DETECTOR_PARAM_SPACE = {
         'alpha_drift': [0.001, 0.002, 0.003, 0.005, 0.01, 0.1],
     },
 
-    'STUDD': {'min_n_instances': [250, 500, 1000, 2000, 3000, 5000, 10000]},
+    'STUDD': {'min_n_instances': [500, 1000, 2000, 5000]},
 }
 
 # OPTIMIZED USING LOO

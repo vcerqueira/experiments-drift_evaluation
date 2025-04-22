@@ -23,7 +23,7 @@ from utils.streams.synth import CustomDriftStream
 from utils.prequential_workflow import SupervisedStreamingWorkflow
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_PARAM_SPACE
 
-# Configuration constants
+# configs
 USE_PERFORMANCE_WINDOW = False
 MAX_DELAY = 1000
 N_DRIFTS = 30
@@ -155,7 +155,7 @@ def main():
                     results_df.to_csv(output_file, index=False)
 
     results_df = pd.DataFrame(performance_metrics)
-    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{MODE}.csv'
+    output_file = f'{OUTPUT_DIR}/synthetic,hypertuning,{MODE}.csv'
     results_df.to_csv(output_file, index=False)
 
 
