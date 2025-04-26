@@ -12,10 +12,12 @@ from utils.streams.real import CAPYMOA_DATASETS, MAX_DELAY
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
 WIDTH = 0  # ABRUPT
+HYPERTUNING = False
+PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
 MODE = 'ABRUPT' if WIDTH > 0 else 'GRADUAL'
 N_DRIFTS = 50
 RANDOM_SEED = 123
-OUTPUT_DIR = Path('assets/results')
+OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'real'
 DRIFT_REGION = (0.6, 0.9)
 MIN_TRAINING_RATIO = 0.5
 MAX_N_INSTANCES = 100_000
@@ -52,7 +54,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
     pre_stream.next_instance()
     schema = pre_stream.get_schema()
 
-    detector_perf = {}
+    detector_perf, detector_preds = {}, {}
     for detector_name, detector_class in DETECTORS.items():
         print(f'Running detector: {detector_name}')
 
@@ -79,7 +81,10 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
             learner = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
             student = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
 
-            detector_params = DETECTOR_SYNTH_PARAMS['ALL'][detector_name]
+            if HYPERTUNING:
+                detector_params = DETECTOR_SYNTH_PARAMS[MODE]['ALL'][detector_name]
+            else:
+                detector_params = {}
 
             if detector_name == 'STUDD':
                 detector_instance = detector_class(student=student, **detector_params)
@@ -102,8 +107,6 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
                                monitor_instance=monitor_instance,
                                max_size=stream_length)
 
-            # print('finished at', wf.instances_processed)
-
             drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
 
         drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY[dataset_name])
@@ -114,9 +117,16 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
             tot_n_instances=stream_length
         )
 
+        detector_preds[detector_name] = pd.DataFrame(drift_episodes).astype(str)
+        detector_preds[detector_name]['detector_name'] = detector_name
+
         detector_perf[detector_name] = metrics
 
-    return pd.DataFrame(detector_perf).T
+    results_df = pd.DataFrame(detector_perf).T
+
+    detections_df = pd.concat(detector_preds, axis=0).reset_index(drop=True)
+
+    return results_df, detections_df
 
 
 for drift_type, drift_params in DRIFT_CONFIGS.items():
@@ -129,17 +139,19 @@ for drift_type, drift_params in DRIFT_CONFIGS.items():
             # stream = CAPYMOA_DATASETS[dataset_name]()
             # sch = stream.get_schema()
 
-            output_file = OUTPUT_DIR.parent.parent.parent / f'{dataset_name},{drift_type},{classifier_name},{MODE}.csv'
+            results_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{classifier_name},{MODE},{PARAM_SETUP},results.csv'
+            predictions_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{classifier_name},{MODE},{PARAM_SETUP},predictions.csv'
 
-            if os.path.exists(output_file):
+            if os.path.exists(results_output_file):
                 continue
 
-            results_df = run_experiment(
+            results_df, detections_df = run_experiment(
                 dataset_name=dataset_name,
                 classifier_name=classifier_name,
                 drift_type=drift_type,
                 drift_params=drift_params
             )
 
-            results_df.to_csv(output_file)
-            print(f"Results saved to: {output_file}")
+            results_df.to_csv(results_output_file)
+            detections_df.to_csv(predictions_output_file)
+            print(f"Results saved to: {results_output_file}")

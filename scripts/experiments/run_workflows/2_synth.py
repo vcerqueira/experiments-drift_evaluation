@@ -83,7 +83,11 @@ def run_detector(detector_name: str,
         use_window_perf=USE_PERFORMANCE_WINDOW
     )
 
-    wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
+    monitor_instance = detector_name == 'ABCDx'
+
+    wf.run_prequential(stream=stream,
+                       max_size=MAX_STREAM_SIZE,
+                       monitor_instance=monitor_instance)
 
     drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY)
 
