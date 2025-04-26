@@ -11,10 +11,10 @@ from utils.prequential_workflow import SupervisedStreamingWorkflow
 from utils.streams.real import CAPYMOA_DATASETS, MAX_DELAY
 from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
-WIDTH = 0  # ABRUPT
-HYPERTUNING = False
+WIDTH = 2000  # ABRUPT
+HYPERTUNING = True
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
-MODE = 'ABRUPT' if WIDTH > 0 else 'GRADUAL'
+MODE = 'GRADUAL' if WIDTH > 0 else 'ABRUPT'
 N_DRIFTS = 50
 RANDOM_SEED = 123
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'real'
