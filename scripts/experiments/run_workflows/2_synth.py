@@ -31,7 +31,7 @@ DRIFT_WIDTH = 0
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
 MODE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
 RANDOM_SEED = 123
-OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results'
+OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'synthetic'
 GENERATORS = ['Agrawal', 'SEA', 'STAGGER']
 
 
@@ -86,6 +86,7 @@ def run_detector(detector_name: str,
     wf.run_prequential(stream=stream, max_size=MAX_STREAM_SIZE)
 
     drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY)
+
     metrics = drift_eval.calc_performance(
         trues=true_drifts,
         preds=wf.drift_predictions,

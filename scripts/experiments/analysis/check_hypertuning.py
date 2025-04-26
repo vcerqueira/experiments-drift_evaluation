@@ -10,7 +10,9 @@ import pprint
 
 import pandas as pd
 
-file_path = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'detector,hypertuning,ABRUPT.csv'
+DRIFT_TYPE = 'GRADUAL'
+
+file_path = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / f'hypertuning,{DRIFT_TYPE}.csv'
 
 
 def get_best_configs(

@@ -28,7 +28,7 @@ USE_PERFORMANCE_WINDOW = False
 MAX_DELAY = 1000
 N_DRIFTS = 30
 DRIFT_EVERY_N = 10000
-DRIFT_WIDTH = 0
+DRIFT_WIDTH = 1000
 MODE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
 N_ITER_RANDOM_SEARCH = 30
 MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
@@ -126,8 +126,8 @@ def main():
         print(f'Running detector: {detector_name}')
 
         # Filter to specific detectors if needed
-        if detector_name not in ['ABCD']:
-            continue
+        # if detector_name in ['ABCD']:
+        #     continue
 
         config_space = ParameterSampler(
             param_distributions=DETECTOR_PARAM_SPACE[detector_name],
@@ -151,7 +151,7 @@ def main():
                         continue
 
                     results_df = pd.DataFrame(performance_metrics)
-                    output_file = f'{OUTPUT_DIR}/detector,hypertuning,{MODE}.csv'
+                    output_file = f'{OUTPUT_DIR}/synthetic,hypertuning,{MODE}.csv'
                     results_df.to_csv(output_file, index=False)
 
     results_df = pd.DataFrame(performance_metrics)
