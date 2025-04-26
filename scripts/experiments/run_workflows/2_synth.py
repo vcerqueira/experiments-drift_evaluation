@@ -46,7 +46,7 @@ def run_detector(detector_name: str,
                  learner,
                  student,
                  stream,
-                 generator_name: str) -> Dict[str, float]:
+                 generator_name: str) -> Tuple:
     """
     Run a single detector on the given stream and evaluate its performance.
     
@@ -65,7 +65,7 @@ def run_detector(detector_name: str,
     print(f'Running detector: {detector_name}')
 
     if detector_name == 'STUDD':
-        adwin_conf = DETECTOR_SYNTH_PARAMS[generator_name]['ADWIN']
+        adwin_conf = DETECTOR_SYNTH_PARAMS[MODE][generator_name]['ADWIN']
         adwin_detector = DETECTORS['ADWIN'](**adwin_conf)
         detector_instance = detector(student=student, detector=adwin_detector, **detector_config)
     else:
@@ -93,13 +93,17 @@ def run_detector(detector_name: str,
         tot_n_instances=wf.instances_processed
     )
 
-    return metrics
+    predictions = {'trues': str(true_drifts),
+                   'preds': str(wf.drift_predictions)}
+
+    return metrics, predictions
 
 
 def process_generator_classifier_pair(generator_name: str, classifier_name: str) -> None:
-    output_file = OUTPUT_DIR / f"{generator_name},{classifier_name},{MODE}.csv"
+    output_file_results = OUTPUT_DIR / f"{generator_name},{classifier_name},{MODE},results.csv"
+    output_file_preds = OUTPUT_DIR / f"{generator_name},{classifier_name},{MODE},predictions.csv"
 
-    if output_file.exists():
+    if output_file_results.exists():
         print(f"Results already exist for {generator_name}, {classifier_name}. Skipping.")
         return
 
@@ -113,10 +117,10 @@ def process_generator_classifier_pair(generator_name: str, classifier_name: str)
     stream = stream_creator.create_stream()
     schema = stream.get_schema()
 
-    detector_perf = {}
+    detector_perf, detector_preds = {}, {}
     for detector_name, detector_class in DETECTORS.items():
         try:
-            detector_config = DETECTOR_SYNTH_PARAMS[generator_name][detector_name]
+            detector_config = DETECTOR_SYNTH_PARAMS[MODE][generator_name][detector_name]
 
             # fresh stream for each detector to ensure fair comparison
             np.random.seed(RANDOM_SEED)
@@ -128,7 +132,7 @@ def process_generator_classifier_pair(generator_name: str, classifier_name: str)
             )
             fresh_stream = stream_creator.create_stream()
 
-            metrics = run_detector(
+            metrics, predictions = run_detector(
                 detector_name=detector_name,
                 detector=detector_class,
                 detector_config=detector_config,
@@ -138,14 +142,22 @@ def process_generator_classifier_pair(generator_name: str, classifier_name: str)
                 generator_name=generator_name
             )
             detector_perf[detector_name] = metrics
+            detector_preds[detector_name] = predictions
         except Exception as e:
             print(f"Error running detector {detector_name}: {e}")
             detector_perf[detector_name] = {"error": str(e)}
+            detector_preds[detector_name] = {"error": str(e)}
 
     results_df = pd.DataFrame(detector_perf).T
-    output_file.parent.mkdir(parents=True, exist_ok=True)
-    results_df.to_csv(output_file)
-    print(f"Results saved to: {output_file}")
+    output_file_results.parent.mkdir(parents=True, exist_ok=True)
+    results_df.to_csv(output_file_results)
+    print(f"Results saved to: {output_file_results}")
+
+    preds_df = pd.DataFrame(detector_preds).T
+    preds_df['max_delay'] = MAX_DELAY
+    output_file_preds.parent.mkdir(parents=True, exist_ok=True)
+    preds_df.to_csv(output_file_preds)
+    print(f"Predictions saved to: {output_file_preds}")
 
 
 def main():
