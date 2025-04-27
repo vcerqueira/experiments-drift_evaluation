@@ -6,20 +6,20 @@ from capymoa.classifier import (OnlineBagging,
                                 NaiveBayes)
 
 DETECTORS = {
-    'ABCD': detectors.ABCD,
-    'ABCDx': detectors.ABCD,
+    # 'ABCD': detectors.ABCD,
+    # 'ABCDx': detectors.ABCD,
     'ADWIN': detectors.ADWIN,
     'CUSUM': detectors.CUSUM,
     'DDM': detectors.DDM,
-    'EWMAChart': detectors.EWMAChart,
-    'GeometricMovingAverage': detectors.GeometricMovingAverage,
+    # 'EWMAChart': detectors.EWMAChart,
+    # 'GeometricMovingAverage': detectors.GeometricMovingAverage,
     'HDDMAverage': detectors.HDDMAverage,
     'HDDMWeighted': detectors.HDDMWeighted,
-    'PageHinkley': detectors.PageHinkley,
-    'RDDM': detectors.RDDM,
-    'SEED': detectors.SEED,
-    'STEPD': detectors.STEPD,
-    'STUDD': detectors.STUDD,
+    # 'PageHinkley': detectors.PageHinkley,
+    # 'RDDM': detectors.RDDM,
+    # 'SEED': detectors.SEED,
+    # 'STEPD': detectors.STEPD,
+    # 'STUDD': detectors.STUDD,
 }
 
 CLASSIFIERS = {

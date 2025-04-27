@@ -275,8 +275,8 @@ class DriftSimulator:
             y_list.append(instance.y_index)
             instance_processed += 1
 
-        X = pd.DataFrame(X_list)
-        y = pd.Series(y_list)
+        X = pd.DataFrame(X_list).copy()
+        y = pd.Series(y_list).copy()
 
         shuffle_idx = np.random.permutation(X.shape[0])
         X_shuffled = X.iloc[shuffle_idx]

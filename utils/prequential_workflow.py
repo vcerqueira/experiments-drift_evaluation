@@ -52,7 +52,7 @@ class SupervisedStreamingWorkflow:
                 prediction = self.model.predict(instance)
 
                 if self.start_detector_on_onset:
-                    if self.instances_processed < self.drift_simulator.fitted['drift_onset'] - 10000:
+                    if self.instances_processed < self.drift_simulator.fitted['drift_onset']:
                         continue
 
                 score = self._get_latest_score(instance.y_index, prediction)
@@ -63,7 +63,11 @@ class SupervisedStreamingWorkflow:
                     if self.detector.__str__() == 'STUDD':
                         self.detector.add_element(instance, prediction)
                     else:
-                        self.detector.add_element(score)
+                        try:
+                            # self.detector.add_element(float(score))
+                            self.detector.add_element(score)
+                        except TypeError:
+                            self.detector.add_element(float(score))
 
                 if self.detector.detected_change():
                     print(f'Change detected at index: {self.instances_processed}')

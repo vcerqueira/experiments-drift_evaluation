@@ -9,7 +9,7 @@ from capymoa.datasets import (ElectricityTiny,
 
 CAPYMOA_DATASETS = {
     'Electricity': Electricity,
-    'Covtype': CovtypeNorm,
+    # 'Covtype': CovtypeNorm,
     # 'Sensor': Sensor,
 }
 

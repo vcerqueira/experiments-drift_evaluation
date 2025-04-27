@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
-from capymoa.drift.eval_detector import EvaluateDriftDetector
+# from capymoa.drift.eval_detector import EvaluateDriftDetector
 
 from utils.streams.inject_drift import DriftSimulator
 from utils.prequential_workflow import SupervisedStreamingWorkflow
@@ -76,7 +76,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
             drift_sim.fit(stream_size=stream_length)
             drift_loc = drift_sim.fitted['drift_onset']
-            # print('Drift loc:', drift_loc)
+            print('Drift loc:', drift_loc)
 
             evaluator = ClassificationEvaluator(schema=schema, window_size=1)
             learner = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
@@ -110,18 +110,19 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
             drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
 
-        drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY[dataset_name])
-        metrics = drift_eval.calc_performance(
-            trues=None,
-            preds=None,
-            drift_episodes=drift_episodes,
-            tot_n_instances=stream_length
-        )
+        # drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY[dataset_name])
+        # metrics = drift_eval.calc_performance(
+        #     trues=None,
+        #     preds=None,
+        #     drift_episodes=drift_episodes,
+        #     tot_n_instances=stream_length
+        # )
 
         detector_preds[detector_name] = pd.DataFrame(drift_episodes).astype(str)
         detector_preds[detector_name]['detector_name'] = detector_name
 
-        detector_perf[detector_name] = metrics
+        # detector_perf[detector_name] = metrics
+        detector_perf[detector_name] = {}
 
     results_df = pd.DataFrame(detector_perf).T
 
