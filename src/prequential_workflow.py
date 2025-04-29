@@ -1,8 +1,9 @@
 from typing import Optional
 
 import numpy as np
-from utils.streams.inject_drift import DriftSimulator
-from utils.config import CLASSIFIERS, CLASSIFIER_PARAMS, DETECTORS
+
+from src.streams.inject_drift import DriftSimulator
+from src.config import CLASSIFIERS, CLASSIFIER_PARAMS, DETECTORS
 
 
 class SupervisedStreamingWorkflow:

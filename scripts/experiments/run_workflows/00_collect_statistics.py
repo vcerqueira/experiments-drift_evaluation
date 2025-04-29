@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from capymoa.datasets import (Electricity, CovtypeNorm)
 
-from utils.streams.inject_drift import DriftSimulator
+from src.streams.inject_drift import DriftSimulator
 
 streams = {
     'ElectricityTiny': Electricity(),

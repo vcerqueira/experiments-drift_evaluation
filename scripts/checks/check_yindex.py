@@ -4,7 +4,7 @@ from capymoa.datasets import (ElectricityTiny,
                               CovtypeTiny,
                               Sensor)
 
-from utils.streams.inject_drift import DriftSimulator
+from src.streams.inject_drift import DriftSimulator
 
 # stream = ElectricityTiny()
 stream = CovtypeTiny()

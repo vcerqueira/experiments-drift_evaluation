@@ -5,9 +5,9 @@ import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
-from utils.prequential_workflow import ProxyStreamingWorkflow
-from utils.streams.real import CAPYMOA_DATASETS
-from utils.config import CLASSIFIERS, DETECTORS
+from src.prequential_workflow import ProxyStreamingWorkflow
+from src.streams.real import CAPYMOA_DATASETS
+from src.config import CLASSIFIERS, DETECTORS
 
 RANDOM_SEED = 123
 OUTPUT_DIR = Path('assets/results')

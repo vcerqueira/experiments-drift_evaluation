@@ -6,7 +6,7 @@ import pandas as pd
 from capymoa.instance import LabeledInstance
 from capymoa.stream import NumpyStream
 
-from utils.streams.real import STREAM_MEDIANS
+from src.streams.real import STREAM_MEDIANS
 
 
 class DriftSimulator:

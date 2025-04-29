@@ -4,7 +4,7 @@ import numpy as np
 
 from capymoa.drift.detectors import ABCD
 
-from utils.streams.synth import CustomDriftStream
+from src.streams.synth import CustomDriftStream
 
 MAX_DELAY = 1000
 N_DRIFTS = 50

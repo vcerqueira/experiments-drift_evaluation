@@ -17,11 +17,11 @@ import pandas as pd
 from typing import Dict, Any, List, Tuple
 
 from capymoa.evaluation.evaluation import ClassificationEvaluator
-from capymoa.drift.eval_detector import EvaluateDriftDetector
 
-from utils.streams.synth import CustomDriftStream
-from utils.prequential_workflow import SupervisedStreamingWorkflow
-from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
+from src.eval_detector import EvaluateDriftDetector
+from src.streams.synth import CustomDriftStream
+from src.prequential_workflow import SupervisedStreamingWorkflow
+from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
 USE_PERFORMANCE_WINDOW = False
 MAX_DELAY = 1000

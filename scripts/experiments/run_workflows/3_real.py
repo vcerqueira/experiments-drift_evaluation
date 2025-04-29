@@ -4,23 +4,23 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
-from capymoa.drift.eval_detector import EvaluateDriftDetector
 
-from utils.streams.inject_drift import DriftSimulator
-from utils.prequential_workflow import SupervisedStreamingWorkflow
-from utils.streams.real import CAPYMOA_DATASETS, MAX_DELAY
-from utils.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
+from src.eval_detector import EvaluateDriftDetector
+from src.streams.inject_drift import DriftSimulator
+from src.prequential_workflow import SupervisedStreamingWorkflow
+from src.streams.real import CAPYMOA_DATASETS, MAX_DELAY
+from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
-WIDTH = 10  # GRADUAL if > 0
+WIDTH = 0  # GRADUAL if > 0
 HYPERTUNING = True
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
 MODE = 'GRADUAL' if WIDTH > 0 else 'ABRUPT'
-N_DRIFTS = 10  # 50
+N_DRIFTS = 50
 RANDOM_SEED = 12
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'real'
 DRIFT_REGION = (0.6, 0.9)
 MIN_TRAINING_RATIO = 0.5
-MAX_N_INSTANCES = 30_000  # 100_000
+MAX_N_INSTANCES = 100_000
 
 DRIFT_CONFIGS = {
     'y_swaps': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': False, 'on_y_prior': False, 'on_y_swap': True},
@@ -47,12 +47,6 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
     pre_stream = CAPYMOA_DATASETS[dataset_name]()
     stream_length = pre_stream._length
-    # stream_length = min(pre_stream._length, MAX_N_INSTANCES)
-    # print('stream_length:', stream_length)
-
-    # pre_stream = DriftSimulator.shuffle_stream(pre_stream, max_n_instances=MAX_N_INSTANCES)
-    # pre_stream.next_instance()
-    # schema = pre_stream.get_schema()
 
     detector_perf, detector_preds = {}, {}
     for detector_name, detector_class in DETECTORS.items():
