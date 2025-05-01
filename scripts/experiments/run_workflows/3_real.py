@@ -11,8 +11,8 @@ from src.prequential_workflow import SupervisedStreamingWorkflow
 from src.streams.real import CAPYMOA_DATASETS, MAX_DELAY
 from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
-WIDTH = 0  # GRADUAL if > 0
-HYPERTUNING = True
+WIDTH = 0  # GRADUAL if > 0 ## 2000
+HYPERTUNING = False
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
 MODE = 'GRADUAL' if WIDTH > 0 else 'ABRUPT'
 N_DRIFTS = 50
@@ -23,10 +23,13 @@ MIN_TRAINING_RATIO = 0.5
 MAX_N_INSTANCES = 100_000
 
 DRIFT_CONFIGS = {
+    'x_permutations': {'width': WIDTH, 'on_x_permute': True, 'on_x_exceed': False, 'on_y_prior': False,
+                       'on_y_swap': False},
     'y_swaps': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': False, 'on_y_prior': False, 'on_y_swap': True},
-    'x_permutations': {'width': WIDTH, 'on_x_permute': True, 'on_x_exceed': False, 'on_y_prior': False, 'on_y_swap': False},
-    'y_prior_skip': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': False, 'on_y_prior': True, 'on_y_swap': False},
-    'x_exceed_skip': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': True, 'on_y_prior': False, 'on_y_swap': False},
+    'y_prior_skip': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': False, 'on_y_prior': True,
+                     'on_y_swap': False},
+    'x_exceed_skip': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': True, 'on_y_prior': False,
+                      'on_y_swap': False},
 }
 
 
@@ -47,6 +50,8 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
     pre_stream = CAPYMOA_DATASETS[dataset_name]()
     stream_length = pre_stream._length
+    stream_length = min(stream_length, MAX_N_INSTANCES)
+    print('Stream sample size:', stream_length)
 
     detector_perf, detector_preds = {}, {}
     for detector_name, detector_class in DETECTORS.items():
@@ -70,7 +75,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
             drift_sim.fit(stream_size=stream_length)
             drift_loc = drift_sim.fitted['drift_onset']
-            # print('Drift loc:', drift_loc)
+            print('Drift loc:', drift_loc)
 
             evaluator = ClassificationEvaluator(schema=schema, window_size=1)
             learner = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
