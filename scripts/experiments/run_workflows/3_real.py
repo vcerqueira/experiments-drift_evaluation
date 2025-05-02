@@ -12,11 +12,12 @@ from src.streams.real import CAPYMOA_DATASETS, MAX_DELAY
 from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
 WIDTH = 0  # GRADUAL if > 0 ## 2000
-HYPERTUNING = False
+HYPERTUNING = True
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
 MODE = 'GRADUAL' if WIDTH > 0 else 'ABRUPT'
 N_DRIFTS = 50
 RANDOM_SEED = 12
+DATA_DIR = Path(__file__).parent.parent.parent.parent / 'data'
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'real'
 DRIFT_REGION = (0.6, 0.9)
 MIN_TRAINING_RATIO = 0.5
@@ -49,6 +50,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
     print(f"Running experiment: {dataset_name}, {classifier_name}, {drift_type}")
 
     pre_stream = CAPYMOA_DATASETS[dataset_name]()
+    schema = pre_stream.get_schema()
     stream_length = pre_stream._length
     stream_length = min(stream_length, MAX_N_INSTANCES)
     print('Stream sample size:', stream_length)
@@ -62,9 +64,15 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
         drift_episodes = []
         for i in range(N_DRIFTS):
             print('Iter:', i)
-            stream = CAPYMOA_DATASETS[dataset_name]()
-            schema = stream.get_schema()
-            stream = DriftSimulator.shuffle_stream(stream, max_n_instances=MAX_N_INSTANCES)
+            if dataset_name == 'Covtype':
+                print('Loading dataset from csv')
+                stream_df = pd.read_csv(f'{DATA_DIR}/{dataset_name}-df.csv')
+                stream = DriftSimulator.shuffle_df_stream(stream_df,
+                                                          dataset_name=dataset_name,
+                                                          max_n_instances=MAX_N_INSTANCES)
+            else:
+                stream = CAPYMOA_DATASETS[dataset_name]()
+                stream = DriftSimulator.shuffle_stream(stream, max_n_instances=MAX_N_INSTANCES)
 
             drift_sim = DriftSimulator(
                 **drift_params,

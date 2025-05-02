@@ -289,6 +289,35 @@ class DriftSimulator:
 
         return np_stream
 
+    @staticmethod
+    def shuffle_df_stream(stream: pd.DataFrame, dataset_name: str, max_n_instances: Optional[int] = None):
+        """
+        Create a new stream by randomly shuffling all instances.
+
+        Args:
+            stream: The input stream to shuffle
+
+        Returns:
+            NumpyStream: A new stream with shuffled instances
+            :param stream:
+            :param max_n_instances: max n instances
+        """
+        if max_n_instances is not None:
+            stream = stream.sample(n=max_n_instances)
+
+        X = stream.drop(columns='target')
+        y = stream['target']
+
+        shuffle_idx = np.random.permutation(X.shape[0])
+        X_shuffled = X.iloc[shuffle_idx]
+        y_shuffled = y.iloc[shuffle_idx]
+
+        np_stream = NumpyStream(X=X_shuffled.values, y=y_shuffled.values,
+                                dataset_name=dataset_name,
+                                feature_names=X_shuffled.columns)
+
+        return np_stream
+
     # @staticmethod
     # def stream_to_npstream(stream, max_size: Optional[int] = None):
     #     sch = stream.get_schema()
