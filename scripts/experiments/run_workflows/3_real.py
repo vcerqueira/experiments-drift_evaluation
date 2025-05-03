@@ -11,8 +11,8 @@ from src.prequential_workflow import SupervisedStreamingWorkflow
 from src.streams.real import CAPYMOA_DATASETS, MAX_DELAY
 from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
-WIDTH = 0  # GRADUAL if > 0 ## 2000
-HYPERTUNING = True
+WIDTH = 2000  # GRADUAL if > 0 ## 2000
+HYPERTUNING = False
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
 MODE = 'GRADUAL' if WIDTH > 0 else 'ABRUPT'
 N_DRIFTS = 50
