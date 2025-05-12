@@ -1,74 +1,48 @@
 import pandas as pd
+import plotnine as p9
+
+from src.misc import DataReader, prep_latex_tab
+
+# DATASETS = ['Electricity', 'Covtype']
+# PARAM_SETTINGS = ['default', 'hypertuned']
+# DRIFT_TYPES1 = ['ABRUPT', 'GRADUAL']
+# DRIFT_TYPES2 = ['x_permutations', 'y_swaps', 'y_prior_skip', 'x_exceed_skip']
+#
+# r = DataReader.get_real_results(
+#     dataset='Electricity',
+#     learner='HoeffdingTree',
+#     drift_type='x_permutations',
+#     drift_abruptness='ABRUPT',
+#     param_setting='default',
+#     metric='f1',
+#     round_to=3
+# )
+
+r = DataReader.read_all_real_results(metric='f1', round_to=3)
 
 
-def read_real(dataset: str, type: str, learner: str, metric: str):
-    df = pd.read_csv(f'{dataset},{type},{learner}.csv').set_index('Unnamed: 0')
-    df.index.name = 'Detector'
+# --- hypertuning v default ---
 
-    df_metric = df[metric]
-
-    return df_metric
+r.query('Mode == "ABRUPT"').drop(columns=['Mode'])
 
 
-df_y = read_real('Electricity', 'x_permutations', 'HoeffdingTree', 'f1')
+# r.groupby(['Mode','Params']).mean(numeric_only=True).T
+r_melt = r.drop(columns=['Dataset', 'Type']).melt(['Mode','Params'])
 
-df_y = read_real('Electricity', 'x_permutations', 'HoeffdingTree', 'far')
-df_y = read_real('Electricity', 'x_permutations', 'ARF', 'f1')
-df_y = read_real('Electricity', 'x_exceed_skip', 'HoeffdingTree', 'f1')
-df_y = read_real('Electricity', 'x_exceed_skip', 'ARF', 'f1')
-df_y = read_real('Electricity', 'x_exceed_skip', 'NaiveBayes', 'f1')
-df_y = read_real('Electricity', 'y_prior_skip', 'HoeffdingTree', 'f1')
-df_y = read_real('Electricity', 'y_prior_skip', 'NaiveBayes', 'f1')
-df_y = read_real('Electricity', 'y_swaps', 'HoeffdingTree', 'f1')
-df_y = read_real('Electricity', 'y_swaps', 'ARF', 'f1')
-df_y = read_real('Electricity', 'y_swaps', 'NaiveBayes', 'f1')
-df_y = read_real('Electricity', 'y_swaps', 'NaiveBayes', 'f1')
-df_y = read_real('Covtype', 'x_permutations', 'HoeffdingTree', 'f1')
-df_y = read_real('Covtype', 'x_permutations', 'ARF', 'f1')
-print(df_y)
+p = (
+    p9.ggplot(r_melt, p9.aes(x='Detector', y='value', fill='Params'))
+    + p9.geom_bar(stat='identity', position='dodge')
+    + p9.facet_wrap('~ Mode', nrow=2)
+    + p9.theme(axis_text_x=p9.element_text(angle=45, hjust=1))
+    + p9.labs(title='',x='',y='F1')
+)
 
-df_x = read_real('Electricity', 'ABRUPT@X', 'HoeffdingTree', 'f1')
-df_xy = read_real('Electricity', 'ABRUPT@X', 'HoeffdingTree', 'f1')
-df_1 = pd.concat([df_y, df_x, df_xy], axis=1).round(4)
-df_1.columns = pd.MultiIndex.from_product([['Electricity'], ['Y', 'X', 'XY']])
+# To save the plot to a file
+p.save("detector_comparison.pdf", width=10, height=6)
 
-df_y = read_real('Covtype', 'ABRUPT@Y', 'HoeffdingTree', 'f1')
-df_x = read_real('Covtype', 'ABRUPT@X', 'HoeffdingTree', 'f1')
-df_xy = read_real('Covtype', 'ABRUPT@X', 'HoeffdingTree', 'f1')
-df_2 = pd.concat([df_y, df_x, df_xy], axis=1).round(4)
-df_2.columns = pd.MultiIndex.from_product([['Covtype'], ['Y', 'X', 'XY']])
-
-
-df = pd.concat([df_1,df_2],axis=1)
-
-
-def to_latex_tab(df, minimize: bool = False, rotate_cols: bool = False):
-    if rotate_cols:
-        df.columns = [f'\\rotatebox{{90}}{{{x}}}' for x in df.columns]
-
-    annotated_res = []
-    for i, r in df.iterrows():
-        top_2 = r.sort_values(ascending=minimize).unique()[:2]
-        if len(top_2) < 2:
-            raise ValueError('only one score')
-
-        best1 = r[r == top_2[0]].values[0]
-        best2 = r[r == top_2[1]].values[0]
-
-        r[r == top_2[0]] = f'\\textbf{{{best1}}}'
-        r[r == top_2[1]] = f'\\underline{{{best2}}}'
-
-        annotated_res.append(r)
-
-    annotated_res = pd.DataFrame(annotated_res).astype(str)
-
-    # text_tab = annotated_res.to_latex(caption='CAPTION', label='tab:scores_by_ds')
-
-    return annotated_res
-
+### ---- latex table ---- ###
 
 df = to_latex_tab(df.T, minimize=False).T
-
 
 # Generate LaTeX table
 latex_table = df.to_latex(

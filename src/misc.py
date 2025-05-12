@@ -1,5 +1,7 @@
-import pandas as pd
 import warnings
+from typing import Optional
+
+import pandas as pd
 
 warnings.filterwarnings('ignore', category=FutureWarning)
 
@@ -12,6 +14,15 @@ class DataReader:
                    'ARF',
                    'NaiveBayes']
 
+    RESULTS_DIR = 'assets/results/real'
+
+    NAME_MAPPING = {'GeometricMovingAverage': 'GMA',
+                    'EWMAChart': 'EWMA',
+                    'HDDMAverage': 'HDDMA',
+                    'HDDMWeighted': 'HDDMW',
+                    'PageHinkley': 'PH',
+                    'ABCDx': 'ABCD(X)', }
+
     @classmethod
     def get_synth_results(cls,
                           metric: str,
@@ -23,8 +34,6 @@ class DataReader:
         for stream in stream_list:
             for classifier in learners:
                 df = pd.read_csv(f'assets/results/{stream},ABRUPT,{classifier}.csv', index_col='Unnamed: 0')
-
-                # df = df.drop('ABCDx').drop(columns=['error'])
 
                 df_result = df[metric]
 
@@ -39,6 +48,73 @@ class DataReader:
             df_all = df_all.round(round_to)
 
         return df_all
+
+    @classmethod
+    def get_real_results(cls,
+                         dataset: str,
+                         learner: str,
+                         drift_type: str,
+                         drift_abruptness: str,
+                         param_setting: str,
+                         metric: Optional[str] = None,
+                         round_to: Optional[int] = None):
+
+        # dataset = 'Electricity'
+        # learner = 'HoeffdingTree'
+        # drift_type = 'x_exceed_skip'
+        # drift_abruptness = 'ABRUPT'
+        # param_setting = 'default'
+
+        file_path = f'{cls.RESULTS_DIR}/{dataset},{drift_type},{learner},{drift_abruptness},{param_setting},results.csv'
+
+        df = pd.read_csv(file_path)
+        df = df.set_index('Unnamed: 0')
+        df.index.name = 'Detector'
+
+        df = df.rename(index=cls.NAME_MAPPING)
+
+        if metric is not None:
+            assert metric in df.columns, f"Metric '{metric}' not found in DataFrame columns."
+            df = df[metric]
+
+        if round_to is not None:
+            df = df.round(round_to)
+
+        return df
+
+    @classmethod
+    def read_all_real_results(cls, metric: str = 'f1', round_to=3):
+        DATASETS = ['Electricity', 'Covtype']
+        PARAM_SETTINGS = ['default', 'hypertuned']
+        DRIFT_TYPES1 = ['ABRUPT', 'GRADUAL']
+        DRIFT_TYPES2 = ['x_permutations', 'y_swaps', 'y_prior_skip', 'x_exceed_skip']
+
+        all_results = {}
+        for ds in DATASETS:
+            for param in PARAM_SETTINGS:
+                for drift_type1 in DRIFT_TYPES1:
+                    for drift_type2 in DRIFT_TYPES2:
+                        df = DataReader.get_real_results(
+                            dataset=ds,
+                            learner='HoeffdingTree',
+                            drift_type=drift_type2,
+                            drift_abruptness=drift_type1,
+                            param_setting=param,
+                            metric=metric,
+                            round_to=round_to
+                        )
+
+                        all_results[ds, drift_type1, drift_type2, param] = df
+
+        all_results_df = pd.DataFrame(all_results).T.reset_index()
+        all_results_df.rename(columns={
+            'level_0': 'Dataset',
+            'level_1': 'Mode',
+            'level_2': 'Type',
+            'level_3': 'Params'
+        }, inplace=True)
+
+        return all_results_df
 
 
 def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False):
