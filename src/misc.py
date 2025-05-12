@@ -121,6 +121,8 @@ class DataReader:
             'x_exceed_skip': 'X-Exceed'
         })
 
+        all_results_df['Params'] = all_results_df['Params'].map({'default': 'Default', 'hypertuned': 'Optimized'})
+
         return all_results_df
 
 
