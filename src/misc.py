@@ -114,10 +114,17 @@ class DataReader:
             'level_3': 'Params'
         }, inplace=True)
 
+        all_results_df['Type'] = all_results_df['Type'].map({
+            'x_permutations': 'X-Perm',
+            'y_swaps': 'Y-Swaps',
+            'y_prior_skip': 'Y-Prior',
+            'x_exceed_skip': 'X-Exceed'
+        })
+
         return all_results_df
 
 
-def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False):
+def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False, rotate_index: bool = False):
     """
     Formats a DataFrame for LaTeX tables with highlighting for best and second-best values.
     
@@ -142,7 +149,21 @@ def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False):
     formatted_df = df.copy()
 
     if rotate_cols:
+        # Rotate column headers
         formatted_df.columns = [f'\\rotatebox{{90}}{{{col}}}' for col in formatted_df.columns]
+        
+    if rotate_index:
+        if isinstance(formatted_df.index, pd.MultiIndex):
+            new_levels = []
+            for level in formatted_df.index.levels:
+                # Apply rotation to each label in the current level
+                formatted_level = [f'\\rotatebox{{90}}{{{str(label)}}}' for label in level]
+                new_levels.append(formatted_level)
+            # Set the new formatted levels for the MultiIndex
+            formatted_df.index = formatted_df.index.set_levels(new_levels)
+        else:
+            # Handle single-level index
+            formatted_df.index = [f'\\rotatebox{{90}}{{{str(idx)}}}' for idx in formatted_df.index]
 
     formatted_rows = []
     for _, row in formatted_df.iterrows():
