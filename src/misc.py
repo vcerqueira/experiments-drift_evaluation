@@ -10,9 +10,8 @@ class DataReader:
     STREAMS = ['Agrawal',
                'STAGGER',
                'SEA']
-    CLASSIFIERS = ['HoeffdingTree',
-                   'ARF',
-                   'NaiveBayes']
+    # CLASSIFIERS = ['HoeffdingTree','ARF','NaiveBayes']
+    CLASSIFIERS = ['HoeffdingTree']
 
     RESULTS_DIR = 'assets/results/real'
 
@@ -33,16 +32,19 @@ class DataReader:
         results = []
         for stream in stream_list:
             for classifier in learners:
-                df = pd.read_csv(f'assets/results/{stream},ABRUPT,{classifier}.csv', index_col='Unnamed: 0')
+                for mode in ['ABRUPT', 'GRADUAL']:
 
-                df_result = df[metric]
+                    df = pd.read_csv(f'assets/results/synthetic/{stream},{classifier},{mode},results.csv', index_col='Unnamed: 0')
 
-                df_result.name = (stream, classifier)
+                    df_result = df[metric]
 
-                results.append(df_result)
+                    df_result.name = (stream, classifier, mode)
+
+                    results.append(df_result)
 
         df_all = pd.concat(results, axis=1).T.reset_index().reset_index(drop=True)
-        df_all = df_all.rename(columns={'level_0': 'Stream', 'level_1': 'Classifier'})
+        df_all = df_all.rename(columns={'level_0': 'Stream','level_1': 'Classifier','level_2': 'Mode'})
+        df_all = df_all.rename(columns=cls.NAME_MAPPING)
 
         if round_to is not None:
             df_all = df_all.round(round_to)
@@ -153,7 +155,7 @@ def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False, rotate
     if rotate_cols:
         # Rotate column headers
         formatted_df.columns = [f'\\rotatebox{{90}}{{{col}}}' for col in formatted_df.columns]
-        
+
     if rotate_index:
         if isinstance(formatted_df.index, pd.MultiIndex):
             new_levels = []
