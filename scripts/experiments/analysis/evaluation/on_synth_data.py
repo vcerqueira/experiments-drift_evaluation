@@ -3,7 +3,7 @@ import pandas as pd
 from src.misc import prep_latex_tab, DataReader
 
 
-MODE = 'ABRUPT'
+MODE = 'GRADUAL'
 
 df_f1 = DataReader.get_synth_results(metric='f1', round_to=3)
 df_f1 = df_f1.drop(columns=['Classifier'])
