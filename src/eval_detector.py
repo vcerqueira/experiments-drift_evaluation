@@ -76,6 +76,7 @@ class EvaluateDriftDetector:
         >>> preds = detector.detection_index
         >>> evaluator = EvaluateDriftDetector(max_delay=50)
         >>> metrics = evaluator.calc_performance(trues=trues, preds=preds, tot_n_instances=2000)
+        >>> print(metrics)
     """
 
     def __init__(self, max_delay: int, rate_period: int = 1000, max_early_detection: int = 0):
