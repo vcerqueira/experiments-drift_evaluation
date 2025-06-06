@@ -23,13 +23,6 @@ def get_best_configs(
     """
     Find the best configurations for each detector using leave-one-out cross-validation.
     
-    Args:
-        perf_data: DataFrame with performance data
-        stream_list: List of stream names
-        detector_list: List of detector names
-        
-    Returns:
-        Dictionary mapping stream names to detector configurations
     """
     loo_best_configs = {}
 
