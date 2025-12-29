@@ -1,37 +1,25 @@
 from pprint import pprint
 
-import pandas as pd
-from capymoa.datasets import (Electricity, CovtypeNorm)
+from src.streams.read_from_df import StreamFromDF
 
-from src.streams.inject_drift import DriftSimulator
-
-streams = {
-    'ElectricityTiny': Electricity(),
-    'CovtypeTiny': CovtypeNorm(),
-}
+# https://sites.google.com/view/uspdsrepository
+DATASETS = [
+    'data/Covtype.csv',
+    'data/Electricity.csv',
+    'data/Asfault.csv',
+    'data/GasSensorArray.csv',
+    'data/NOAA.csv',
+    'data/Posture.csv',
+    'data/Rialto.csv',
+]
 
 stream_stats = {}
-for stream_name, stream in streams.items():
-    print(stream_name)
-    sch = stream.get_schema()
-    print(sch.dataset_name)
+for stream_fp in DATASETS:
+    print(stream_fp)
+    stream_name = StreamFromDF.get_stream_name(stream_fp)
+    df = StreamFromDF.read_csv(stream_fp, shuffle=False, as_np_stream=False)
+    df = df.drop(columns=['target'])
 
-    numeric_attrs = sch.get_numeric_attributes()
-
-    attr_positions = {attr: DriftSimulator.get_attr_position(sch, attr) for attr in numeric_attrs}
-
-    X_list = []
-    while stream.has_more_instances():
-        instance = stream.next_instance()
-
-        X_list.append(instance.x)
-
-    X = pd.DataFrame(X_list)
-
-    median_values = X.median().values
-
-    median_values_s = {attr: median_values[attr_positions[attr]] for attr in attr_positions}
-
-    stream_stats[stream_name] = median_values_s
+    stream_stats[stream_name] = df.median().to_dict()
 
 pprint(stream_stats)

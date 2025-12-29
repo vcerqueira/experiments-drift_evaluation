@@ -4,7 +4,7 @@ import pandas as pd
 from src.streams.real import CAPYMOA_DATASETS
 
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'data'
-dataset_name = 'Covtype'
+dataset_name = 'Electricity'
 
 stream = CAPYMOA_DATASETS[dataset_name]()
 sch = stream.get_schema()
@@ -24,6 +24,6 @@ y = pd.Series(y_list).copy()
 X.columns = attr_names
 X['target'] = y
 
-file_path = OUTPUT_DIR / f'{dataset_name}-df.csv'
+file_path = OUTPUT_DIR / f'{dataset_name}.csv'
 
 X.to_csv(file_path, index=False)
