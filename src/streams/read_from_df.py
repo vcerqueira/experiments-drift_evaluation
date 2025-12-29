@@ -11,13 +11,14 @@ class StreamFromDF:
 
     @classmethod
     def read_stream(cls, stream_name: str, **kwargs):
-        fp = f'data/{stream_name}.csv'
+        fp = Path(__file__).parent.parent.parent / f'data/{stream_name}.csv'
+        # fp = Path(__file__).parent.parent / f'data/Asfault.csv'
 
         return cls.read_csv(filepath=fp, **kwargs)
 
     @staticmethod
     def get_stream_name(filepath: str):
-        return Path(filepath).stem
+        return Path(str(filepath)).stem
 
     @classmethod
     def read_csv(cls,

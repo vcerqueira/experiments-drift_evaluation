@@ -14,7 +14,7 @@ class SupervisedStreamingWorkflow:
                  detector,
                  use_window_perf: bool,
                  min_training_size: int = 1000,
-                 start_detector_on_onset: bool = False,
+                 # start_detector_on_onset: bool = False,
                  drift_simulator: Optional[DriftSimulator] = None):
 
         self.model = model
@@ -24,7 +24,7 @@ class SupervisedStreamingWorkflow:
         self.min_training_size = min_training_size
         self.drift_predictions = []
         self.drift_simulator = drift_simulator
-        self.start_detector_on_onset = start_detector_on_onset
+        # self.start_detector_on_onset = start_detector_on_onset
 
         self.use_window_perf = use_window_perf
 

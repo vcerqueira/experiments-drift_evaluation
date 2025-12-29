@@ -1,0 +1,4 @@
+detector,stream,learner,drift_type,params,fp,tp,fn,precision,recall,episode_recall,f1,mdt,far,ar,n_episodes,n_alarms
+ABCD,Electricity,HoeffdingTree,ABRUPT,"{'num_splits': 100, 'model_id': 'ae', 'encoding_factor': 0.7, 'delta_warn': 0.01, 'delta_drift': 0.001}",45,11,39,0.19642857142857142,0.22,0.22,0.20754716981132074,837.6363636363636,0.993114406779661,1.2358757062146895,50,56
+ABCD,Covtype,HoeffdingTree,ABRUPT,"{'num_splits': 100, 'model_id': 'ae', 'encoding_factor': 0.7, 'delta_warn': 0.01, 'delta_drift': 0.001}",99,18,35,0.15384615384615385,0.33962264150943394,0.3,0.21176470588235294,1151.6666666666667,0.99,1.17,50,117
+ABCD,Posture,HoeffdingTree,ABRUPT,"{'num_splits': 100, 'model_id': 'ae', 'encoding_factor': 0.7, 'delta_warn': 0.01, 'delta_drift': 0.001}",40,9,41,0.1836734693877551,0.18,0.18,0.1818181818181818,1709.2222222222222,0.4,0.49,50,49

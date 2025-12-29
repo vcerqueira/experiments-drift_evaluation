@@ -20,7 +20,6 @@ from sklearn.model_selection import ParameterSampler
 
 from src.eval_detector import EvaluateDriftDetector
 from src.streams.read_from_df import StreamFromDF
-from src.streams.inject_drift import DriftSimulator
 from src.prequential_workflow import SupervisedStreamingWorkflow
 from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_PARAM_SPACE
 
@@ -28,23 +27,15 @@ from src.streams.config import MAX_DELAY, DRIFT_WIDTH
 
 # configs
 USE_PERFORMANCE_WINDOW = False
-N_DRIFTS = 50
+N_DRIFTS = 30
 MODE = 'ABRUPT'
 N_ITER_RANDOM_SEARCH = 30
 RANDOM_SEED = 123
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results'
-DRIFT_REGION = (0.5, 0.8)
-MIN_TRAINING_RATIO = 0.25
 
 dataset_list = [*MAX_DELAY]
 
-# Drift configuration parameters
-DRIFT_PARAMS = [
-    {'on_x_permute': True, 'on_x_exceed': False, 'on_y_prior': False, 'on_y_swap': False},
-    {'on_x_permute': False, 'on_x_exceed': True, 'on_y_prior': False, 'on_y_swap': False},
-    {'on_x_permute': False, 'on_x_exceed': False, 'on_y_prior': True, 'on_y_swap': False},
-    {'on_x_permute': False, 'on_x_exceed': False, 'on_y_prior': False, 'on_y_swap': True},
-]
+# todo mc trials, injectar drift
 
 
 def run_experiment(detector_name: str,
@@ -53,90 +44,60 @@ def run_experiment(detector_name: str,
                    classifier_name: str,
                    dataset_name: str) -> Dict[str, Any]:
     """
-    Run Monte Carlo trials experiment with the given configuration.
+    Run a single experiment with the given configuration.
     
     Args:
         detector_name: Name of the drift detector
         detector: Detector class object
         config: Parameter configuration for the detector
         classifier_name: Name of the classifier to use
-        dataset_name: Name of the synthetic data generator
+        generator_name: Name of the synthetic data generator
         
     Returns:
-        Dict containing the aggregated results across all trials
+        Dict containing the results of the experiment
     """
     print(f"Running: {detector_name} with {classifier_name} on {dataset_name}")
     print(f"Config: {config}")
 
     np.random.seed(RANDOM_SEED)
+    stream = StreamFromDF.read_stream(stream_name=dataset_name)
+    schema = stream.get_schema()
 
-    stream_dummy = StreamFromDF.read_stream(stream_name=dataset_name, as_np_stream=False, shuffle=False)
-    stream_length = stream_dummy.shape[0]
+    evaluator = ClassificationEvaluator(schema=schema, window_size=1)
+    learner = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
 
-    drift_episodes = []
-    for i in range(N_DRIFTS):
-        print(f'Trial {i + 1}/{N_DRIFTS}')
+    # for STUDD detector, initialize and pass the student model
+    if detector_name == 'STUDD':
+        student = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
+        config['student'] = student
 
-        stream = StreamFromDF.read_stream(stream_name=dataset_name)
-        schema = stream.get_schema()
+    detector_instance = detector(**config)
 
-        drift_param = np.random.choice(DRIFT_PARAMS)
-        drift_param['width'] = DRIFT_WIDTH[dataset_name] if MODE == 'GRADUAL' else 0
-
-        drift_sim = DriftSimulator(
-            **drift_param,
-            drift_region=DRIFT_REGION,
-            burn_in_samples=0,
-            schema=schema
-        )
-
-        drift_sim.fit(stream_size=stream_length)
-        drift_loc = drift_sim.fitted['drift_onset']
-        print(f'Drift location: {drift_loc}')
-
-        evaluator = ClassificationEvaluator(schema=schema, window_size=1)
-        learner = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
-
-        trial_config = config.copy()
-
-        # for STUDD detector, initialize and pass the student model
-        if detector_name == 'STUDD':
-            student = CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name])
-            trial_config['student'] = student
-
-        detector_instance = detector(**trial_config)
-
-        wf = SupervisedStreamingWorkflow(
-            model=learner,
-            evaluator=evaluator,
-            detector=detector_instance,
-            use_window_perf=USE_PERFORMANCE_WINDOW,
-            min_training_size=int(stream_length * MIN_TRAINING_RATIO),
-            drift_simulator=drift_sim
-        )
-
-        monitor_instance = detector_name == 'ABCDx'
-
-        wf.run_prequential(
-            stream=stream,
-            monitor_instance=monitor_instance,
-            max_size=stream_length
-        )
-
-        drift_episodes.append({
-            'preds': wf.drift_predictions,
-            'true': (drift_loc, drift_loc)
-        })
-
-    # Evaluate performance across all drift episodes
-    drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY[dataset_name])
-    metrics = drift_eval.calc_performance(
-        trues=None,
-        preds=None,
-        drift_episodes=drift_episodes,
-        tot_n_instances=stream_length
+    wf = SupervisedStreamingWorkflow(
+        model=learner,
+        evaluator=evaluator,
+        detector=detector_instance,
+        use_window_perf=USE_PERFORMANCE_WINDOW
     )
 
+    monitor_instance = detector_name == 'ABCDx'
+
+    wf.run_prequential(
+        stream=stream,
+        monitor_instance=monitor_instance
+    )
+
+    drifts = stream.get_drifts()
+    true_drifts = [(x.position, x.position + x.width) for x in drifts]
+
+    drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY)
+    metrics = drift_eval.calc_performance(
+        trues=true_drifts,
+        preds=wf.drift_predictions,
+        tot_n_instances=wf.instances_processed
+    )
+
+    # Compile metadata and results
     metadata = {
         'detector': detector_name,
         'stream': dataset_name,
@@ -170,7 +131,6 @@ def main():
         for config in config_space:
             for classifier_name in CLASSIFIERS:
                 for dataset_name in dataset_list:
-                    print(config, classifier_name, dataset_name)
                     try:
                         result = run_experiment(
                             detector_name=detector_name,
