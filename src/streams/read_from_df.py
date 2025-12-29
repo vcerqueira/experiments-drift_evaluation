@@ -9,6 +9,12 @@ from capymoa.stream import NumpyStream
 class StreamFromDF:
     # StreamFromDF.read_csv('data/Asfault.csv')
 
+    @classmethod
+    def read_stream(cls, stream_name: str, **kwargs):
+        fp = f'data/{stream_name}.csv'
+
+        return cls.read_csv(filepath=fp, **kwargs)
+
     @staticmethod
     def get_stream_name(filepath: str):
         return Path(filepath).stem

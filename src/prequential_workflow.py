@@ -52,9 +52,10 @@ class SupervisedStreamingWorkflow:
             if self.instances_processed > self.min_training_size:
                 prediction = self.model.predict(instance)
 
-                if self.start_detector_on_onset:
-                    if self.instances_processed < self.drift_simulator.fitted['drift_onset']:
-                        continue
+                # todo where is this relevant?
+                # if self.start_detector_on_onset:
+                #     if self.instances_processed < self.drift_simulator.fitted['drift_onset']:
+                #         continue
 
                 score = self._get_latest_score(instance.y_index, prediction)
 
@@ -74,11 +75,13 @@ class SupervisedStreamingWorkflow:
                     print(f'Change detected at index: {self.instances_processed}')
                     self.drift_predictions.append(self.instances_processed)
 
-            if self.drift_simulator is not None:
-                if self.instances_processed < self.drift_simulator.fitted['drift_onset']:
-                    self.model.train(instance)
-            else:
-                self.model.train(instance)
+            # if self.drift_simulator is not None:
+            #     if self.instances_processed < self.drift_simulator.fitted['drift_onset']:
+            #         self.model.train(instance)
+            # else:
+            #     self.model.train(instance)
+            # continue training the model
+            self.model.train(instance)
 
             self.instances_processed += 1
 

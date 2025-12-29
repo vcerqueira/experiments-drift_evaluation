@@ -1,7 +1,7 @@
 """
-Hyperparameter Tuning for Drift Detectors on Synthetic Data Streams
+Hyperparameter Tuning for Drift Detectors based on Leave-one-Dataset out
 
-This script performs hyperparameter optimization for drift detectors using synthetic data streams.
+This script performs hyperparameter optimization for drift detectors.
 It evaluates different parameter configurations using a random search approach and saves the results.
 
 The workflow:
@@ -19,28 +19,30 @@ from capymoa.evaluation.evaluation import ClassificationEvaluator
 from sklearn.model_selection import ParameterSampler
 
 from src.eval_detector import EvaluateDriftDetector
-from src.streams.synth import CustomDriftStream
+from src.streams.read_from_df import StreamFromDF
 from src.prequential_workflow import SupervisedStreamingWorkflow
 from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_PARAM_SPACE
 
+from src.streams.config import MAX_DELAY, DRIFT_WIDTH
+
 # configs
 USE_PERFORMANCE_WINDOW = False
-MAX_DELAY = 1000
 N_DRIFTS = 30
-DRIFT_EVERY_N = 10000
-DRIFT_WIDTH = 1000
-MODE = 'ABRUPT' if DRIFT_WIDTH == 0 else 'GRADUAL'
+MODE = 'ABRUPT'
 N_ITER_RANDOM_SEARCH = 30
-MAX_STREAM_SIZE = N_DRIFTS * (DRIFT_EVERY_N + DRIFT_WIDTH + 1)
 RANDOM_SEED = 123
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results'
+
+dataset_list = [*MAX_DELAY]
+
+# todo mc trials, injectar drift
 
 
 def run_experiment(detector_name: str,
                    detector,
                    config: Dict[str, Any],
                    classifier_name: str,
-                   generator_name: str) -> Dict[str, Any]:
+                   dataset_name: str) -> Dict[str, Any]:
     """
     Run a single experiment with the given configuration.
     
@@ -54,18 +56,11 @@ def run_experiment(detector_name: str,
     Returns:
         Dict containing the results of the experiment
     """
-    print(f"Running: {detector_name} with {classifier_name} on {generator_name}")
+    print(f"Running: {detector_name} with {classifier_name} on {dataset_name}")
     print(f"Config: {config}")
 
     np.random.seed(RANDOM_SEED)
-    stream_creator = CustomDriftStream(
-        generator=generator_name,
-        n_drifts=N_DRIFTS,
-        drift_every_n=DRIFT_EVERY_N,
-        drift_width=DRIFT_WIDTH
-    )
-
-    stream = stream_creator.create_stream()
+    stream = StreamFromDF.read_stream(stream_name=dataset_name)
     schema = stream.get_schema()
 
     evaluator = ClassificationEvaluator(schema=schema, window_size=1)
@@ -89,7 +84,6 @@ def run_experiment(detector_name: str,
 
     wf.run_prequential(
         stream=stream,
-        max_size=MAX_STREAM_SIZE,
         monitor_instance=monitor_instance
     )
 
@@ -106,7 +100,7 @@ def run_experiment(detector_name: str,
     # Compile metadata and results
     metadata = {
         'detector': detector_name,
-        'stream': generator_name,
+        'stream': dataset_name,
         'learner': classifier_name,
         'drift_type': MODE,
     }
@@ -136,14 +130,14 @@ def main():
 
         for config in config_space:
             for classifier_name in CLASSIFIERS:
-                for generator_name in CustomDriftStream.GENERATORS:
+                for dataset_name in dataset_list:
                     try:
                         result = run_experiment(
                             detector_name=detector_name,
                             detector=detector,
                             config=config,
                             classifier_name=classifier_name,
-                            generator_name=generator_name
+                            dataset_name=dataset_name
                         )
                         performance_metrics.append(result)
                     except Exception as e:
@@ -151,11 +145,11 @@ def main():
                         continue
 
                     results_df = pd.DataFrame(performance_metrics)
-                    output_file = f'{OUTPUT_DIR}/synthetic,hypertuning,{MODE}.csv'
+                    output_file = f'{OUTPUT_DIR}/hypertuning,{MODE}.csv'
                     results_df.to_csv(output_file, index=False)
 
     results_df = pd.DataFrame(performance_metrics)
-    output_file = f'{OUTPUT_DIR}/synthetic,hypertuning,{MODE}.csv'
+    output_file = f'{OUTPUT_DIR}/hypertuning,{MODE}.csv'
     results_df.to_csv(output_file, index=False)
 
 

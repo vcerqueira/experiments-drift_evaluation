@@ -23,3 +23,13 @@ for stream_fp in DATASETS:
     stream_stats[stream_name] = df.median().to_dict()
 
 pprint(stream_stats)
+#
+# dataset_size = {}
+# for stream_fp in DATASETS:
+#     print(stream_fp)
+#     stream_name = StreamFromDF.get_stream_name(stream_fp)
+#     df = StreamFromDF.read_csv(stream_fp, shuffle=False, as_np_stream=False)
+#
+#     dataset_size[stream_fp] = df.shape[0]
+#
+# pprint(dataset_size)
