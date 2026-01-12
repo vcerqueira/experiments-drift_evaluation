@@ -1,0 +1,2 @@
+detector,stream,learner,drift_type,params,fp,tp,fn,precision,recall,episode_recall,f1,mdt,far,ar,n_episodes,n_alarms
+ABCDx,Electricity,HoeffdingTree,ABRUPT,"{'num_splits': 50, 'model_id': 'kpca', 'encoding_factor': 0.3, 'delta_warn': 0.1, 'delta_drift': 0.001}",9,8,42,0.47058823529411764,0.16,0.16,0.23880597014925375,123.0,0.19862288135593223,0.3751765536723164,50,17

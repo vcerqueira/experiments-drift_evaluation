@@ -29,9 +29,9 @@ from src.streams.config import MAX_DELAY, DRIFT_WIDTH
 # configs
 USE_PERFORMANCE_WINDOW = False
 N_DRIFTS = 50
-MODE = 'ABRUPT'
+MODE = 'GRADUAL'
 N_ITER_RANDOM_SEARCH = 30
-RANDOM_SEED = 123
+RANDOM_SEED = 32
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results'
 DRIFT_REGION = (0.5, 0.8)
 MIN_TRAINING_RATIO = 0.25
@@ -152,6 +152,9 @@ def main():
     Main function to run the hyperparameter tuning process.
     """
 
+    output_file = f'{OUTPUT_DIR}/hypertuning,{MODE}7.csv'
+    print(output_file)
+
     performance_metrics = []
 
     # Iterate through detectors to tune
@@ -159,8 +162,9 @@ def main():
         print(f'Running detector: {detector_name}')
 
         # Filter to specific detectors if needed
-        # if detector_name in ['ABCD']:
-        #     continue
+        # if detector_name in ['ABCD', 'ABCDx']:
+        if detector_name not in ['ABCDx']:
+            continue
 
         config_space = ParameterSampler(
             param_distributions=DETECTOR_PARAM_SPACE[detector_name],
@@ -185,11 +189,9 @@ def main():
                         continue
 
                     results_df = pd.DataFrame(performance_metrics)
-                    output_file = f'{OUTPUT_DIR}/hypertuning,{MODE}.csv'
                     results_df.to_csv(output_file, index=False)
 
     results_df = pd.DataFrame(performance_metrics)
-    output_file = f'{OUTPUT_DIR}/hypertuning,{MODE}.csv'
     results_df.to_csv(output_file, index=False)
 
 

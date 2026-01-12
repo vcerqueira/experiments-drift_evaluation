@@ -1,0 +1,2 @@
+detector,stream,learner,drift_type,params,fp,tp,fn,precision,recall,episode_recall,f1,mdt,far,ar,n_episodes,n_alarms
+ABCDx,Electricity,HoeffdingTree,GRADUAL,"{'num_splits': 20, 'model_id': 'kpca', 'encoding_factor': 0.3, 'delta_warn': 0.01, 'delta_drift': 0.01}",4,24,38,0.8571428571428571,0.3870967741935484,0.24,0.5333333333333333,356.1666666666667,0.0882768361581921,0.6179378531073447,50,28
