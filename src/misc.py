@@ -1,15 +1,18 @@
+import copy
 import warnings
 from typing import Optional
 
 import pandas as pd
 
+from src.streams.config import MAX_DELAY
+
+dataset_list = [*MAX_DELAY]
+
 warnings.filterwarnings('ignore', category=FutureWarning)
 
 
 class DataReader:
-    STREAMS = ['Agrawal',
-               'STAGGER',
-               'SEA']
+    STREAMS = ['Agrawal', 'STAGGER', 'SEA']
     # CLASSIFIERS = ['HoeffdingTree','ARF','NaiveBayes']
     CLASSIFIERS = ['HoeffdingTree']
 
@@ -33,8 +36,8 @@ class DataReader:
         for stream in stream_list:
             for classifier in learners:
                 for mode in ['ABRUPT', 'GRADUAL']:
-
-                    df = pd.read_csv(f'assets/results/synthetic/{stream},{classifier},{mode},results.csv', index_col='Unnamed: 0')
+                    df = pd.read_csv(f'assets/results/synthetic/{stream},{classifier},{mode},results.csv',
+                                     index_col='Unnamed: 0')
 
                     df_result = df[metric]
 
@@ -43,7 +46,7 @@ class DataReader:
                     results.append(df_result)
 
         df_all = pd.concat(results, axis=1).T.reset_index().reset_index(drop=True)
-        df_all = df_all.rename(columns={'level_0': 'Stream','level_1': 'Classifier','level_2': 'Mode'})
+        df_all = df_all.rename(columns={'level_0': 'Stream', 'level_1': 'Classifier', 'level_2': 'Mode'})
         df_all = df_all.rename(columns=cls.NAME_MAPPING)
 
         if round_to is not None:
@@ -86,7 +89,7 @@ class DataReader:
 
     @classmethod
     def read_all_real_results(cls, metric: str = 'f1', round_to=3):
-        DATASETS = ['Electricity', 'Covtype']
+        DATASETS = copy.deepcopy(dataset_list)
         PARAM_SETTINGS = ['default', 'hypertuned']
         DRIFT_TYPES1 = ['ABRUPT', 'GRADUAL']
         DRIFT_TYPES2 = ['x_permutations', 'y_swaps', 'y_prior_skip', 'x_exceed_skip']
@@ -153,20 +156,17 @@ def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False, rotate
     formatted_df = df.copy()
 
     if rotate_cols:
-        # Rotate column headers
         formatted_df.columns = [f'\\rotatebox{{90}}{{{col}}}' for col in formatted_df.columns]
 
     if rotate_index:
         if isinstance(formatted_df.index, pd.MultiIndex):
             new_levels = []
             for level in formatted_df.index.levels:
-                # Apply rotation to each label in the current level
                 formatted_level = [f'\\rotatebox{{90}}{{{str(label)}}}' for label in level]
                 new_levels.append(formatted_level)
-            # Set the new formatted levels for the MultiIndex
+
             formatted_df.index = formatted_df.index.set_levels(new_levels)
         else:
-            # Handle single-level index
             formatted_df.index = [f'\\rotatebox{{90}}{{{str(idx)}}}' for idx in formatted_df.index]
 
     formatted_rows = []
