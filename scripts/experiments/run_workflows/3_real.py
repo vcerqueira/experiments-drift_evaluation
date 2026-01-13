@@ -123,27 +123,26 @@ for drift_type, drift_params_ in DRIFT_CONFIGS.items():
     print(f"Running drift type: {drift_type}")
     print(f"Drift parameters: {drift_params_}")
 
-    for classifier_name in CLASSIFIERS:
-        for dataset_name in dataset_list:
-            print(dataset_name)
+    for dataset_name in dataset_list:
+        print(dataset_name)
 
-            drift_width = DRIFT_WIDTH[dataset_name] if MODE == 'GRADUAL' else 0
+        drift_width = DRIFT_WIDTH[dataset_name] if MODE == 'GRADUAL' else 0
 
-            drift_params = copy.deepcopy(drift_params_)
-            drift_params['width'] = drift_width
+        drift_params = copy.deepcopy(drift_params_)
+        drift_params['width'] = drift_width
 
-            results_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},results.csv'
-            predictions_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},predictions.csv'
+        results_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},results.csv'
+        predictions_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},predictions.csv'
 
-            if os.path.exists(results_output_file):
-                continue
+        if os.path.exists(results_output_file):
+            continue
 
-            results_df, detections_df = run_experiment(
-                dataset_name=dataset_name,
-                classifier_name=classifier_name,
-                drift_type=drift_type,
-                drift_params=drift_params
-            )
+        results_df, detections_df = run_experiment(
+            dataset_name=dataset_name,
+            classifier_name='HoeffdingTree',
+            drift_type=drift_type,
+            drift_params=drift_params
+        )
 
-            results_df.to_csv(results_output_file)
-            detections_df.to_csv(predictions_output_file)
+        results_df.to_csv(results_output_file)
+        detections_df.to_csv(predictions_output_file)
