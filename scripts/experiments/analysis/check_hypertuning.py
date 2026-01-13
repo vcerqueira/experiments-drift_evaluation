@@ -10,9 +10,9 @@ import pprint
 
 import pandas as pd
 
-DRIFT_TYPE = 'GRADUAL'
+DRIFT_TYPE = 'ABRUPT'
 
-file_path = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / f'hypertuning,{DRIFT_TYPE}.csv'
+file_path = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / f'hypertuning.csv'
 
 
 def get_best_configs(
@@ -30,15 +30,15 @@ def get_best_configs(
         print(f"Processing leave-one-out for stream: {stream}")
 
         if stream == 'ALL':
-            perf_loo = perf_data
+            perf_loo = perf_data.copy()
         else:
-            perf_loo = perf_data.query(f'stream!="{stream}"')
+            perf_loo = perf_data.query(f'stream!="{stream}"').copy()
 
         detectors_f1 = {}
         for detector in detector_list:
             print(f"Finding best config for detector: {detector}")
 
-            perf_dct = perf_loo.query(f'detector=="{detector}"')
+            perf_dct = perf_loo.query(f'detector=="{detector}"').copy()
 
             # group by parameters and rank by f1
             params_f1 = perf_dct.groupby('params').mean(numeric_only=True)['f1']
@@ -58,6 +58,8 @@ def get_best_configs(
 def main() -> None:
     """Main function to run the hyperparameter analysis."""
     perf = pd.read_csv(file_path)
+
+    perf = perf.query(f'drift_type=="{DRIFT_TYPE}"').reset_index(drop=True)
 
     stream_list = perf['stream'].unique().tolist()
     detector_list = perf['detector'].unique().tolist()
