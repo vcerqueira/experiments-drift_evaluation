@@ -1,3 +1,4 @@
+import copy
 import os.path
 from pathlib import Path
 
@@ -5,33 +6,25 @@ import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
 
+from src.streams.read_from_df import StreamFromDF
 from src.eval_detector import EvaluateDriftDetector
-from src.streams.inject_drift import DriftSimulator
+from src.streams.inject_drift import DriftSimulator, DRIFT_CONFIGS
 from src.prequential_workflow import SupervisedStreamingWorkflow
-from src.streams.real import CAPYMOA_DATASETS, MAX_DELAY
+from src.streams.config import MAX_DELAY, DRIFT_WIDTH
 from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
-WIDTH = 2000  # GRADUAL if > 0 ## 2000
 HYPERTUNING = False
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
-MODE = 'GRADUAL' if WIDTH > 0 else 'ABRUPT'
+# MODE = 'GRADUAL'
+MODE = 'ABRUPT'
 N_DRIFTS = 50
-RANDOM_SEED = 12
+RANDOM_SEED = 123
 DATA_DIR = Path(__file__).parent.parent.parent.parent / 'data'
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'real'
-DRIFT_REGION = (0.6, 0.9)
-MIN_TRAINING_RATIO = 0.5
+DRIFT_REGION = (0.5, 0.8)
+MIN_TRAINING_RATIO = 0.25
 MAX_N_INSTANCES = 100_000
-
-DRIFT_CONFIGS = {
-    'x_permutations': {'width': WIDTH, 'on_x_permute': True, 'on_x_exceed': False, 'on_y_prior': False,
-                       'on_y_swap': False},
-    'y_swaps': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': False, 'on_y_prior': False, 'on_y_swap': True},
-    'y_prior_skip': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': False, 'on_y_prior': True,
-                     'on_y_swap': False},
-    'x_exceed_skip': {'width': WIDTH, 'on_x_permute': False, 'on_x_exceed': True, 'on_y_prior': False,
-                      'on_y_swap': False},
-}
+dataset_list = [*MAX_DELAY]
 
 
 def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
@@ -49,11 +42,8 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
     """
     print(f"Running experiment: {dataset_name}, {classifier_name}, {drift_type}")
 
-    pre_stream = CAPYMOA_DATASETS[dataset_name]()
-    schema = pre_stream.get_schema()
-    stream_length = pre_stream._length
-    stream_length = min(stream_length, MAX_N_INSTANCES)
-    print('Stream sample size:', stream_length)
+    stream_dummy = StreamFromDF.read_stream(stream_name=dataset_name, as_np_stream=False, shuffle=False)
+    stream_length = stream_dummy.shape[0]
 
     detector_perf, detector_preds = {}, {}
     for detector_name, detector_class in DETECTORS.items():
@@ -64,15 +54,8 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
         drift_episodes = []
         for i in range(N_DRIFTS):
             print('Iter:', i)
-            if dataset_name == 'Covtype':
-                print('Loading dataset from csv')
-                stream_df = pd.read_csv(f'{DATA_DIR}/{dataset_name}-df.csv')
-                stream = DriftSimulator.shuffle_df_stream(stream_df,
-                                                          dataset_name=dataset_name,
-                                                          max_n_instances=MAX_N_INSTANCES)
-            else:
-                stream = CAPYMOA_DATASETS[dataset_name]()
-                stream = DriftSimulator.shuffle_stream(stream, max_n_instances=MAX_N_INSTANCES)
+            stream = StreamFromDF.read_stream(stream_name=dataset_name)
+            schema = stream.get_schema()
 
             drift_sim = DriftSimulator(
                 **drift_params,
@@ -105,7 +88,6 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
                 detector=detector_instance,
                 use_window_perf=False,
                 min_training_size=int(stream_length * MIN_TRAINING_RATIO),
-                start_detector_on_onset=False,
                 drift_simulator=drift_sim
             )
 
@@ -130,25 +112,28 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
         detector_perf[detector_name] = metrics
 
-    results_df = pd.DataFrame(detector_perf).T
+    exp_results_df = pd.DataFrame(detector_perf).T
 
-    detections_df = pd.concat(detector_preds, axis=0).reset_index(drop=True)
+    exp_detections_df = pd.concat(detector_preds, axis=0).reset_index(drop=True)
 
-    return results_df, detections_df
+    return exp_results_df, exp_detections_df
 
 
-for drift_type, drift_params in DRIFT_CONFIGS.items():
+for drift_type, drift_params_ in DRIFT_CONFIGS.items():
     print(f"Running drift type: {drift_type}")
-    print(f"Drift parameters: {drift_params}")
+    print(f"Drift parameters: {drift_params_}")
 
     for classifier_name in CLASSIFIERS:
-        for dataset_name in CAPYMOA_DATASETS:
+        for dataset_name in dataset_list:
             print(dataset_name)
-            # stream = CAPYMOA_DATASETS[dataset_name]()
-            # sch = stream.get_schema()
 
-            results_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{classifier_name},{MODE},{PARAM_SETUP},results.csv'
-            predictions_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{classifier_name},{MODE},{PARAM_SETUP},predictions.csv'
+            drift_width = DRIFT_WIDTH[dataset_name] if MODE == 'GRADUAL' else 0
+
+            drift_params = copy.deepcopy(drift_params_)
+            drift_params['width'] = drift_width
+
+            results_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},results.csv'
+            predictions_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},predictions.csv'
 
             if os.path.exists(results_output_file):
                 continue
@@ -162,4 +147,3 @@ for drift_type, drift_params in DRIFT_CONFIGS.items():
 
             results_df.to_csv(results_output_file)
             detections_df.to_csv(predictions_output_file)
-            print(f"Results saved to: {results_output_file}")

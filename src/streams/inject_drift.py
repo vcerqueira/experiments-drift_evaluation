@@ -8,6 +8,25 @@ from capymoa.stream import NumpyStream
 
 from src.streams.config import STREAM_MEDIANS
 
+DRIFT_CONFIGS = {
+    'x_permutations': {'on_x_permute': True,
+                       'on_x_exceed': False,
+                       'on_y_prior': False,
+                       'on_y_swap': False},
+    'y_swaps': {'on_x_permute': False,
+                'on_x_exceed': False,
+                'on_y_prior': False,
+                'on_y_swap': True},
+    'y_prior_skip': {'on_x_permute': False,
+                     'on_x_exceed': False,
+                     'on_y_prior': True,
+                     'on_y_swap': False},
+    'x_exceed_skip': {'on_x_permute': False,
+                      'on_x_exceed': True,
+                      'on_y_prior': False,
+                      'on_y_swap': False},
+}
+
 
 class DriftSimulator:
     """
