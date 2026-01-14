@@ -31,7 +31,7 @@ USE_PERFORMANCE_WINDOW = False
 N_DRIFTS = 50
 MODE = 'GRADUAL'
 N_ITER_RANDOM_SEARCH = 30
-RANDOM_SEED = 32
+RANDOM_SEED = 1111
 OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results'
 DRIFT_REGION = (0.5, 0.8)
 MIN_TRAINING_RATIO = 0.25
@@ -152,7 +152,7 @@ def main():
     Main function to run the hyperparameter tuning process.
     """
 
-    output_file = f'{OUTPUT_DIR}/hypertuning,{MODE}7.csv'
+    output_file = f'{OUTPUT_DIR}/hypertuning,{MODE}10.csv'
     print(output_file)
 
     performance_metrics = []

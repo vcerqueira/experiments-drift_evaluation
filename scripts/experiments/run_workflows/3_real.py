@@ -15,8 +15,8 @@ from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH
 
 HYPERTUNING = False
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
-# MODE = 'GRADUAL'
-MODE = 'ABRUPT'
+MODE = 'GRADUAL'
+# MODE = 'ABRUPT'
 N_DRIFTS = 50
 RANDOM_SEED = 123
 DATA_DIR = Path(__file__).parent.parent.parent.parent / 'data'

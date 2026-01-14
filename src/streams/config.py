@@ -1,18 +1,4 @@
 import copy
-# from capymoa.datasets import (ElectricityTiny,
-#                               Bike,
-#                               CovtypeNorm,
-#                               Electricity,
-#                               CovtypeTiny,
-#                               FriedTiny,
-#                               Fried,
-#                               Sensor)
-#
-# CAPYMOA_DATASETS = {
-#     'Electricity': Electricity,
-#     'Covtype': CovtypeNorm,
-#     # 'Sensor': Sensor,
-# }
 
 MAX_DELAY = {
     'Electricity': 2500,
@@ -25,15 +11,6 @@ MAX_DELAY = {
 }
 
 DRIFT_WIDTH = copy.deepcopy(MAX_DELAY)
-
-# n samples
-# {'data/Asfault.csv': 8563,
-#  'data/Covtype.csv': 100000,
-#  'data/Electricity.csv': 45312,
-#  'data/GasSensorArray.csv': 13910,
-#  'data/NOAA.csv': 18159,
-#  'data/Posture.csv': 100000,
-#  'data/Rialto.csv': 82250}
 
 STREAM_MEDIANS = {'Asfault': {'F1': 0.5955928051,
                               'F10': 0.0762513829,
