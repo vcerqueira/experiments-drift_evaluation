@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from capymoa.evaluation.evaluation import ClassificationEvaluator
+from sklearn.utils._param_validation import InvalidParameterError
 
 from src.streams.read_from_df import StreamFromDF
 from src.eval_detector import EvaluateDriftDetector
@@ -16,8 +17,8 @@ from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH
 
 HYPERTUNING = True
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
-# MODE = 'GRADUAL'
-MODE = 'ABRUPT'
+MODE = 'GRADUAL'
+# MODE = 'ABRUPT'
 N_DRIFTS = 50
 RANDOM_SEED = 123
 # DATA_DIR = Path(__file__).parent.parent.parent.parent / 'data'
@@ -97,11 +98,14 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
             monitor_instance = detector_name == 'ABCDx'
 
-            wf.run_prequential(stream=stream,
-                               monitor_instance=monitor_instance,
-                               max_size=stream_length)
+            try:
+                wf.run_prequential(stream=stream,
+                                   monitor_instance=monitor_instance,
+                                   max_size=stream_length)
 
-            drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
+                drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
+            except InvalidParameterError:
+                drift_episodes.append({'preds': [], 'true': (drift_loc, drift_loc)})
 
         t1 = time.time()
         drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY[dataset_name])
