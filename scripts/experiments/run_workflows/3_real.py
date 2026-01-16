@@ -1,4 +1,5 @@
 import copy
+import time
 import os.path
 from pathlib import Path
 
@@ -45,9 +46,10 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
     stream_dummy = StreamFromDF.read_stream(stream_name=dataset_name, as_np_stream=False, shuffle=False)
     stream_length = stream_dummy.shape[0]
 
-    detector_perf, detector_preds = {}, {}
+    detector_perf, detector_preds, detector_cpu_time = {}, {}, {}
     for detector_name, detector_class in DETECTORS.items():
         print(f'Running detector: {detector_name}')
+        t0 = time.time()
 
         np.random.seed(RANDOM_SEED)
 
@@ -99,6 +101,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
             drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
 
+        t1 = time.time()
         drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY[dataset_name])
         metrics = drift_eval.calc_performance(
             trues=None,
@@ -111,12 +114,13 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
         detector_preds[detector_name]['detector_name'] = detector_name
 
         detector_perf[detector_name] = metrics
+        detector_cpu_time[detector_name] = t1 - t0
 
     exp_results_df = pd.DataFrame(detector_perf).T
 
     exp_detections_df = pd.concat(detector_preds, axis=0).reset_index(drop=True)
 
-    return exp_results_df, exp_detections_df
+    return exp_results_df, exp_detections_df, detector_cpu_time
 
 
 for drift_type, drift_params_ in DRIFT_CONFIGS.items():
@@ -133,16 +137,20 @@ for drift_type, drift_params_ in DRIFT_CONFIGS.items():
 
         results_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},results.csv'
         predictions_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},predictions.csv'
+        cput_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},cpu.csv'
 
         if os.path.exists(results_output_file):
             continue
 
-        results_df, detections_df = run_experiment(
+        results_df, detections_df, cpu_time = run_experiment(
             dataset_name=dataset_name,
             classifier_name='HoeffdingTree',
             drift_type=drift_type,
             drift_params=drift_params
         )
 
+        cpu_time_df = pd.DataFrame(pd.Series(cpu_time, name='CPU_Time'))
+
         results_df.to_csv(results_output_file)
         detections_df.to_csv(predictions_output_file)
+        cpu_time_df.to_csv(cput_output_file)
