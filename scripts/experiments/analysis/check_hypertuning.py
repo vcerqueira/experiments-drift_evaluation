@@ -10,7 +10,7 @@ import pprint
 
 import pandas as pd
 
-DRIFT_TYPE = 'ABRUPT'
+DRIFT_TYPE = 'GRADUAL'
 
 file_path = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / f'hypertuning.csv'
 

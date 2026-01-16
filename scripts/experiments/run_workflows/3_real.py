@@ -14,14 +14,16 @@ from src.prequential_workflow import SupervisedStreamingWorkflow
 from src.streams.config import MAX_DELAY, DRIFT_WIDTH
 from src.config import CLASSIFIERS, DETECTORS, CLASSIFIER_PARAMS, DETECTOR_SYNTH_PARAMS
 
-HYPERTUNING = False
+HYPERTUNING = True
 PARAM_SETUP = 'hypertuned' if HYPERTUNING else 'default'
 MODE = 'GRADUAL'
 # MODE = 'ABRUPT'
 N_DRIFTS = 50
 RANDOM_SEED = 123
-DATA_DIR = Path(__file__).parent.parent.parent.parent / 'data'
-OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'real'
+# DATA_DIR = Path(__file__).parent.parent.parent.parent / 'data'
+# OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'real'
+DATA_DIR = Path().parent.parent.parent.parent / 'data'
+OUTPUT_DIR = Path().parent.parent.parent.parent / 'assets' / 'results' / 'real'
 DRIFT_REGION = (0.5, 0.8)
 MIN_TRAINING_RATIO = 0.25
 MAX_N_INSTANCES = 100_000
