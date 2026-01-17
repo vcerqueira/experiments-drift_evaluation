@@ -104,7 +104,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
                                    max_size=stream_length)
 
                 drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
-            except InvalidParameterError:
+            except (InvalidParameterError, ValueError) as e:
                 drift_episodes.append({'preds': [], 'true': (drift_loc, drift_loc)})
 
         t1 = time.time()
