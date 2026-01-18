@@ -148,6 +148,8 @@ for drift_type, drift_params_ in DRIFT_CONFIGS.items():
         if os.path.exists(results_output_file):
             continue
 
+        pd.DataFrame().to_csv(results_output_file)
+
         results_df, detections_df, cpu_time = run_experiment(
             dataset_name=dataset_name,
             classifier_name='HoeffdingTree',
