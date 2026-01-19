@@ -1,4 +1,3 @@
-import copy
 import warnings
 from typing import Optional
 
@@ -12,10 +11,6 @@ warnings.filterwarnings('ignore', category=FutureWarning)
 
 
 class DataReader:
-    STREAMS = ['Agrawal', 'STAGGER', 'SEA']
-    # CLASSIFIERS = ['HoeffdingTree','ARF','NaiveBayes']
-    CLASSIFIERS = ['HoeffdingTree']
-
     RESULTS_DIR = 'assets/results/real'
 
     NAME_MAPPING = {'GeometricMovingAverage': 'GMA',
@@ -24,35 +19,6 @@ class DataReader:
                     'HDDMWeighted': 'HDDMW',
                     'PageHinkley': 'PH',
                     'ABCDx': 'ABCD(X)', }
-
-    @classmethod
-    def get_synth_results(cls,
-                          metric: str,
-                          round_to=None,
-                          stream_list=STREAMS,
-                          learners=CLASSIFIERS):
-
-        results = []
-        for stream in stream_list:
-            for classifier in learners:
-                for mode in ['ABRUPT', 'GRADUAL']:
-                    df = pd.read_csv(f'assets/results/synthetic/{stream},{classifier},{mode},results.csv',
-                                     index_col='Unnamed: 0')
-
-                    df_result = df[metric]
-
-                    df_result.name = (stream, classifier, mode)
-
-                    results.append(df_result)
-
-        df_all = pd.concat(results, axis=1).T.reset_index().reset_index(drop=True)
-        df_all = df_all.rename(columns={'level_0': 'Stream', 'level_1': 'Classifier', 'level_2': 'Mode'})
-        df_all = df_all.rename(columns=cls.NAME_MAPPING)
-
-        if round_to is not None:
-            df_all = df_all.round(round_to)
-
-        return df_all
 
     @classmethod
     def get_real_results(cls,
@@ -64,17 +30,14 @@ class DataReader:
                          metric: Optional[str] = None,
                          round_to: Optional[int] = None):
 
-        # dataset = 'Electricity'
-        # learner = 'HoeffdingTree'
-        # drift_type = 'x_exceed_skip'
-        # drift_abruptness = 'ABRUPT'
-        # param_setting = 'default'
-
-        file_path = f'{cls.RESULTS_DIR}/{dataset},{drift_type},{learner},{drift_abruptness},{param_setting},results.csv'
+        file_path = f'{cls.RESULTS_DIR}/{dataset},{drift_type},{drift_abruptness},{param_setting},results.csv'
 
         df = pd.read_csv(file_path)
         df = df.set_index('Unnamed: 0')
         df.index.name = 'Detector'
+
+        if df.shape[0] == 0:
+            return None
 
         df = df.rename(index=cls.NAME_MAPPING)
 
@@ -89,17 +52,16 @@ class DataReader:
 
     @classmethod
     def read_all_real_results(cls, metric: str = 'f1', round_to=3):
-        DATASETS = copy.deepcopy(dataset_list)
         PARAM_SETTINGS = ['default', 'hypertuned']
         DRIFT_TYPES1 = ['ABRUPT', 'GRADUAL']
         DRIFT_TYPES2 = ['x_permutations', 'y_swaps', 'y_prior_skip', 'x_exceed_skip']
 
         all_results = {}
-        for ds in DATASETS:
+        for ds in dataset_list:
             for param in PARAM_SETTINGS:
                 for drift_type1 in DRIFT_TYPES1:
                     for drift_type2 in DRIFT_TYPES2:
-                        df = DataReader.get_real_results(
+                        df = cls.get_real_results(
                             dataset=ds,
                             learner='HoeffdingTree',
                             drift_type=drift_type2,
@@ -108,6 +70,9 @@ class DataReader:
                             metric=metric,
                             round_to=round_to
                         )
+
+                        if df is None:
+                            continue
 
                         all_results[ds, drift_type1, drift_type2, param] = df
 
@@ -131,7 +96,25 @@ class DataReader:
         return all_results_df
 
 
-def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False, rotate_index: bool = False):
+def average_rank(df):
+    df_m = df.melt(
+        id_vars=['Type', 'Dataset'],
+        var_name='Detector',
+        value_name='value'
+    )
+
+    ranks = df_m.groupby(['Type', 'Dataset'])['value'].rank(ascending=False, method='average')
+    df_m = df_m.assign(Rank=ranks)
+
+    avg_ranks = df_m.groupby(['Type', 'Detector'])['Rank'].mean().unstack()
+    return avg_ranks.T
+
+
+def prep_latex_tab(df,
+                   minimize: bool = False,
+                   rotate_cols: bool = False,
+                   rotate_index: bool = False,
+                   round_to: int = None):
     """
     Formats a DataFrame for LaTeX tables with highlighting for best and second-best values.
     
@@ -170,7 +153,7 @@ def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False, rotate
             formatted_df.index = [f'\\rotatebox{{90}}{{{str(idx)}}}' for idx in formatted_df.index]
 
     formatted_rows = []
-    for _, row in formatted_df.iterrows():
+    for _, row in formatted_df.T.iterrows():
         top_2 = row.sort_values(ascending=minimize).unique()[:2]
         if len(top_2) < 2:
             raise ValueError('Row must contain at least two unique values')
@@ -183,6 +166,11 @@ def prep_latex_tab(df, minimize: bool = False, rotate_cols: bool = False, rotate
 
         formatted_rows.append(row)
 
-    result_df = pd.DataFrame(formatted_rows).astype(str)
+    result_df = pd.DataFrame(formatted_rows).T
+
+    if round_to is not None:
+        result_df = result_df.round(round_to)
+
+    result_df = result_df.astype(str)
 
     return result_df
