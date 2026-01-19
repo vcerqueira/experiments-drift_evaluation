@@ -137,3 +137,49 @@ grd_mean_tabl = grd_mean_tab.to_latex(
 )
 
 print(grd_mean_tabl)
+
+########################################################
+# --- f1 vs far ---
+########################################################
+
+r_far = DataReader.read_all_real_results(metric='far', round_to=3)
+r_far = r_far.query('Params == "Optimized"').drop(columns=['Params'])
+r_mdt = DataReader.read_all_real_results(metric='mdt', round_to=3)
+r_mdt = r_mdt.query('Params == "Optimized"').drop(columns=['Params'])
+
+model_names = r_mdt.select_dtypes(include='number').columns.tolist()
+
+# r_mdt.groupby(['Dataset','Mode','Type']).apply(lambda x: x[model_names].rank(axis=1).mean())
+
+
+r_mdt = r_mdt.query('Mode == "ABRUPT"').drop(columns=['Mode'])
+r_ht = r_ht.query('Mode == "ABRUPT"').drop(columns=['Mode'])
+r_far = r_far.query('Mode == "ABRUPT"').drop(columns=['Mode'])
+
+
+avg_rank_mdt = r_mdt[model_names].rank(axis=1, ascending=True, na_option='bottom').mean()
+avg_rank_f1 = r_ht[model_names].rank(axis=1, ascending=False, na_option='bottom').mean()
+avg_rank_far = r_far[model_names].rank(axis=1, ascending=True, na_option='bottom').mean()
+
+avg_ranks = pd.concat([avg_rank_f1, avg_rank_mdt, avg_rank_far], axis=1)
+avg_ranks.columns = ['F1', 'MDT', 'FAR']
+
+p7 = (
+        p9.ggplot(avg_ranks.reset_index(),
+                  p9.aes(x='FAR', y='F1', size='MDT', label='Detector'))
+        + p9.geom_point(alpha=0.7)
+        + p9.geom_text(nudge_y=0.5, size=12)
+        + THEME
+        + p9.theme(legend_position='top',
+                   axis_text_x=p9.element_text(size=12, angle=0),
+                   axis_text_y=p9.element_text(size=12),
+                   legend_title=p9.element_text(text='Avg. Rank (MDT)'),
+                   strip_background=p9.element_text(color='lightgrey', size=15))
+        + p9.labs(title='',
+                  x='Avg. Rank (FAR)',
+                  y='Avg. Rank (F1)',
+                  size='Avg. Rank (MDT)')
+        + p9.scale_size_continuous(range=(3, 12))
+)
+
+p7.save(f"{OUTPUT_DIR}/plot7_f1_far_mdt.pdf", width=10, height=8)
