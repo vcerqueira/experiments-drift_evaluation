@@ -1,4 +1,6 @@
 import warnings
+import glob
+import os
 from typing import Optional
 
 import pandas as pd
@@ -94,6 +96,63 @@ class DataReader:
         all_results_df['Params'] = all_results_df['Params'].map({'default': 'Default', 'hypertuned': 'Optimized'})
 
         return all_results_df
+
+    @classmethod
+    def read_all_cpu_time(cls, round_to: Optional[int] = None):
+        """
+        Read all CPU time data from CSV files ending with 'cpu.csv' in RESULTS_DIR.
+        
+        Returns:
+            pd.DataFrame: Concatenated DataFrame with CPU time data from all files,
+                         with columns for Dataset, Mode (abrupt/gradual), Type, and Params.
+        """
+
+        cpu_files = glob.glob(os.path.join(cls.RESULTS_DIR, '*cpu.csv'))
+
+        all_cpu_data = []
+        for file_path in cpu_files:
+            filename = os.path.basename(file_path)
+            # Parse filename: dataset,drift_type,abruptness,param_setting,cpu.csv
+            parts = filename.replace(',cpu.csv', '').split(',')
+            if len(parts) < 4:
+                continue
+
+            dataset, drift_type, abruptness, param_setting = parts[:4]
+
+            df = pd.read_csv(file_path)
+            if 'Unnamed: 0' in df.columns:
+                df = df.set_index('Unnamed: 0')
+                df.index.name = 'Detector'
+
+            df = df.rename(index=cls.NAME_MAPPING)
+
+            # Add metadata columns
+            df = df.reset_index()
+            df['Dataset'] = dataset
+            df['Mode'] = abruptness
+            df['Type'] = drift_type
+            df['Params'] = param_setting
+
+            all_cpu_data.append(df)
+
+        if not all_cpu_data:
+            return pd.DataFrame()
+
+        result_df = pd.concat(all_cpu_data, ignore_index=True)
+
+        result_df['Type'] = result_df['Type'].map({
+            'x_permutations': 'X-Perm',
+            'y_swaps': 'Y-Swaps',
+            'y_prior_skip': 'Y-Prior',
+            'x_exceed_skip': 'X-Exceed'
+        })
+        result_df['Params'] = result_df['Params'].map({'default': 'Default', 'hypertuned': 'Optimized'})
+
+        if round_to is not None:
+            numeric_cols = result_df.select_dtypes(include='number').columns
+            result_df[numeric_cols] = result_df[numeric_cols].round(round_to)
+
+        return result_df
 
 
 def average_rank(df):
