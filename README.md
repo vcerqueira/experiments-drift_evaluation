@@ -1,6 +1,6 @@
 # Drift Evaluation Framework
 
-This repository contains a the experiments concerning a comprehensive framework for evaluating concept drift detection methods based on known drift locations. The experiments also benchmark different state-of-the-art drift detection approaches.
+A comprehensive framework for evaluating concept drift detection methods based on known drift locations. This repository contains experiments that benchmark different state-of-the-art and widely used drift detection approaches.
 
 ## Project Overview
 
@@ -19,9 +19,55 @@ The framework provides:
 - Python 3.10+
 - [CapyMOA library](https://capymoa.org/)
 
-For detailed version requirements of all dependencies, see `requirements.txt`
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/vcerqueira/experiments-drift_evaluation.git
+cd experiments-drift_evaluation
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+For detailed version requirements of all dependencies, see `requirements.txt`.
 
 ## Usage
 
-The experiments can be found in the `experiments` folder. 
+All scripts should be run from the repository root with `PYTHONPATH` set:
 
+### Running the Main Benchmark
+
+The scripts for conducting the benchmark are in the `scripts/experiments/run_workflows` folder.
+
+#### 1. Preliminaries
+
+Scripts `00_collect_statistics.py` and `00_store_capymoa_data.py` run preliminary analysis.
+- `00_collect_statistics.py` computes summary statistics on a given dataset for reporting purposes.
+- `00_store_capymoa_data.py` stores datasets in local csv files for more efficient manipulation
+
+
+#### 2. Hyperparameter Optimization
+
+- Run `1_hypertuning.py` to conduct the hyperparameter optimization of different detectors
+
+For each data stream and for different classifiers, each detector is ran using different configurations.
+This data will be used for hyperparameter selection in a leave-one-stream-out manner. 
+See `src/config.py` for the configuration space of different 
+detectors and their final configuration for a given stream (in both gradual and abrupt scenarios).
+
+This runs all configured detectors across datasets and drift configurations, outputting results to `assets/results/real/`.
+
+
+#### 3. Evaluating on Real-world Data Streams
+
+- Run `3_real.py` to conduct the evaluation framework on different real-world data streams.
+- `src/config.py` — Contains detector definitions, classifier parameters, hyperparameter search spaces
+- `src/streams/config.py` — Dataset-specific settings (max delay, drift width, feature medians)
+
+This process leverages the hyperparameter optimization conducted in the previous step.
+
+
+#### 4. Analysis and Visualization
+
+After running experiments, analyze results using the scripts in the folder `scripts/experiments/analysis`.
