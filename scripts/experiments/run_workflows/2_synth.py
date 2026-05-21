@@ -65,7 +65,7 @@ def run_detector(detector_name: str,
     print(f'Running detector: {detector_name}')
 
     if detector_name == 'STUDD':
-        adwin_conf = DETECTOR_SYNTH_PARAMS[MODE][generator_name]['ADWIN']
+        adwin_conf = DETECTOR_SYNTH_PARAMS[MODE]['ALL']['ADWIN']
         adwin_detector = DETECTORS['ADWIN'](**adwin_conf)
         detector_instance = detector(student=student, detector=adwin_detector, **detector_config)
     else:
@@ -123,34 +123,36 @@ def process_generator_classifier_pair(generator_name: str, classifier_name: str)
 
     detector_perf, detector_preds = {}, {}
     for detector_name, detector_class in DETECTORS.items():
-        try:
-            detector_config = DETECTOR_SYNTH_PARAMS[MODE][generator_name][detector_name]
+        # try:
+        # detector_config = DETECTOR_SYNTH_PARAMS[MODE][generator_name][detector_name]
+        # ALL -> the ones that maximize performance across all rw data streams
+        detector_config = DETECTOR_SYNTH_PARAMS[MODE]['ALL'][detector_name]
 
-            # fresh stream for each detector to ensure fair comparison
-            np.random.seed(RANDOM_SEED)
-            stream_creator = CustomDriftStream(
-                generator=generator_name,
-                n_drifts=N_DRIFTS,
-                drift_every_n=DRIFT_EVERY_N,
-                drift_width=DRIFT_WIDTH
-            )
-            fresh_stream = stream_creator.create_stream()
+        # fresh stream for each detector to ensure fair comparison
+        np.random.seed(RANDOM_SEED)
+        stream_creator = CustomDriftStream(
+            generator=generator_name,
+            n_drifts=N_DRIFTS,
+            drift_every_n=DRIFT_EVERY_N,
+            drift_width=DRIFT_WIDTH
+        )
+        fresh_stream = stream_creator.create_stream()
 
-            metrics, predictions = run_detector(
-                detector_name=detector_name,
-                detector=detector_class,
-                detector_config=detector_config,
-                learner=CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name]),
-                student=CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name]),
-                stream=fresh_stream,
-                generator_name=generator_name
-            )
-            detector_perf[detector_name] = metrics
-            detector_preds[detector_name] = predictions
-        except Exception as e:
-            print(f"Error running detector {detector_name}: {e}")
-            detector_perf[detector_name] = {"error": str(e)}
-            detector_preds[detector_name] = {"error": str(e)}
+        metrics, predictions = run_detector(
+            detector_name=detector_name,
+            detector=detector_class,
+            detector_config=detector_config,
+            learner=CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name]),
+            student=CLASSIFIERS[classifier_name](schema=schema, **CLASSIFIER_PARAMS[classifier_name]),
+            stream=fresh_stream,
+            generator_name=generator_name
+        )
+        detector_perf[detector_name] = metrics
+        detector_preds[detector_name] = predictions
+        # except Exception as e:
+        #     print(f"Error running detector {detector_name}: {e}")
+        #     detector_perf[detector_name] = {"error": str(e)}
+        #     detector_preds[detector_name] = {"error": str(e)}
 
     results_df = pd.DataFrame(detector_perf).T
     output_file_results.parent.mkdir(parents=True, exist_ok=True)
@@ -173,10 +175,11 @@ def main():
         for generator_name in GENERATORS:
             print(f"Running generator: {generator_name}")
 
-            try:
-                process_generator_classifier_pair(generator_name, classifier_name)
-            except Exception as e:
-                print(f"Error processing {generator_name}, {classifier_name}: {e}")
+            process_generator_classifier_pair(generator_name, classifier_name)
+            # try:
+            #     process_generator_classifier_pair(generator_name, classifier_name)
+            # except Exception as e:
+            #     print(f"Error processing {generator_name}, {classifier_name}: {e}")
 
 
 if __name__ == "__main__":

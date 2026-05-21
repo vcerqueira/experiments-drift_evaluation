@@ -9,7 +9,7 @@ from src.studd import STUDD
 
 DETECTORS = {
     'ABCD': detectors.ABCD,
-    'ABCDx': detectors.ABCD,
+    # 'ABCDx': detectors.ABCD,
     'ADWIN': detectors.ADWIN,
     'CUSUM': detectors.CUSUM,
     'DDM': detectors.DDM,
@@ -21,7 +21,7 @@ DETECTORS = {
     'RDDM': detectors.RDDM,
     'SEED': detectors.SEED,
     'STEPD': detectors.STEPD,
-    'STUDD': STUDD,
+    # 'STUDD': STUDD,
 }
 
 CLASSIFIERS = {
