@@ -24,13 +24,14 @@ N_DRIFTS = 50
 RANDOM_SEED = 12
 # DATA_DIR = Path(__file__).parent.parent.parent.parent / 'data'
 # OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'assets' / 'results' / 'real'
-DATA_DIR = Path().parent.parent.parent.parent / 'data'
-OUTPUT_DIR = Path().parent.parent.parent.parent / 'assets' / 'results' / 'real'
+DATA_DIR = Path().resolve() / 'assets' / 'data'
+OUTPUT_DIR = Path().resolve() / 'assets' / 'results' / 'real_clf'
 DRIFT_REGION = (0.5, 0.8)
 MIN_TRAINING_RATIO = 0.25
 MAX_N_INSTANCES = 100_000
 # dataset_list = [*MAX_DELAY]
 dataset_list = ['Electricity']
+classifier_list = [*CLASSIFIERS]
 
 
 def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
@@ -48,7 +49,9 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
     """
     print(f"Running experiment: {dataset_name}, {classifier_name}, {drift_type}")
 
-    stream_dummy = StreamFromDF.read_stream(stream_name=dataset_name, as_np_stream=False, shuffle=False)
+    fp = DATA_DIR / f'{dataset_name}.csv'
+
+    stream_dummy = StreamFromDF.read_stream(stream_name=dataset_name, fp=fp, as_np_stream=False, shuffle=False)
     stream_length = stream_dummy.shape[0]
 
     detector_perf, detector_preds, detector_cpu_time = {}, {}, {}
@@ -61,7 +64,7 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
         drift_episodes = []
         for i in range(N_DRIFTS):
             print('Iter:', i)
-            stream = StreamFromDF.read_stream(stream_name=dataset_name)
+            stream = StreamFromDF.read_stream(stream_name=dataset_name, fp=fp)
             schema = stream.get_schema()
 
             drift_sim = DriftSimulator(
@@ -100,14 +103,14 @@ def run_experiment(dataset_name, classifier_name, drift_type, drift_params):
 
             monitor_instance = detector_name == 'ABCDx'
 
-            try:
-                wf.run_prequential(stream=stream,
-                                   monitor_instance=monitor_instance,
-                                   max_size=stream_length)
+            # try:
+            wf.run_prequential(stream=stream,
+                               monitor_instance=monitor_instance,
+                               max_size=stream_length)
 
-                drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
-            except (InvalidParameterError, ValueError) as e:
-                drift_episodes.append({'preds': [], 'true': (drift_loc, drift_loc)})
+            drift_episodes.append({'preds': wf.drift_predictions, 'true': (drift_loc, drift_loc)})
+            # except (InvalidParameterError, ValueError) as e:
+            #     drift_episodes.append({'preds': [], 'true': (drift_loc, drift_loc)})
 
         t1 = time.time()
         drift_eval = EvaluateDriftDetector(max_delay=MAX_DELAY[dataset_name])
@@ -138,29 +141,27 @@ for drift_type, drift_params_ in DRIFT_CONFIGS.items():
     for dataset_name in dataset_list:
         print(dataset_name)
 
-        drift_width = DRIFT_WIDTH[dataset_name] if MODE == 'GRADUAL' else 0
+        for classifier_name in classifier_list:
 
-        drift_params = copy.deepcopy(drift_params_)
-        drift_params['width'] = drift_width
+            drift_width = DRIFT_WIDTH[dataset_name] if MODE == 'GRADUAL' else 0
 
-        results_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},results.csv'
-        predictions_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},predictions.csv'
-        cput_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{PARAM_SETUP},cpu.csv'
+            drift_params = copy.deepcopy(drift_params_)
+            drift_params['width'] = drift_width
 
-        if os.path.exists(results_output_file):
-            continue
+            results_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{classifier_name},results.csv'
+            predictions_output_file = OUTPUT_DIR / f'{dataset_name},{drift_type},{MODE},{classifier_name},predictions.csv'
 
-        pd.DataFrame().to_csv(results_output_file)
+            if os.path.exists(results_output_file):
+                continue
 
-        results_df, detections_df, cpu_time = run_experiment(
-            dataset_name=dataset_name,
-            classifier_name='HoeffdingTree',
-            drift_type=drift_type,
-            drift_params=drift_params
-        )
+            pd.DataFrame().to_csv(results_output_file)
 
-        cpu_time_df = pd.DataFrame(pd.Series(cpu_time, name='CPU_Time'))
+            results_df, detections_df, _ = run_experiment(
+                dataset_name=dataset_name,
+                classifier_name=classifier_name,
+                drift_type=drift_type,
+                drift_params=drift_params
+            )
 
-        results_df.to_csv(results_output_file)
-        detections_df.to_csv(predictions_output_file)
-        cpu_time_df.to_csv(cput_output_file)
+            results_df.to_csv(results_output_file)
+            detections_df.to_csv(predictions_output_file)

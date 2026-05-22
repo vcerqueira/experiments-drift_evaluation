@@ -10,8 +10,9 @@ class StreamFromDF:
     # StreamFromDF.read_csv('data/Asfault.csv')
 
     @classmethod
-    def read_stream(cls, stream_name: str, **kwargs):
-        fp = Path(__file__).parent.parent.parent / f'data/{stream_name}.csv'
+    def read_stream(cls, stream_name: str, fp=None, **kwargs):
+        if fp is None:
+            fp = Path(__file__).parent.parent.parent / f'data/{stream_name}.csv'
         # fp = Path(__file__).parent.parent / f'data/Asfault.csv'
 
         return cls.read_csv(filepath=fp, **kwargs)

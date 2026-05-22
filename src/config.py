@@ -3,7 +3,8 @@ import capymoa.drift.detectors as detectors
 from capymoa.classifier import (OnlineBagging,
                                 HoeffdingTree,
                                 AdaptiveRandomForestClassifier,
-                                NaiveBayes)
+                                NaiveBayes,
+                                OzaBoost)
 
 from src.studd import STUDD
 
@@ -25,10 +26,11 @@ DETECTORS = {
 }
 
 CLASSIFIERS = {
-    # 'OnlineBagging': OnlineBagging,
+    'OnlineBagging': OnlineBagging,
     'HoeffdingTree': HoeffdingTree,
-    # 'ARF': AdaptiveRandomForestClassifier,
-    # 'NaiveBayes': NaiveBayes,
+    'ARF': AdaptiveRandomForestClassifier,
+    'NaiveBayes': NaiveBayes,
+    'OzaBoost': OzaBoost,
 }
 
 CLASSIFIER_PARAMS = {
@@ -36,6 +38,7 @@ CLASSIFIER_PARAMS = {
     'HoeffdingTree': {},
     'ARF': {'ensemble_size': 25, 'disable_drift_detection': True},
     'NaiveBayes': {},
+    'OzaBoost': {},
 }
 
 DETECTOR_PARAM_SPACE = {

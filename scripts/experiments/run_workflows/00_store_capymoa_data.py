@@ -1,9 +1,18 @@
 from pathlib import Path
 
 import pandas as pd
-from src.streams.real import CAPYMOA_DATASETS
 
-OUTPUT_DIR = Path(__file__).parent.parent.parent.parent / 'data'
+from capymoa.datasets import (
+    CovtypeNorm,
+    Electricity,
+)
+
+CAPYMOA_DATASETS = {
+    'Electricity': Electricity,
+    'Covtype': CovtypeNorm,
+}
+
+OUTPUT_DIR = Path().resolve() / 'assets' / 'data'
 dataset_name = 'Electricity'
 
 stream = CAPYMOA_DATASETS[dataset_name]()
