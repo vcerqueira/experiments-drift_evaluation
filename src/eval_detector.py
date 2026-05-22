@@ -220,7 +220,8 @@ class EvaluateDriftDetector:
         false_alarm_rate = (fp / max(1, tot_n_instances)) * self.rate_period 
         alarm_rate = (n_alarms / max(1, tot_n_instances)) * self.rate_period 
         mean_detection_time = np.nanmean(detection_times) if detection_times else np.nan
-        ep_recall = etp / max(1, n_episodes) 
+        ndt = mean_detection_time / self.max_delay
+        ep_recall = etp / max(1, n_episodes)
 
         self.metrics = {
             'fp': fp,
@@ -231,6 +232,7 @@ class EvaluateDriftDetector:
             'episode_recall': ep_recall,
             'f1': f1,
             'mdt': mean_detection_time,
+            'ndt': ndt,
             'far': false_alarm_rate,
             'ar': alarm_rate,
             'n_episodes': n_episodes,
